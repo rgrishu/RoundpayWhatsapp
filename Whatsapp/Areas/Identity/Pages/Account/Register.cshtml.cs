@@ -46,6 +46,17 @@ namespace Whatsapp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+
+
+            [Required]
+           
+            [Display(Name = "Name")]
+            public string Name { get; set; }
+
+            [Required]
+            [Phone]
+            [Display(Name = "Phone")]
+            public string Phone { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -75,7 +86,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new WhatsappUser { UserName = Input.Email, Email = Input.Email,EmailConfirmed=true };
+                var user = new WhatsappUser { UserName = Input.Email, Email = Input.Email,PhoneNumber=Input.Phone,Name=Input.Name,EmailConfirmed=true };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
