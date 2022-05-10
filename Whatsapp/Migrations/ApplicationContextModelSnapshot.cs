@@ -246,6 +246,120 @@ namespace Whatsapp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Whatsapp.Models.MasterPackage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PackageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ValidityInDays")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterPackage");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterService", b =>
+                {
+                    b.Property<long>("ServiceID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFeature")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServiceID");
+
+                    b.ToTable("MasterService");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterServiceFeatures", b =>
+                {
+                    b.Property<long>("FeatureID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FeatureName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ServiceID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("FeatureID");
+
+                    b.ToTable("MasterServiceFeatures");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.Package", b =>
+                {
+                    b.Property<long>("PackageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("MasterPackageID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ServiceID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PackageID");
+
+                    b.ToTable("Package");
+                });
+
             modelBuilder.Entity("Whatsapp.Models.State", b =>
                 {
                     b.Property<long>("Id")
@@ -268,6 +382,39 @@ namespace Whatsapp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("State");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.test1", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MyProperty1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MyProperty2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MyProperty3")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("test1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
