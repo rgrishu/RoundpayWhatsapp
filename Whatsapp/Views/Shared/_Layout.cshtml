@@ -443,9 +443,10 @@
                             <span class="menu-title">Documentation</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <form id="logoutForm" class="link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button id="logout" type="submit" class="">Logout</button>
+                    <li class="nav-item" id="LogoutTrigger">
+                        <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                           <i class="far fa-file-alt menu-icon"></i>
+                           <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color:#fff;padding-left:0;cursor:pointer">Logout</button>
                         </form>
 
                     </li>
@@ -476,6 +477,8 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="~/theme/js/dashboard.js"></script>
+    <script src="~/js/Common.js"></script>
+
     <!-- End custom js for this page-->
     @RenderSection("Scripts", required: false)
 </body>

@@ -35,6 +35,7 @@ namespace Whatsapp
             services.AddScoped(typeof(IRepository<State>), typeof(Repository<State>));
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
