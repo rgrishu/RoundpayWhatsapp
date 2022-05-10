@@ -27,10 +27,13 @@ namespace Whatsapp.Controllers
             this._users = users;
             
         }
+        [Route("UsersList")]
+        [HttpGet]
         public IActionResult UsersList()
         {
             return View();
         }
+      
         [HttpPost]
         public IActionResult GetUsersList()
         {
