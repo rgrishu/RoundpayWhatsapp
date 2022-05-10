@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Models.Data
 {
@@ -18,6 +19,7 @@ namespace Whatsapp.Models.Data
 
         }
         public DbSet<State> State { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<test1> test1 { get; set; }
         public DbSet<MasterPackage> MasterPackage { get; set; }
@@ -32,38 +34,6 @@ namespace Whatsapp.Models.Data
             //  modelBuilder.Entity<City>();
 
         }
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
-        //    builder.HasDefaultSchema("dbo");
-        //    builder.Entity<IdentityUser>(entity =>
-        //    {
-        //        entity.ToTable(name: "User");
-        //    });
-        //    //builder.Entity<IdentityRole>(entity =>
-        //    //{
-        //    //    entity.ToTable(name: "Role");
-        //    //});
-        //    //builder.Entity<IdentityUserRole<string>>(entity =>
-        //    //{
-        //    //    entity.ToTable("UserRoles");
-        //    //});
-        //    //builder.Entity<IdentityUserClaim<string>>(entity =>
-        //    //{
-        //    //    entity.ToTable("UserClaims");
-        //    //});
-        //    //builder.Entity<IdentityUserLogin<string>>(entity =>
-        //    //{
-        //    //    entity.ToTable("UserLogins");
-        //    //});
-        //    //builder.Entity<IdentityRoleClaim<string>>(entity =>
-        //    //{
-        //    //    entity.ToTable("RoleClaims");
-        //    //});
-        //    //builder.Entity<IdentityUserToken<string>>(entity =>
-        //    //{
-        //    //    entity.ToTable("UserTokens");
-        //    //});
-        //}
+      
     }
 }

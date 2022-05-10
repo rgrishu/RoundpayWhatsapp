@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.ViewModel;
 using Whatsapp.Services;
 
 namespace Whatsapp
@@ -34,6 +35,7 @@ namespace Whatsapp
             });
             services.AddScoped(typeof(IRepository<State>), typeof(Repository<State>));
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
+            services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));
             services.AddControllersWithViews();
             services.ConfigureApplicationCookie(options =>
             {

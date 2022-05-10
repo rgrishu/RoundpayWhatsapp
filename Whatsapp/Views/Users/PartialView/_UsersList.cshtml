@@ -1,0 +1,33 @@
+﻿@using Whatsapp.Models.ViewModel;
+@model IEnumerable<Users>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <label class="badge badge-danger badge-pill">Pending</label>
+               @* @Html.DisplayFor(modelItem => item.IPAddress)*@
+            </td>
+        </tr>
+        i++;
+    }
+
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}

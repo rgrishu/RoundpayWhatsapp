@@ -1,0 +1,48 @@
+﻿   <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              Users List
+            </h3>
+          </div>
+        <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Mobile</th>
+                          <th>Email</th>
+                          <th>IsActive</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+          
+        </div>
+        <!-- content-wrapper ends -->
+        @section scripts{
+    <script>
+        $(document).ready(function () {
+            loadData();
+        });
+        function loadData(){
+             $.ajax({
+                   type: 'post',
+                    url: '/Users/GetUsersList',
+                    success: function (data) {
+                          $('tbody').html(data);
+                    },
+                    error: function (data) {
+                        console.log('An error occurred.');
+                        console.log(data);
+                          
+                    },
+              });
+        }
+        
+
+        
+    </script>
+}
+     

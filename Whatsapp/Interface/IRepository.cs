@@ -6,7 +6,7 @@ using Whatsapp.Models;
 
 namespace Whatsapp.Interface
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T> 
     {
         IEnumerable<T> GetAll();
         T Get(long id);
