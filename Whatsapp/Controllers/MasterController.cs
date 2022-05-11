@@ -25,8 +25,6 @@ namespace Whatsapp.Controllers
             this._users = users;
 
         }
-        [Route("Master/MasterServiceList")]
-        [Route("MasterServiceList")]
         public IActionResult MasterServiceList()
         {
             return View();

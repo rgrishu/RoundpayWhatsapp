@@ -1,0 +1,52 @@
+﻿@model Whatsapp.Models.MasterServiceFeatures
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>
+            Add Service Feature<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </h4>
+    </div>
+    <div class="card-body">
+        <form method="post" class="form-block" asp-action="Create" asp-controller="MasterServiceFeatures">
+            <div class="row">
+                @if (Model == null)
+                {
+                    <input type="hidden" asp-for="FeatureID" value="0" />
+                }
+                else
+                {
+                    <input type="hidden" asp-for="FeatureID" value="@Model.FeatureID" />
+                }
+
+                <div class="form-group col-sm-6">
+                    <label>Service Name</label>
+                    <select asp-for="ServiceID"  class="custom-select form-control" asp-items="ViewBag.ServiceData">
+                        <option id="0"> -- Select Service -- </option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Feature Name</label>
+                    <input type="text" class="form-control" asp-for="FeatureName" placeholder="Enter SCode">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Remark</label>
+                    <input type="text" class="form-control" asp-for="Remark" placeholder="Enter Remark">
+                </div>
+                <div class="form-group col-sm-6">
+                    <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox" asp-for="IsActive">
+                    <label class="form-check-label ml-sm-4 mt-sm-5" for="IsActive">
+                        IsActive
+                    </label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
