@@ -1,5 +1,5 @@
-﻿@using Whatsapp.Models.ViewModel;
-@model IEnumerable<Users>
+﻿@using  Whatsapp.Models.Data;
+@model IEnumerable<WhatsappUser>
 @if (Model != null && Model.Any())
 {
     int i = 1;
@@ -19,6 +19,14 @@
             <td>
                 <label class="badge badge-danger badge-pill">Pending</label>
                @* @Html.DisplayFor(modelItem => item.IPAddress)*@
+            </td>
+            <td>
+               <button type="button" class="btn btn-primary editbtn" >
+                     Edit
+                     </button>
+                     <button type="button" class="btn btn-secondary deletbtn" >
+                     Delete
+                     </button>
             </td>
         </tr>
         i++;

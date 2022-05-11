@@ -20,6 +20,7 @@ namespace Whatsapp.Models.Data
         }
         public DbSet<State> State { get; set; }
         public DbSet<Users> Users { get; set; }
+        public DbSet<WhatsappUser> AspNetUsers { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<test1> test1 { get; set; }
         public DbSet<MasterPackage> MasterPackage { get; set; }

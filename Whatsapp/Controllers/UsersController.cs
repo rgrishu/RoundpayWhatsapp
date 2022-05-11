@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,12 @@ namespace Whatsapp.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
-        private ApplicationContext appcontext;
+        private ApplicationContext _appcontext;
         private IRepository<Users> _users;
         public UsersController(ILogger<HomeController> logger, ApplicationContext appcontext, IRepository<Users> users)
         {
             _logger = logger;
-            appcontext = appcontext;
+            _appcontext = appcontext;
             this._users = users;
             
         }
@@ -34,10 +35,18 @@ namespace Whatsapp.Controllers
             return View();
         }
       
+      
         [HttpPost]
-        public IActionResult GetUsersList()
+        public async Task<IActionResult> GetUsersListAsync()
         {
-            return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", _users.GetAll());
+            var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
+            return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
+        }
+        [HttpGet]
+        public async Task<IActionResult> UserForm()
+        {
+            var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser { Name = x.Name, PhoneNumber = x.PhoneNumber, Email = x.Email }).ToListAsync();
+            return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
         }
     }
 }

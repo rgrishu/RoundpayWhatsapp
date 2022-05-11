@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,11 +35,21 @@ namespace Whatsapp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("WhatsappContextConnection"));
             });
+            //services.AddDefaultIdentity<IdentityUser>()
+            // .AddRoles<IdentityRole>()
+            // .AddEntityFrameworkStores<ApplicationContext>();
+
+            
+
             services.AddScoped(typeof(IRepository<State>), typeof(Repository<State>));
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));
             services.AddControllersWithViews();
+
+            
+
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings

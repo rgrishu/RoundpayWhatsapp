@@ -10,7 +10,6 @@ namespace Whatsapp.Models.Data
 {
     public class WhatsappUser : IdentityUser
     {
-        
         public string Name { get; set; }
     }
  

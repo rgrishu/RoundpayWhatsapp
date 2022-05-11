@@ -1,14 +1,33 @@
 ﻿@page
 @model RegisterModel
 @{
+     Layout = null;
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+  <link rel="stylesheet" href="~/theme/vendors/iconfonts/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="~/theme/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="~/theme/vendors/css/vendor.bundle.addons.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="~/theme/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="~/theme/images/favicon.png" />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth">
+        <div class="row w-100">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left p-5">
+              <div class="brand-logo">
+                <img src="~/theme/images/logo.svg" alt="logo">
+              </div>
+              <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -37,40 +56,34 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+                      <a type="submit"  id="login" asp-area="Identity" asp-page="/Account/Login" >Login</a>
+            </div>
+            
+            
+       
+    
         </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
-</div>
+    <!-- page-body-wrapper ends -->
+  </div>
+
+  <script src="~/theme/vendors/js/vendor.bundle.base.js"></script>
+  <script src="~/theme/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- inject:js -->
+  <script src="~/theme/js/off-canvas.js"></script>
+  <script src="~/theme/js/hoverable-collapse.js"></script>
+  <script src="~/theme/js/misc.js"></script>
+  <script src="~/theme/js/settings.js"></script>
+  <script src="~/theme/js/todolist.js"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

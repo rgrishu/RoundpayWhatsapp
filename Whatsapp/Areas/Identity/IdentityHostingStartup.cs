@@ -14,13 +14,20 @@ namespace Whatsapp.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<ApplicationContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("WhatsappContextConnection")));
 
-                services.AddDefaultIdentity<WhatsappUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ApplicationContext>();
+                //services.AddDefaultIdentity<WhatsappUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                //    .AddEntityFrameworkStores<ApplicationContext>().AddRoles<IdentityRole>();
+                services.AddIdentity<WhatsappUser, IdentityRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = false;
+                })
+    .AddEntityFrameworkStores<ApplicationContext>();
+
             });
         }
     }
