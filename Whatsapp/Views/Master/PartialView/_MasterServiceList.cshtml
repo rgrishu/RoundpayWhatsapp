@@ -1,1 +1,43 @@
-﻿
+﻿@using Whatsapp.Models.Data;
+@model List<MasterService>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFeature)
+            </td>
+            <td>
+                <button onclick="RenderForm(@item.ServiceID)" class="btn btn-primary editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    Edit
+                </button>
+                <button type="button" class="btn btn-secondary deletbtn">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        i++;
+    }
+
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}
