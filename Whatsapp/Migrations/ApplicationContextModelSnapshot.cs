@@ -439,6 +439,9 @@ namespace Whatsapp.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(max)");
 

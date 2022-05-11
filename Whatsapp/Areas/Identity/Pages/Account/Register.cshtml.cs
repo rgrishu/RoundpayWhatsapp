@@ -89,7 +89,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    var res = await _userManager.AddToRoleAsync(user,"Seller");
+                    var res = await _userManager.AddToRoleAsync(user,"Admin");
                     _logger.LogInformation("User created a new account with password.");
 
                     //Send Email And Whatsappp For Users As Confirmation

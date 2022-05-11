@@ -1,8 +1,8 @@
 ﻿namespace Whatsapp.Models.ViewModel
 {
-    public class Users
+    public class Users:BaseEntity
     {
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public string Role { get; set; }
         public string Name { get; set; } 
         public string PhoneNumber { get; set; } 
