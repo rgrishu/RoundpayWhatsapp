@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Whatsapp.Data;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Models.Data
 {
-    public class ApplicationContext : IdentityDbContext<WhatsappUser>
+    public class ApplicationContext : IdentityDbContext<WhatsappUser, IdentityRole<int>, int>
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
@@ -30,11 +31,12 @@ namespace Whatsapp.Models.Data
         //public virtual ICollection<State> State { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           // modelBuilder.HasDefaultSchema("blogging");
-             base.OnModelCreating(modelBuilder);
+            // modelBuilder.HasDefaultSchema("blogging");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.SeedRoles();
             //  modelBuilder.Entity<City>();
 
         }
-      
+
     }
 }

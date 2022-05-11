@@ -2,7 +2,7 @@
 
 namespace Whatsapp.Migrations
 {
-    public partial class ChangeStateDataType : Migration
+    public partial class SeedRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
