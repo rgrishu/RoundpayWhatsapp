@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WAEFCore22.AppCode.BusinessLogic;
+using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
@@ -23,13 +25,14 @@ namespace Whatsapp.Controllers
         private ApplicationContext _appcontext;
         private IRepository<Users> _users;
         private readonly UserManager<WhatsappUser> _userManager;
-        public UsersController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users)
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        public UsersController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory)
         {
             _logger = logger;
             _appcontext = appcontext;
             this._users = users;
             _userManager = userManager;
-
+            _unitOfWorkFactory = unitOfWorkFactory;
 
         }
         [Route("UsersList")]
@@ -43,7 +46,11 @@ namespace Whatsapp.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUsersListAsync()
         {
-            var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
+
+            var us = new UsersService(_unitOfWorkFactory);
+
+            var list =await us.GetAllUsers();
+          //  var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
             return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
         }
        

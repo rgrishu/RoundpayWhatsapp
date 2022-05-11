@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WAEFCore22.AppCode.BusinessLogic.Repos;
+using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
@@ -39,8 +41,8 @@ namespace Whatsapp
             // .AddRoles<IdentityRole>()
             // .AddEntityFrameworkStores<ApplicationContext>();
 
-            
 
+            services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
             services.AddScoped(typeof(IRepository<State>), typeof(Repository<State>));
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));

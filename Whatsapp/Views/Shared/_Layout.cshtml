@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="~/theme/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.html" />
+      <link rel="stylesheet" href="~/js/toastr/toastr.min.css">
+
         @*PAce Loader Start*@
     <script src="~/lib/pace/js/pace.min.js"></script>
     <link rel="stylesheet" href="~/lib/pace/css/pace-theme-default.min.css" />
@@ -61,33 +63,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link" href="#">
-                            <span class="btn btn-primary">+ Create new</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown d-none d-lg-flex">
-                        <div class="nav-link">
-                            <span class="dropdown-toggle btn btn-outline-dark" id="languageDropdown" data-toggle="dropdown">English</span>
-                            <div class="dropdown-menu navbar-dropdown" aria-labelledby="languageDropdown">
-                                <a class="dropdown-item font-weight-medium" href="#">
-                                    French
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item font-weight-medium" href="#">
-                                    Espanol
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item font-weight-medium" href="#">
-                                    Latin
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item font-weight-medium" href="#">
-                                    Arabic
-                                </a>
-                            </div>
-                        </div>
-                    </li>
+                   
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="fas fa-bell mx-0"></i>
@@ -440,7 +416,7 @@
                         </a>
                         <div class="collapse" id="page-layouts-master">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="Master/MasterServiceList">Master Service List</a></li>
+                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="MasterServiceList">Master Service List</a></li>
                             </ul>
                         </div>
                     </li>
@@ -501,6 +477,8 @@
     <script src="~/theme/js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
+     <link rel="stylesheet" href="~/js/toastr/toastr.js.map">
+    <script src="~/js/toastr/toastr.min.js"></script>
     <script src="~/theme/js/dashboard.js"></script>
        <script src="~/js/coreLib.js"></script>
 
