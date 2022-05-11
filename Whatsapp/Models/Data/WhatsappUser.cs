@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Whatsapp.Models.Data
 {
-    public class WhatsappUser : IdentityUser<int>
+    public class WhatsappUser : IdentityUser
     {
         public string Name { get; set; }
     }

@@ -26,9 +26,9 @@
                 <button onclick="RenderForm(@item.ServiceID)" class="btn btn-primary editbtn" data-toggle="modal" data-target="#exampleModalCenter">
                     Edit
                 </button>
-                <button type="button" class="btn btn-secondary deletbtn">
+                <a href="/Master/Delete/@item.ServiceID" class="btn btn-secondary deletbtn">
                     Delete
-                </button>
+                </a>
             </td>
         </tr>
         i++;

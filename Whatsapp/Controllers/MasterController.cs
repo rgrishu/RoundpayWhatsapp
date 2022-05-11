@@ -68,5 +68,14 @@ namespace Whatsapp.Controllers
             }
             return Json(masterService);
         }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            MasterService masterService = new MasterService();
+            masterService = await _appcontext.MasterService.Where(a => a.ServiceID == id).FirstOrDefaultAsync().ConfigureAwait(false);
+            _appcontext.MasterService.Remove(masterService);
+            await _appcontext.SaveChangesAsync();
+            return View("MasterServiceList");
+        }
     }
 }
