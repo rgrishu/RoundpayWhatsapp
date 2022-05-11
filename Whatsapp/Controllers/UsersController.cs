@@ -42,11 +42,22 @@ namespace Whatsapp.Controllers
             var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
             return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
         }
-        [HttpGet]
+       
         public async Task<IActionResult> UserForm()
         {
-            var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser { Name = x.Name, PhoneNumber = x.PhoneNumber, Email = x.Email }).ToListAsync();
-            return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
+            return PartialView("~/Views/Users/PartialView/_Registration.cshtml");
         }
+
+        public async Task<IActionResult> AddUser(Users users)
+        {
+
+
+
+
+
+
+            return PartialView("~/Views/Users/PartialView/_Registration.cshtml");
+        }
+
     }
 }

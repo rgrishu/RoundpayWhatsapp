@@ -22,7 +22,7 @@ namespace Whatsapp.Areas.Identity
 
                 //services.AddDefaultIdentity<WhatsappUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 //    .AddEntityFrameworkStores<ApplicationContext>().AddRoles<IdentityRole>();
-                services.AddIdentity<WhatsappUser, IdentityRole>(options =>
+                services.AddIdentity<WhatsappUser, IdentityRole<int>>(options =>
                 {
                     options.User.RequireUniqueEmail = false;
                 })
