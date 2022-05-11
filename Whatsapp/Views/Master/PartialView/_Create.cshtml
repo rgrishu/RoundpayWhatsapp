@@ -1,0 +1,44 @@
+﻿@model Whatsapp.Models.MasterService
+
+
+<div class="card">
+                <div class="card-header">
+                    <h4>Add Master Service <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="form-block" asp-action="Create" asp-controller="Master">
+                        <div class="row">
+                            <input type="hidden" asp-for="ServiceID" />
+                            <div class="form-group col-sm-6">
+                                <label>Service Name</label>
+                                <input type="text" class="form-control" asp-for="ServiceName" placeholder="Enter Service Name">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>SCode</label>
+                                <input type="text" class="form-control" asp-for="SCode" placeholder="Enter SCode">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Remark</label>
+                                <input type="text" class="form-control" asp-for="Remark" placeholder="Enter Remark">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox"  asp-for="IsActive">
+                                <label class="form-check-label ml-sm-4 mt-sm-5" for="IsActive">
+                                    IsActive
+                                </label>
+                                <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox" asp-for="IsFeature">
+                                <label class="form-check-label ml-sm-4 mt-sm-5" for="IsFeature">
+                                    IsFeature
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+

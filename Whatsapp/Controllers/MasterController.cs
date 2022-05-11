@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
@@ -25,11 +31,42 @@ namespace Whatsapp.Controllers
         {
             return View();
         }
-        [Route("Master/GetMasterServiceList")]
-        [Route("GetMasterServiceList")]
-        public void GetMasterServiceList()
+        [HttpGet]
+        public async Task<IActionResult> GetMasterServiceList()
         {
-            
+            List<MasterService> masterServices = new List<MasterService>();
+            masterServices = await _appcontext.MasterService.ToListAsync().ConfigureAwait(false);
+            return PartialView("~/Views/Master/PartialView/_MasterServiceList.cshtml", masterServices);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Create(int? id)
+        {
+            MasterService masterService = null;
+            if(id != 0)
+            {
+                masterService =  await _appcontext.MasterService
+                    .Where(h => h.ServiceID == id)
+                    .FirstOrDefaultAsync(); 
+            }
+            return PartialView("~/Views/Master/PartialView/_Create.cshtml", masterService);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(MasterService masterService)
+        {
+            if (ModelState.IsValid)
+            {
+                if(masterService.ServiceID == 0)
+                {
+                   _appcontext.Add(masterService);
+                }
+                else
+                {
+                    _appcontext.Update(masterService);
+                }
+                await _appcontext.SaveChangesAsync();
+                return View("MasterServiceList");
+            }
+            return Json(masterService);
         }
     }
 }
