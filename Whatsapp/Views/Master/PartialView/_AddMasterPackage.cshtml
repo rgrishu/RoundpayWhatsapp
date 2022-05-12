@@ -1,0 +1,45 @@
+﻿@model Whatsapp.Models.MasterPackage
+
+
+<div class="card">
+
+    <div class="card-body">
+        <form class="form-block" action="/Master/AddMasterPackage" method="post">
+            <div class="row">
+                @if (Model == null)
+                {
+                    <input type="hidden" asp-for="Id" value="0" />
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                }
+
+                <div class="form-group col-sm-6">
+                    <label>Package Name</label>
+                    <input type="text" class="form-control" asp-for="PackageName" placeholder="Enter Package Name">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" asp-for="Cost" placeholder="Enter Cost">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Validity In Days</label>
+                    <input type="text" class="form-control" asp-for="ValidityInDays" placeholder="Enter Validity">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Status</label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="0">Active</option>
+                        <option value="1">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

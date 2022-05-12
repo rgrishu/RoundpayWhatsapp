@@ -90,7 +90,6 @@ namespace Whatsapp.Controllers
         #endregion // Service Region Ends
         // Feature Region Starts
 
-
         #region Feature
         [Route("MasterServiceFeatureList")]
         public IActionResult MasterServiceFeatureList()
@@ -149,5 +148,66 @@ namespace Whatsapp.Controllers
         }
         #endregion
         // Feature Region Ends
+        // Master Package Region Starts
+        #region Master Package
+        [Route("MasterPackageList")]
+        public IActionResult MasterPackageList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMasterPackageList()
+        {
+            List<MasterPackage> mf = new List<MasterPackage>();
+            mf = await _appcontext.MasterPackage.ToListAsync().ConfigureAwait(false);
+            return PartialView("~/Views/Master/PartialView/_MasterPackageList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateMasterPackage(int? id)
+        {
+            MasterPackage mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.MasterPackage
+                    .Where(h => h.Id == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            return PartialView("~/Views/Master/PartialView/_AddMasterPackage.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMasterPackage(MasterPackage mp)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new MasterPackageService(_unitOfWorkFactory);
+            if (ModelState.IsValid)
+            {
+                if (mp.Id == 0)
+                {
+                    mp.CreatedDate = DateTime.Now;
+                    res = await ms.InsertMasterFeature(mp);
+                }
+                else
+                {
+                    mp.ModifiedDate = DateTime.Now;
+                    res = await ms.UpdateMasterFeature(mp);
+                }
+            }
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteMasterPackage(int id)
+        {
+            MasterPackage mf = new MasterPackage();
+            mf = await _appcontext.MasterPackage.Where(a => a.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
+            _appcontext.MasterPackage.Remove(mf);
+            await _appcontext.SaveChangesAsync();
+            return View("MasterPackageList");
+        }
+        #endregion
+        // Master Package Region Ends
     }
 }

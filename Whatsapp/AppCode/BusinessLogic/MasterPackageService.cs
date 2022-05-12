@@ -9,16 +9,16 @@ using Whatsapp.Models.UtilityModel;
 
 namespace Whatsapp.AppCode.BusinessLogic
 {
-    public class MasterFeature
+    public class MasterPackageService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public MasterFeature(IUnitOfWorkFactory unitOfWorkFactory)
+        public MasterPackageService(IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<Response> InsertMasterFeature(MasterServiceFeatures req)
+        public async Task<Response> InsertMasterFeature(MasterPackage req)
         {
             var res = new Response()
             {
@@ -44,7 +44,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<Response> UpdateMasterFeature(MasterServiceFeatures req)
+        public async Task<Response> UpdateMasterFeature(MasterPackage req)
         {
             var res = new Response()
             {
@@ -74,13 +74,13 @@ namespace Whatsapp.AppCode.BusinessLogic
 
 
 
-        public async Task<IEnumerable<MasterServiceFeatures>> GetAllUsers()
+        public async Task<IEnumerable<MasterPackage>> GetAllUsers()
         {
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAllRecords<MasterServiceFeatures>();
+                    var data = await unitofwork.Repository().FindAllRecords<MasterPackage>();
                     return data.ToList();
                 }
             }
