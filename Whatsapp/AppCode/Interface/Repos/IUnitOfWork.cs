@@ -8,7 +8,7 @@ namespace WAEFCore22.AppCode.Interface.Repos
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository Repository();
-        Task<int> SaveChangesAsync();
         Task CommitAsync();
+        Task<int> SaveChangesAsync();
     }
 }
