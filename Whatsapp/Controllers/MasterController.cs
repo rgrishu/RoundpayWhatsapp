@@ -209,5 +209,66 @@ namespace Whatsapp.Controllers
         }
         #endregion
         // Master Package Region Ends
+        // Package Region Starts
+        #region Package
+        [Route("PackageList")]
+        public IActionResult PackageList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPackageList()
+        {
+            List<Package> mf = new List<Package>();
+            mf = await _appcontext.Package.Include(a => a.MasterPackage).Include(a => a.MasterService).ToListAsync().ConfigureAwait(false);
+            return PartialView("~/Views/Master/PartialView/_PackageList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreatePackage(int? id)
+        {
+            Package mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.Package
+                    .Where(h => h.PackageID == id)
+                    .FirstOrDefaultAsync();
+            }
+            //ViewData["ServiceData"] = new SelectList(_appcontext.Package, "ServiceID", "ServiceName");
+            return PartialView("~/Views/Master/PartialView/_AddPackage.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPackage(Package package)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new PackageService(_unitOfWorkFactory);
+            if (ModelState.IsValid)
+            {
+                if (package.PackageID == 0)
+                {
+                    package.CreatedOn = DateTime.Now;
+                    res = await ms.InsertMasterFeature(package);
+                }
+                else
+                {
+                    package.UpdatedOn = DateTime.Now;
+                    res = await ms.UpdateMasterFeature(package);
+                }
+            }
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeletePackage(int id)
+        {
+            Package mf = new Package();
+            mf = await _appcontext.Package.Where(a => a.PackageID == id).FirstOrDefaultAsync().ConfigureAwait(false);
+            _appcontext.Package.Remove(mf);
+            await _appcontext.SaveChangesAsync();
+            return View("PackageList");
+        }
+        #endregion
+        // Package Region Ends
     }
 }

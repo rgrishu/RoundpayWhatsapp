@@ -2,7 +2,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Master Package 
+            Package
         </h3>
         
     </div>
@@ -67,7 +67,7 @@
     function loadData(){
          $.ajax({
                type: 'get',
-                url: '/Master/GetMasterPackageList',
+                url: '/Master/GetPackageList',
                 success: function (data) {
                       $('tbody').html(data);
                 },
@@ -83,11 +83,11 @@
     function RenderForm(id){
         $.ajax({
                 type: 'post',
-                url: '/Master/CreateMasterPackage/',
+                url: '/Master/CreatePackage/',
                 data: { id:id},
                 success: function (data) {
                     Q.alert({
-                        title: "Add Service",
+                        title: "Add Pachage",
                         body: data,
                         width: '500px',
                     });
