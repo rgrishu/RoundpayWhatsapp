@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.BusinessLogic;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
@@ -29,7 +31,8 @@ namespace Whatsapp.Controllers
             this._users = users;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
-
+        // Service Region Starts
+        #region Service 
         [Route("MasterServiceList")]
         public IActionResult MasterServiceList()
         {
@@ -84,5 +87,67 @@ namespace Whatsapp.Controllers
             await _appcontext.SaveChangesAsync();
             return View("MasterServiceList");
         }
+        #endregion // Service Region Ends
+        // Feature Region Starts
+
+
+        #region Feature
+        [Route("MasterServiceFeatureList")]
+        public IActionResult MasterServiceFeatureList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMasterServiceFeatureList()
+        {
+            List<MasterServiceFeatures> mf = new List<MasterServiceFeatures>();
+            mf = await _appcontext.MasterServiceFeatures.ToListAsync().ConfigureAwait(false);
+            return PartialView("~/Views/Master/PartialView/_MasterServiceFeatureList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateServiceFeature(int? id)
+        {
+            MasterServiceFeatures mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.MasterServiceFeatures
+                    .Where(h => h.ServiceID == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            return PartialView("~/Views/Master/PartialView/_AddFeature.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddFeature(MasterServiceFeatures masterService)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new MasterFeature(_unitOfWorkFactory);
+            if (ModelState.IsValid)
+            {
+                if (masterService.FeatureID == 0)
+                {
+                    res = await ms.InsertMasterFeature(masterService);
+                }
+                else
+                {
+                    res = await ms.UpdateMasterFeature(masterService);
+                }
+            }
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteFeature(int id)
+        {
+            MasterServiceFeatures mf = new MasterServiceFeatures();
+            mf = await _appcontext.MasterServiceFeatures.Where(a => a.FeatureID == id).FirstOrDefaultAsync().ConfigureAwait(false);
+            _appcontext.MasterServiceFeatures.Remove(mf);
+            await _appcontext.SaveChangesAsync();
+            return View("MasterServiceFeatureList");
+        }
+        #endregion
+        // Feature Region Ends
     }
 }

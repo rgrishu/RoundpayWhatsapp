@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WAEFCore22.AppCode.Interface;
 using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.UtilityModel;
 
-namespace WAEFCore22.AppCode.BusinessLogic
+namespace Whatsapp.AppCode.BusinessLogic
 {
-    public class MasterServices
+    public class MasterFeature
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public MasterServices(IUnitOfWorkFactory unitOfWorkFactory)
+        public MasterFeature(IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-
-        public async Task<Response> InsertMasterService(MasterService req)
+        public async Task<Response> InsertMasterFeature(MasterServiceFeatures req)
         {
             var res = new Response()
             {
-                StatusCode =(int)ResponseStatus.Failed,
+                StatusCode = (int)ResponseStatus.Failed,
                 ResponseText = "Failed"
             };
             try
@@ -33,9 +31,9 @@ namespace WAEFCore22.AppCode.BusinessLogic
                 {
                     unitofwork.Repository().Add(req);
                     int i = await unitofwork.SaveChangesAsync();
-                    if (i>= 0 && i<20)
+                    if (i >= 0 && i < 20)
                     {
-                        res.StatusCode =(int)ResponseStatus.Success;
+                        res.StatusCode = (int)ResponseStatus.Success;
                         res.ResponseText = "Successfull.";
                     }
                 }
@@ -44,9 +42,9 @@ namespace WAEFCore22.AppCode.BusinessLogic
             {
                 throw;
             }
-            return res; 
+            return res;
         }
-        public async Task<Response> UpdateMasterService(MasterService req)
+        public async Task<Response> UpdateMasterFeature(MasterServiceFeatures req)
         {
             var res = new Response()
             {
@@ -76,7 +74,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
 
 
 
-        public async Task<IEnumerable<WhatsappUser>> GetAllUsers ()
+        public async Task<IEnumerable<WhatsappUser>> GetAllUsers()
         {
             try
             {
