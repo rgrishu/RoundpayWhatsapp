@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Whatsapp.Models;
+using Whatsapp.Models.UtilityModel;
 
 namespace Whatsapp.Interface
 {

@@ -8,11 +8,11 @@ using Whatsapp.Models.Data;
 
 namespace WAEFCore22.AppCode.BusinessLogic
 {
-    public class UsersService 
+    public class SMSService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public UsersService(IUnitOfWorkFactory unitOfWorkFactory)
+        public SMSService(IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
         }
@@ -34,9 +34,6 @@ namespace WAEFCore22.AppCode.BusinessLogic
             }
             
         }
-
-
-
 
         public async Task<IEnumerable<WhatsappUser>> GetAllUsers ()
         {

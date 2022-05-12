@@ -837,6 +837,7 @@ function ajaxFormSubmit(form) {
         success: function (response) {
             Q.notify(response.statusCode, response.responseText);
             if (response.statusCode == 1) {
+               // $('.ui-dialog-titlebar-close').click();
                 $('.error').text('');
                 $(form).trigger("reset");
                 Q.reset();
@@ -853,6 +854,7 @@ function ajaxFormSubmit(form) {
         ajaxConfig["processData"] = false;
     }
     $.ajax(ajaxConfig);
+    $('.ui-dialog-titlebar-close').click();
 }
 
 (function ($) {

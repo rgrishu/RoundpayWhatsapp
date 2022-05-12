@@ -6,9 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WAEFCore22.AppCode.BusinessLogic;
+using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.UtilityModel;
 using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Controllers
@@ -18,14 +21,15 @@ namespace Whatsapp.Controllers
         private readonly ILogger<HomeController> _logger;
         private ApplicationContext _appcontext;
         private IRepository<Users> _users;
-        public MasterController(ILogger<HomeController> logger, ApplicationContext appcontext, IRepository<Users> users)
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        public MasterController(ILogger<HomeController> logger, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory)
         {
             _logger = logger;
             _appcontext = appcontext;
             this._users = users;
-
+            _unitOfWorkFactory = unitOfWorkFactory;
         }
-        
+
         [Route("MasterServiceList")]
         public IActionResult MasterServiceList()
         {
@@ -38,35 +42,38 @@ namespace Whatsapp.Controllers
             masterServices = await _appcontext.MasterService.ToListAsync().ConfigureAwait(false);
             return PartialView("~/Views/Master/PartialView/_MasterServiceList.cshtml", masterServices);
         }
-        [HttpGet]
         public async Task<IActionResult> Create(int? id)
         {
             MasterService masterService = null;
-            if(id != 0)
+            if (id != 0)
             {
-                masterService =  await _appcontext.MasterService
+                masterService = await _appcontext.MasterService
                     .Where(h => h.ServiceID == id)
-                    .FirstOrDefaultAsync(); 
+                    .FirstOrDefaultAsync();
             }
-            return PartialView("~/Views/Master/PartialView/_Create.cshtml", masterService);
+            return PartialView("~/Views/Master/PartialView/_AddService.cshtml", masterService);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(MasterService masterService)
+        public async Task<IActionResult> AddService(MasterService masterService)
         {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new MasterServices(_unitOfWorkFactory);
             if (ModelState.IsValid)
             {
-                if(masterService.ServiceID == 0)
+                if (masterService.ServiceID == 0)
                 {
-                   _appcontext.Add(masterService);
+                    res = await ms.InsertMasterService(masterService);
                 }
                 else
                 {
-                    _appcontext.Update(masterService);
+                    res = await ms.UpdateMasterService(masterService);
                 }
-                await _appcontext.SaveChangesAsync();
-                return View("MasterServiceList");
             }
-            return Json(masterService);
+            return Json(res);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

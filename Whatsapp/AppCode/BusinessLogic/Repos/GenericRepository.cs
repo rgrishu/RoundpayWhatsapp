@@ -42,7 +42,7 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
 
         public void Add<T>(T entity) where T : class
         {
-            _dbContext.Set<T>().Add(entity);
+            var i = _dbContext.Set<T>().Add(entity);
         }
 
         public void Update<T>(T entity) where T : class

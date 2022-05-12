@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.UtilityModel;
 
 namespace Whatsapp.Services
 {
