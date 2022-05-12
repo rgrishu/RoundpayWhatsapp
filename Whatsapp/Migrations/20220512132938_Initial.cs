@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class initiatedb : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -103,40 +103,6 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MasterServiceFeatures",
-                columns: table => new
-                {
-                    FeatureID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ServiceID = table.Column<long>(nullable: false),
-                    FeatureName = table.Column<string>(nullable: true),
-                    Remark = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MasterServiceFeatures", x => x.FeatureID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Package",
-                columns: table => new
-                {
-                    PackageID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MasterPackageID = table.Column<long>(nullable: false),
-                    ServiceID = table.Column<long>(nullable: false),
-                    Status = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<string>(nullable: true),
-                    UpdatedOn = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Package", x => x.PackageID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "State",
                 columns: table => new
                 {
@@ -180,7 +146,7 @@ namespace Whatsapp.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IPAddress = table.Column<string>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false),
                     Role = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
@@ -297,6 +263,58 @@ namespace Whatsapp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MasterServiceFeatures",
+                columns: table => new
+                {
+                    FeatureID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FeatureName = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    ServiceID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterServiceFeatures", x => x.FeatureID);
+                    table.ForeignKey(
+                        name: "FK_MasterServiceFeatures_MasterService_ServiceID",
+                        column: x => x.ServiceID,
+                        principalTable: "MasterService",
+                        principalColumn: "ServiceID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Package",
+                columns: table => new
+                {
+                    PackageID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    MasterPackageID = table.Column<long>(nullable: false),
+                    ServiceID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Package", x => x.PackageID);
+                    table.ForeignKey(
+                        name: "FK_Package_MasterService_MasterPackageID",
+                        column: x => x.MasterPackageID,
+                        principalTable: "MasterService",
+                        principalColumn: "ServiceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Package_MasterPackage_ServiceID",
+                        column: x => x.ServiceID,
+                        principalTable: "MasterPackage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -346,6 +364,21 @@ namespace Whatsapp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MasterServiceFeatures_ServiceID",
+                table: "MasterServiceFeatures",
+                column: "ServiceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Package_MasterPackageID",
+                table: "Package",
+                column: "MasterPackageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Package_ServiceID",
+                table: "Package",
+                column: "ServiceID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -369,12 +402,6 @@ namespace Whatsapp.Migrations
                 name: "City");
 
             migrationBuilder.DropTable(
-                name: "MasterPackage");
-
-            migrationBuilder.DropTable(
-                name: "MasterService");
-
-            migrationBuilder.DropTable(
                 name: "MasterServiceFeatures");
 
             migrationBuilder.DropTable(
@@ -394,6 +421,12 @@ namespace Whatsapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MasterService");
+
+            migrationBuilder.DropTable(
+                name: "MasterPackage");
         }
     }
 }
