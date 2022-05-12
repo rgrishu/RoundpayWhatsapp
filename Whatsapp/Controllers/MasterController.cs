@@ -101,7 +101,7 @@ namespace Whatsapp.Controllers
         public async Task<IActionResult> GetMasterServiceFeatureList()
         {
             List<MasterServiceFeatures> mf = new List<MasterServiceFeatures>();
-            mf = await _appcontext.MasterServiceFeatures.ToListAsync().ConfigureAwait(false);
+            mf = await _appcontext.MasterServiceFeatures.Include(a => a.MasterService).ToListAsync().ConfigureAwait(false);
             return PartialView("~/Views/Master/PartialView/_MasterServiceFeatureList.cshtml", mf);
         }
         public async Task<IActionResult> CreateServiceFeature(int? id)
@@ -110,7 +110,7 @@ namespace Whatsapp.Controllers
             if (id != 0)
             {
                 mf = await _appcontext.MasterServiceFeatures
-                    .Where(h => h.ServiceID == id)
+                    .Where(h => h.FeatureID == id)
                     .FirstOrDefaultAsync();
             }
             ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
