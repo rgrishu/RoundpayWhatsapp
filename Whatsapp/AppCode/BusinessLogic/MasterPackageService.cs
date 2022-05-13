@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WAEFCore22.AppCode.Interface;
 using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.UtilityModel;
 
-namespace WAEFCore22.AppCode.BusinessLogic
+namespace Whatsapp.AppCode.BusinessLogic
 {
-    public class MasterServices
+    public class MasterPackageService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public MasterServices(IUnitOfWorkFactory unitOfWorkFactory)
+        public MasterPackageService(IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-
-        public async Task<Response> InsertMasterService(MasterService req)
+        public async Task<Response> InsertMasterPackage(MasterPackage req)
         {
             var res = new Response()
             {
-                StatusCode =(int)ResponseStatus.Failed,
+                StatusCode = (int)ResponseStatus.Failed,
                 ResponseText = "Failed"
             };
             try
@@ -33,9 +31,9 @@ namespace WAEFCore22.AppCode.BusinessLogic
                 {
                     unitofwork.Repository().Add(req);
                     int i = await unitofwork.SaveChangesAsync();
-                    if (i>= 0 && i<20)
+                    if (i >= 0 && i < 20)
                     {
-                        res.StatusCode =(int)ResponseStatus.Success;
+                        res.StatusCode = (int)ResponseStatus.Success;
                         res.ResponseText = "Successfull.";
                     }
                 }
@@ -44,9 +42,9 @@ namespace WAEFCore22.AppCode.BusinessLogic
             {
                 throw;
             }
-            return res; 
+            return res;
         }
-        public async Task<Response> UpdateMasterService(MasterService req)
+        public async Task<Response> UpdateMasterPackage(MasterPackage req)
         {
             var res = new Response()
             {
@@ -73,6 +71,24 @@ namespace WAEFCore22.AppCode.BusinessLogic
             return res;
         }
 
+        public async Task<List<MasterPackage>> GetMasterPackageById(int id)
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<MasterPackage>(x => x.Id == id);
+                    return data.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
         public async Task<Response> Delete(int id)
         {
             var res = new Response()
@@ -84,7 +100,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAsync<MasterService>(x => x.ServiceID == id);
+                    var data = await unitofwork.Repository().FindAsync<MasterPackage>(x => x.Id == id);
                     unitofwork.Repository().Delete(data.FirstOrDefault());
                     int i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
@@ -100,31 +116,13 @@ namespace WAEFCore22.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<List<MasterService>> GetMasterServiceById(int id)
+        public async Task<IEnumerable<MasterPackage>> GetAllMasterPackage()
         {
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAsync<MasterService>(x => x.ServiceID == id);
-                    return data.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
-        }
-
-        public async Task<IEnumerable<MasterService>> GetAllService ()
-        {
-            try
-            {
-                using (var unitofwork = _unitOfWorkFactory.Create())
-                {
-                    var data = await unitofwork.Repository().FindAllRecords<MasterService>();
+                    var data = await unitofwork.Repository().FindAllRecords<MasterPackage>();
                     return data.ToList();
                 }
             }

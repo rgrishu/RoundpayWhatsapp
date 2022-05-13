@@ -1089,3 +1089,19 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
         }
     }
 }($));
+
+function ajaxDelete(e) {
+    event.preventDefault();
+    var url = $(e).attr('href');
+    $.ajax({
+        type: 'post',
+        url: url,
+        success: function (response) {
+            Q.notify(response.statusCode, response.responseText);
+            loadData();
+        },
+        error: function (data) {
+           
+        },
+    });
+}

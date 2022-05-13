@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.BusinessLogic;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
@@ -29,7 +31,8 @@ namespace Whatsapp.Controllers
             this._users = users;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
-
+        // Service Region Starts
+        #region Service 
         [Route("MasterServiceList")]
         public IActionResult MasterServiceList()
         {
@@ -38,12 +41,13 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMasterServiceList()
         {
-            List<MasterService> masterServices = new List<MasterService>();
-            masterServices = await _appcontext.MasterService.ToListAsync().ConfigureAwait(false);
+            var ms = new MasterServices(_unitOfWorkFactory);
+            IEnumerable<MasterService> masterServices = await ms.GetAllService();
             return PartialView("~/Views/Master/PartialView/_MasterServiceList.cshtml", masterServices);
         }
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create(int id)
         {
+            var ms = new MasterServices(_unitOfWorkFactory);
             MasterService masterService = null;
             if (id != 0)
             {
@@ -75,14 +79,225 @@ namespace Whatsapp.Controllers
             }
             return Json(res);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            MasterService masterService = new MasterService();
-            masterService = await _appcontext.MasterService.Where(a => a.ServiceID == id).FirstOrDefaultAsync().ConfigureAwait(false);
-            _appcontext.MasterService.Remove(masterService);
-            await _appcontext.SaveChangesAsync();
-            return View("MasterServiceList");
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if(id != 0)
+            {
+                var ms = new MasterServices(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
         }
+        #endregion 
+        // Service Region Ends
+        
+        
+        // Feature Region Starts
+
+        #region Feature
+        [Route("MasterServiceFeatureList")]
+        public IActionResult MasterServiceFeatureList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMasterServiceFeatureList()
+        {
+            var ms = new MasterFeature(_unitOfWorkFactory);
+            IEnumerable<MasterServiceFeatures> mf = await ms.GetAllFeature();
+            return PartialView("~/Views/Master/PartialView/_MasterServiceFeatureList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateServiceFeature(int? id)
+        {
+            MasterServiceFeatures mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.MasterServiceFeatures
+                    .Where(h => h.FeatureID == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            return PartialView("~/Views/Master/PartialView/_AddFeature.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddFeature(MasterServiceFeatures masterService)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new MasterFeature(_unitOfWorkFactory);
+            if (ModelState.IsValid)
+            {
+                if (masterService.FeatureID == 0)
+                {
+                    res = await ms.InsertMasterFeature(masterService);
+                }
+                else
+                {
+                    res = await ms.UpdateMasterFeature(masterService);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteFeature(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new MasterFeature(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
+        // Feature Region Ends
+        // Master Package Region Starts
+        #region Master Package
+        [Route("MasterPackageList")]
+        public IActionResult MasterPackageList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMasterPackageList()
+        {
+            var ms = new MasterPackageService(_unitOfWorkFactory);
+            IEnumerable<MasterPackage> mf = await ms.GetAllMasterPackage();
+            return PartialView("~/Views/Master/PartialView/_MasterPackageList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateMasterPackage(int? id)
+        {
+            MasterPackage mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.MasterPackage
+                    .Where(h => h.Id == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            return PartialView("~/Views/Master/PartialView/_AddMasterPackage.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMasterPackage(MasterPackage mp)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            var ms = new MasterPackageService(_unitOfWorkFactory);
+            if (ModelState.IsValid)
+            {
+                if (mp.Id == 0)
+                {
+                    mp.CreatedDate = DateTime.Now;
+                    res = await ms.InsertMasterPackage(mp);
+                }
+                else
+                {
+                    mp.ModifiedDate = DateTime.Now;
+                    res = await ms.UpdateMasterPackage(mp);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteMasterPackage(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new MasterPackageService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
+        // Master Package Region Ends
+        // Package Region Starts
+        #region Package
+        [Route("PackageList")]
+        public IActionResult PackageList()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPackageList()
+        {
+            var ms = new PackageService(_unitOfWorkFactory);
+            IEnumerable<Package> mf = await ms.GetAllPackage();
+            return PartialView("~/Views/Master/PartialView/_PackageList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreatePackage(int? id)
+        {
+            Package mf = null;
+            if (id != 0)
+            {
+                mf = await _appcontext.Package
+                    .Where(h => h.PackageID == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            ViewData["MaspterPackage"] = new SelectList(_appcontext.MasterPackage, "Id", "PackageName");
+            return PartialView("~/Views/Master/PartialView/_AddPackage.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPackage(Package package)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (ModelState.IsValid)
+            {
+                var ms = new PackageService(_unitOfWorkFactory);
+                if (package.PackageID == 0)
+                {
+                    package.CreatedOn = DateTime.Now;
+                    res = await ms.InsertPackage(package);
+                }
+                else
+                {
+                    package.UpdatedOn = DateTime.Now;
+                    res = await ms.UpdatePackage(package);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeletePackage(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new PackageService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
+        // Package Region Ends
     }
 }

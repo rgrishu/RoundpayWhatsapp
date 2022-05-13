@@ -11,27 +11,16 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>ServiceName</th>
-                    <th>SCode</th>
+                    <th>Service Name</th>
+                    <th>Feature Name</th>
                     <th>Remark</th>
                     <th>IsActive</th>
-                    <th>IsFeature</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
-    </div>
-
-</div>
-<div class="modal fade" style="width:800px;margin:auto" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            
-            <div id="CreateMe"></div>
-            
-        </div>
     </div>
 </div>
 
@@ -44,7 +33,7 @@
     function loadData(){
          $.ajax({
                type: 'get',
-                url: '/MasterServiceFeatures/GetMasterServiceFeatureList',
+                url: '/Master/GetMasterServiceFeatureList',
                 success: function (data) {
                       $('tbody').html(data);
                 },
@@ -57,15 +46,16 @@
     function RenderForm(id){
         $.ajax({
                type: 'get',
-                url: '/MasterServiceFeatures/Create/' + id,
+                url: '/Master/CreateServiceFeature/' + id,
                 success: function (data) {
-                    console.log(data);
-                    $("#CreateMe").empty();
-                    $("#CreateMe").html(data);
+                    Q.alert({
+                        title: "Add Service",
+                        body: data,
+                        width: '500px',
+                    });
                 },
                 error: function (data) {
-                    console.log('An error occurred.');
-                    console.log(data);
+                   
                 },
           });
     }

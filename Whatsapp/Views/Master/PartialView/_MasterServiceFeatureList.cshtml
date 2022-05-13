@@ -1,4 +1,5 @@
-﻿@using Whatsapp.Models.Data;
+﻿@using Whatsapp.Models
+@using Whatsapp.Models.Data;
 @model List<MasterServiceFeatures>
 @if (Model != null && Model.Any())
 {
@@ -8,10 +9,7 @@
         <tr>
             <td>@i</td>
             <td>
-                @Html.DisplayFor(modelItem => item.ServiceID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FeatureID)
+                @Html.DisplayFor(modelItem => item.MasterService.ServiceName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FeatureName)
@@ -26,7 +24,7 @@
                 <button onclick="RenderForm(@item.FeatureID)" class="btn btn-primary editbtn" data-toggle="modal" data-target="#exampleModalCenter">
                     Edit
                 </button>
-                <a href="/MasterServiceFeatures/Delete/@item.FeatureID" class="btn btn-secondary deletbtn">
+                <a href="/Master/DeleteFeature/@item.FeatureID" onclick="ajaxDelete(this)" class="btn btn-secondary deletbtn">
                     Delete
                 </a>
             </td>

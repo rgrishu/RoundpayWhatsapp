@@ -357,6 +357,8 @@ namespace Whatsapp.Migrations
 
                     b.HasKey("FeatureID");
 
+                    b.HasIndex("ServiceID");
+
                     b.ToTable("MasterServiceFeatures");
                 });
 
@@ -367,8 +369,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedOn")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -382,10 +384,14 @@ namespace Whatsapp.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedOn")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PackageID");
+
+                    b.HasIndex("MasterPackageID");
+
+                    b.HasIndex("ServiceID");
 
                     b.ToTable("Package");
                 });
@@ -442,8 +448,8 @@ namespace Whatsapp.Migrations
                     b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -530,6 +536,30 @@ namespace Whatsapp.Migrations
                     b.HasOne("Whatsapp.Models.Data.WhatsappUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterServiceFeatures", b =>
+                {
+                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
+                        .WithMany()
+                        .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.Package", b =>
+                {
+                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
+                        .WithMany()
+                        .HasForeignKey("MasterPackageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
+                        .WithMany()
+                        .HasForeignKey("ServiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
