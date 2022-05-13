@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initiatedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
