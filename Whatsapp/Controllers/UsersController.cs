@@ -13,6 +13,7 @@ using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.UtilityModel;
 using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Controllers
@@ -30,7 +31,7 @@ namespace Whatsapp.Controllers
         {
             _logger = logger;
             _appcontext = appcontext;
-            this._users = users;
+            _users = users;
             _userManager = userManager;
             _unitOfWorkFactory = unitOfWorkFactory;
 
@@ -41,44 +42,81 @@ namespace Whatsapp.Controllers
         {
             return View();
         }
-      
-      
+
+
         [HttpPost]
         public async Task<IActionResult> GetUsersListAsync()
         {
-
-            var us = new UsersService(_unitOfWorkFactory);
-
-            var list =await us.GetAllUsers();
-          //  var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
+            var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+            var list = await us.GetAllUsers();
             return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
         }
-       
-        public async Task<IActionResult> UserForm()
+
+        public async Task<IActionResult> UserForm(int id)
         {
-            return PartialView("~/Views/Users/PartialView/_Registration.cshtml");
+            Users users = null;
+            try
+            {
+                if (id != 0)
+                {
+                    var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                    var list = await us.GetAllUsersById(id);
+                    WhatsappUser whatsapp = list.FirstOrDefault();
+                    users = new Users();
+                    users.Id = whatsapp.Id;
+                    users.Name = whatsapp.Name;
+                    users.Email = whatsapp.Email;
+                    users.PhoneNumber = whatsapp.PhoneNumber;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return PartialView("~/Views/Users/PartialView/_Registration.cshtml", users);
         }
 
         public async Task<JsonResult> AddUser(Users user)
         {
-            if(user != null)
+            var res = new Response()
             {
-                var newUser = new WhatsappUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.PhoneNumber, Name = user.Name, EmailConfirmed = true };
-                var password = "Aaz@" + user.Name.Substring(4) + user.PhoneNumber.Substring(4) ;
-                var result = await _userManager.CreateAsync(newUser, password);
-                if (result.Succeeded)
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            try
+            {
+                if (user.Id == 0)
                 {
-
-                    var res = await _userManager.AddToRoleAsync(newUser, user.Role);
-                    //SendWhatsappUserMessage
-
-
-
+                    var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                    res = await us.AddUser(user);
                     _logger.LogInformation("User created a new account with password.");
-                    return Json(res);
+                }
+                else
+                {
+                    var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                    res = await us.UpdateUsers(user);
                 }
             }
-            return Json("ok");
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                res = await us.Delete(id);
+            }
+            return Json(res);
         }
 
     }

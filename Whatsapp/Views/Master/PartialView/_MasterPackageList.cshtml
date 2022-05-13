@@ -20,11 +20,11 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                <button onclick="RenderForm(@item.Id)" class="btn btn-primary editbtn" data-toggle="modal" data-target="#exampleModalCenter">
-                    Edit
+                <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit"></i>
                 </button>
-                <a href="/Master/DeleteMasterPackage/@item.Id" onclick="ajaxDelete(this)" class="btn btn-secondary deletbtn">
-                    Delete
+                <a href="/Master/DeleteMasterPackage/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
                 </a>
             </td>
         </tr>
