@@ -21,9 +21,9 @@ namespace Whatsapp.Models
         public bool IsActive { get; set; }
         public Int64 MasterPackageID { get; set; }
         [ForeignKey("MasterPackageID")]
-        public MasterService MasterService { get; set; }
+        public MasterPackage MasterPackage { get; set; }
         public Int64 ServiceID { get; set; }
         [ForeignKey("ServiceID")]
-        public MasterPackage MasterPackage { get; set; }
+        public MasterService MasterService { get; set; }
     }
 }

@@ -551,13 +551,13 @@ namespace Whatsapp.Migrations
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
                 {
-                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
+                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
                         .WithMany()
                         .HasForeignKey("MasterPackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
+                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
                         .HasForeignKey("ServiceID")
                         .OnDelete(DeleteBehavior.Cascade)
