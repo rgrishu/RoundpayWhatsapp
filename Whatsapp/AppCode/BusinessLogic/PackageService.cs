@@ -17,7 +17,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<Response> InsertMasterFeature(Package req)
+        public async Task<Response> InsertPackage(Package req)
         {
             var res = new Response()
             {
@@ -43,7 +43,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<Response> UpdateMasterFeature(Package req)
+        public async Task<Response> UpdatePackage(Package req)
         {
             var res = new Response()
             {
@@ -70,10 +70,36 @@ namespace Whatsapp.AppCode.BusinessLogic
             return res;
         }
 
+        public async Task<Response> Delete(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.PackageID == id);
+                    unitofwork.Repository().Delete(data.FirstOrDefault());
+                    int i = await unitofwork.SaveChangesAsync();
+                    if (i >= 0 && i < 20)
+                    {
+                        res.StatusCode = (int)ResponseStatus.Success;
+                        res.ResponseText = "Deleted Successfull.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return res;
+        }
 
 
-
-        public async Task<IEnumerable<Package>> GetAllUsers()
+        public async Task<IEnumerable<Package>> GetAllPackage()
         {
             try
             {
@@ -88,6 +114,23 @@ namespace Whatsapp.AppCode.BusinessLogic
 
                 throw;
             }
+        }
+        public async Task<List<Package>> GetPackageById(int id)
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.PackageID == id);
+                    return data.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
     }
 }

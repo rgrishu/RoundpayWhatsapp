@@ -10,7 +10,7 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220512132938_Initial")]
+    [Migration("20220513054834_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -553,13 +553,13 @@ namespace Whatsapp.Migrations
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
                 {
-                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
+                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
                         .WithMany()
                         .HasForeignKey("MasterPackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
+                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
                         .HasForeignKey("ServiceID")
                         .OnDelete(DeleteBehavior.Cascade)

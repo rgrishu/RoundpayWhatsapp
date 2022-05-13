@@ -41,12 +41,13 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMasterServiceList()
         {
-            List<MasterService> masterServices = new List<MasterService>();
-            masterServices = await _appcontext.MasterService.ToListAsync().ConfigureAwait(false);
+            var ms = new MasterServices(_unitOfWorkFactory);
+            IEnumerable<MasterService> masterServices = await ms.GetAllService();
             return PartialView("~/Views/Master/PartialView/_MasterServiceList.cshtml", masterServices);
         }
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create(int id)
         {
+            var ms = new MasterServices(_unitOfWorkFactory);
             MasterService masterService = null;
             if (id != 0)
             {
@@ -78,16 +79,25 @@ namespace Whatsapp.Controllers
             }
             return Json(res);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            MasterService masterService = new MasterService();
-            masterService = await _appcontext.MasterService.Where(a => a.ServiceID == id).FirstOrDefaultAsync().ConfigureAwait(false);
-            _appcontext.MasterService.Remove(masterService);
-            await _appcontext.SaveChangesAsync();
-            return View("MasterServiceList");
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if(id != 0)
+            {
+                var ms = new MasterServices(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
         }
-        #endregion // Service Region Ends
+        #endregion 
+        // Service Region Ends
+        
+        
         // Feature Region Starts
 
         #region Feature
@@ -99,8 +109,8 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMasterServiceFeatureList()
         {
-            List<MasterServiceFeatures> mf = new List<MasterServiceFeatures>();
-            mf = await _appcontext.MasterServiceFeatures.Include(a => a.MasterService).ToListAsync().ConfigureAwait(false);
+            var ms = new MasterFeature(_unitOfWorkFactory);
+            IEnumerable<MasterServiceFeatures> mf = await ms.GetAllFeature();
             return PartialView("~/Views/Master/PartialView/_MasterServiceFeatureList.cshtml", mf);
         }
         public async Task<IActionResult> CreateServiceFeature(int? id)
@@ -137,14 +147,20 @@ namespace Whatsapp.Controllers
             }
             return Json(res);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> DeleteFeature(int id)
         {
-            MasterServiceFeatures mf = new MasterServiceFeatures();
-            mf = await _appcontext.MasterServiceFeatures.Where(a => a.FeatureID == id).FirstOrDefaultAsync().ConfigureAwait(false);
-            _appcontext.MasterServiceFeatures.Remove(mf);
-            await _appcontext.SaveChangesAsync();
-            return View("MasterServiceFeatureList");
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new MasterFeature(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
         }
         #endregion
         // Feature Region Ends
@@ -158,8 +174,8 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMasterPackageList()
         {
-            List<MasterPackage> mf = new List<MasterPackage>();
-            mf = await _appcontext.MasterPackage.ToListAsync().ConfigureAwait(false);
+            var ms = new MasterPackageService(_unitOfWorkFactory);
+            IEnumerable<MasterPackage> mf = await ms.GetAllMasterPackage();
             return PartialView("~/Views/Master/PartialView/_MasterPackageList.cshtml", mf);
         }
         public async Task<IActionResult> CreateMasterPackage(int? id)
@@ -188,24 +204,30 @@ namespace Whatsapp.Controllers
                 if (mp.Id == 0)
                 {
                     mp.CreatedDate = DateTime.Now;
-                    res = await ms.InsertMasterFeature(mp);
+                    res = await ms.InsertMasterPackage(mp);
                 }
                 else
                 {
                     mp.ModifiedDate = DateTime.Now;
-                    res = await ms.UpdateMasterFeature(mp);
+                    res = await ms.UpdateMasterPackage(mp);
                 }
             }
             return Json(res);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> DeleteMasterPackage(int id)
         {
-            MasterPackage mf = new MasterPackage();
-            mf = await _appcontext.MasterPackage.Where(a => a.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
-            _appcontext.MasterPackage.Remove(mf);
-            await _appcontext.SaveChangesAsync();
-            return View("MasterPackageList");
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new MasterPackageService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
         }
         #endregion
         // Master Package Region Ends
@@ -219,8 +241,8 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPackageList()
         {
-            List<Package> mf = new List<Package>();
-            mf = await _appcontext.Package.Include(a => a.MasterPackage).Include(a => a.MasterService).ToListAsync().ConfigureAwait(false);
+            var ms = new PackageService(_unitOfWorkFactory);
+            IEnumerable<Package> mf = await ms.GetAllPackage();
             return PartialView("~/Views/Master/PartialView/_PackageList.cshtml", mf);
         }
         public async Task<IActionResult> CreatePackage(int? id)
@@ -232,7 +254,8 @@ namespace Whatsapp.Controllers
                     .Where(h => h.PackageID == id)
                     .FirstOrDefaultAsync();
             }
-            //ViewData["ServiceData"] = new SelectList(_appcontext.Package, "ServiceID", "ServiceName");
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            ViewData["MaspterPackage"] = new SelectList(_appcontext.MasterPackage, "Id", "PackageName");
             return PartialView("~/Views/Master/PartialView/_AddPackage.cshtml", mf);
         }
         [HttpPost]
@@ -243,30 +266,36 @@ namespace Whatsapp.Controllers
                 StatusCode = (int)ResponseStatus.Failed,
                 ResponseText = "Failed"
             };
-            var ms = new PackageService(_unitOfWorkFactory);
             if (ModelState.IsValid)
             {
+                var ms = new PackageService(_unitOfWorkFactory);
                 if (package.PackageID == 0)
                 {
                     package.CreatedOn = DateTime.Now;
-                    res = await ms.InsertMasterFeature(package);
+                    res = await ms.InsertPackage(package);
                 }
                 else
                 {
                     package.UpdatedOn = DateTime.Now;
-                    res = await ms.UpdateMasterFeature(package);
+                    res = await ms.UpdatePackage(package);
                 }
             }
             return Json(res);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> DeletePackage(int id)
         {
-            Package mf = new Package();
-            mf = await _appcontext.Package.Where(a => a.PackageID == id).FirstOrDefaultAsync().ConfigureAwait(false);
-            _appcontext.Package.Remove(mf);
-            await _appcontext.SaveChangesAsync();
-            return View("PackageList");
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new PackageService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
         }
         #endregion
         // Package Region Ends

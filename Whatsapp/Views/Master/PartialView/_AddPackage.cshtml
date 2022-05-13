@@ -16,12 +16,16 @@
                 }
 
                 <div class="form-group col-sm-6">
-                    <label>Master Package</label>
-                    <input type="text" class="form-control" asp-for="MasterPackageID" placeholder="Enter Master Package Name">
+                    <label>Service Name</label>
+                    <select asp-for="ServiceID"  class="custom-select form-control" asp-items="ViewBag.ServiceData">
+                        <option id="0"> -- Select Service -- </option>
+                    </select>
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>Service ID</label>
-                    <input type="text" class="form-control" asp-for="ServiceID" placeholder="Enter Service">
+                    <label>Master Package</label>
+                    <select asp-for="MasterPackageID"  class="custom-select form-control" asp-items="ViewBag.MaspterPackage">
+                        <option id="0"> -- Master Package -- </option>
+                    </select>
                 </div>
                 <div class="form-group col-sm-6">
                     <label>Status</label>

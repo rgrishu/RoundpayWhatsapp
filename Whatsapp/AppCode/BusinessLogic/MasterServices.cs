@@ -73,16 +73,58 @@ namespace WAEFCore22.AppCode.BusinessLogic
             return res;
         }
 
-
-
-
-        public async Task<IEnumerable<WhatsappUser>> GetAllUsers ()
+        public async Task<Response> Delete(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<MasterService>(x => x.ServiceID == id);
+                    unitofwork.Repository().Delete(data.FirstOrDefault());
+                    int i = await unitofwork.SaveChangesAsync();
+                    if (i >= 0 && i < 20)
+                    {
+                        res.StatusCode = (int)ResponseStatus.Success;
+                        res.ResponseText = "Deleted Successfull.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return res;
+        }
+        public async Task<List<MasterService>> GetMasterServiceById(int id)
         {
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAllRecords<WhatsappUser>();
+                    var data = await unitofwork.Repository().FindAsync<MasterService>(x => x.ServiceID == id);
+                    return data.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        public async Task<IEnumerable<MasterService>> GetAllService ()
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAllRecords<MasterService>();
                     return data.ToList();
                 }
             }

@@ -302,16 +302,16 @@ namespace Whatsapp.Migrations
                 {
                     table.PrimaryKey("PK_Package", x => x.PackageID);
                     table.ForeignKey(
-                        name: "FK_Package_MasterService_MasterPackageID",
+                        name: "FK_Package_MasterPackage_MasterPackageID",
                         column: x => x.MasterPackageID,
-                        principalTable: "MasterService",
-                        principalColumn: "ServiceID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Package_MasterPackage_ServiceID",
-                        column: x => x.ServiceID,
                         principalTable: "MasterPackage",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Package_MasterService_ServiceID",
+                        column: x => x.ServiceID,
+                        principalTable: "MasterService",
+                        principalColumn: "ServiceID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -423,10 +423,10 @@ namespace Whatsapp.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "MasterService");
+                name: "MasterPackage");
 
             migrationBuilder.DropTable(
-                name: "MasterPackage");
+                name: "MasterService");
         }
     }
 }

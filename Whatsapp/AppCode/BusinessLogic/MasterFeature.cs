@@ -72,9 +72,26 @@ namespace Whatsapp.AppCode.BusinessLogic
         }
 
 
+        public async Task<List<MasterServiceFeatures>> GetMasterFeatureById(int id)
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<MasterServiceFeatures>(x => x.FeatureID == id);
+                    return data.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
 
 
-        public async Task<IEnumerable<MasterServiceFeatures>> GetAllUsers()
+        public async Task<IEnumerable<MasterServiceFeatures>> GetAllFeature()
         {
             try
             {
@@ -90,5 +107,34 @@ namespace Whatsapp.AppCode.BusinessLogic
                 throw;
             }
         }
+
+        public async Task<Response> Delete(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<MasterServiceFeatures>(x => x.FeatureID == id);
+                    unitofwork.Repository().Delete(data.FirstOrDefault());
+                    int i = await unitofwork.SaveChangesAsync();
+                    if (i >= 0 && i < 20)
+                    {
+                        res.StatusCode = (int)ResponseStatus.Success;
+                        res.ResponseText = "Deleted Successfull.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return res;
+        }
+
     }
 }
