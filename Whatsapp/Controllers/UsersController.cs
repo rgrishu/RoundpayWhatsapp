@@ -68,7 +68,12 @@ namespace Whatsapp.Controllers
                 var result = await _userManager.CreateAsync(newUser, password);
                 if (result.Succeeded)
                 {
+
                     var res = await _userManager.AddToRoleAsync(newUser, user.Role);
+                    //SendWhatsappUserMessage
+
+
+
                     _logger.LogInformation("User created a new account with password.");
                     return Json(res);
                 }
