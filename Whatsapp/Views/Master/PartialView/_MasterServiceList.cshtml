@@ -23,8 +23,8 @@
                 @Html.DisplayFor(modelItem => item.IsFeature)
             </td>
             <td>
-                <button onclick="RenderForm(@item.ServiceID)" class="btn btn-primary editbtn" data-toggle="modal" data-target="#exampleModalCenter">
-                    Edit
+                <button onclick="RenderForm(@item.ServiceID)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit" title="Edit"></i>
                 </button>
                @* <a style="display:none" href="/Master/Delete/@item.ServiceID" class="btn btn-secondary deletbtn">
                     Delete

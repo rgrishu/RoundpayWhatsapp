@@ -180,7 +180,7 @@ namespace Whatsapp.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IPAddress = table.Column<string>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false),
                     Role = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),

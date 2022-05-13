@@ -410,13 +410,13 @@
                     </li>*@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#page-layouts-master" aria-expanded="false" aria-controls="page-layouts-master">
-                            <i class="fab fa-trello menu-icon"></i>
+                            <i class="fa fa-cogs menu-icon"></i>
                             <span class="menu-title">Master</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="page-layouts-master">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="MasterServiceList">Master Service List</a></li>
+                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="/MasterServiceList">Master Service List</a></li>
                             </ul>
                         </div>
                     </li>
@@ -434,13 +434,13 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
-                            <i class="fab fa-trello menu-icon"></i>
+                            <i class="fa fa-users menu-icon"></i>
                             <span class="menu-title">Users</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="page-layouts">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="UsersList">Users List</a></li>
+                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="/UsersList">Users List</a></li>
                             </ul>
                         </div>
                     </li>
@@ -453,8 +453,8 @@
                     </li>
                     <li class="nav-item" id="LogoutTrigger">
                         <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                           <i class="far fa-file-alt menu-icon"></i>
-                           <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color:#fff;padding-left:0;cursor:pointer">Logout</button>
+                           <i class="fa fa-sign-out-alt menu-icon"></i>
+                           <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color: #fff0;padding-left:0;cursor:pointer">Logout</button>
                         </form>
 
                     </li>

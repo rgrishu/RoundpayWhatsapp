@@ -10,7 +10,7 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220511095228_initiatedb")]
+    [Migration("20220512123033_initiatedb")]
     partial class initiatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -444,8 +444,8 @@ namespace Whatsapp.Migrations
                     b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
