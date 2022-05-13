@@ -26,8 +26,8 @@
                 <button onclick="RenderForm(@item.ServiceID)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
                     <i class="fa fa-edit" title="Edit"></i>
                 </button>
-               <a href="/Master/Delete/@item.ServiceID" onclick="ajaxDelete(this)" class="btn btn-secondary deletbtn">
-                    Delete
+               <a href="/Master/Delete/@item.ServiceID" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
                 </a>
             </td>
         </tr>
