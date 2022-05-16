@@ -10,8 +10,8 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220513103058_initiatedb")]
-    partial class initiatedb
+    [Migration("20220516071954_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -326,6 +326,120 @@ namespace Whatsapp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Whatsapp.Models.EmailSetting", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EntryBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntryByLT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntryDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FromEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HostName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IsDefault")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsEmailVerified")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSSL")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MailUserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyByLT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Port")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("EmailSetting");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterApi", b =>
+                {
+                    b.Property<int>("ApiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApiBaseUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApiCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApiMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApiName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ApiTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsActive")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsDefault")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ApiID");
+
+                    b.ToTable("MasterApi");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterApiType", b =>
+                {
+                    b.Property<int>("ApiTypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApiTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ApiTypeID");
+
+                    b.ToTable("MasterApiType");
+                });
+
             modelBuilder.Entity("Whatsapp.Models.MasterPackage", b =>
                 {
                     b.Property<long>("Id")
@@ -444,6 +558,87 @@ namespace Whatsapp.Migrations
                     b.HasIndex("ServiceID");
 
                     b.ToTable("Package");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.SendEmail", b =>
+                {
+                    b.Property<int>("Int64")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntryDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("From")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifyDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Recipients")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Int64");
+
+                    b.ToTable("SendEmail");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.SendSms", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("APIID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntryDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsRead")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SendSms");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>
