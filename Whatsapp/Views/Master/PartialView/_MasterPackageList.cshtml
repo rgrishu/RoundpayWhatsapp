@@ -17,7 +17,14 @@
                 @Html.DisplayFor(modelItem => item.ValidityInDays)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @if (item.Status.Equals("1"))
+                {
+                    <label class="badge badge-success badge-pill">Approved</label>
+                }
+                else
+                {
+                    <label class="badge badge-danger badge-pill">Pending</label>
+                }
             </td>
             <td>
                 <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
