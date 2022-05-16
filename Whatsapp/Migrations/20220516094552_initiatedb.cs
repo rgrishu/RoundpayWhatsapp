@@ -99,6 +99,66 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailSetting",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    FromEmail = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    HostName = table.Column<string>(nullable: true),
+                    Port = table.Column<string>(nullable: true),
+                    WID = table.Column<int>(nullable: false),
+                    EntryBy = table.Column<string>(nullable: true),
+                    ModifyBy = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsEmailVerified = table.Column<string>(nullable: true),
+                    IsSSL = table.Column<bool>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailSetting", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasterApi",
+                columns: table => new
+                {
+                    ApiID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApiTypeID = table.Column<int>(nullable: false),
+                    ApiName = table.Column<string>(nullable: true),
+                    ApiCode = table.Column<string>(nullable: true),
+                    ApiBaseUrl = table.Column<string>(nullable: true),
+                    ApiMethod = table.Column<string>(nullable: true),
+                    IsActive = table.Column<string>(nullable: true),
+                    IsDefault = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<string>(nullable: true),
+                    ModifyOn = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterApi", x => x.ApiID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasterApiType",
+                columns: table => new
+                {
+                    ApiTypeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApiTypeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterApiType", x => x.ApiTypeID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MasterPackage",
                 columns: table => new
                 {
@@ -135,6 +195,26 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SendEmail",
+                columns: table => new
+                {
+                    Int64 = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    From = table.Column<string>(nullable: true),
+                    Recipients = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    IsSent = table.Column<bool>(nullable: false),
+                    WID = table.Column<int>(nullable: false),
+                    EntryDate = table.Column<string>(nullable: true),
+                    ModifyDate = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SendEmail", x => x.Int64);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SenderNo",
                 columns: table => new
                 {
@@ -145,6 +225,29 @@ namespace Whatsapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SenderNo", x => x.SenderNoID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SendSms",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    APIID = table.Column<string>(nullable: true),
+                    MobileNo = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    TransactionID = table.Column<string>(nullable: true),
+                    ResponseID = table.Column<string>(nullable: true),
+                    Response = table.Column<string>(nullable: true),
+                    EntryDate = table.Column<string>(nullable: true),
+                    IsRead = table.Column<string>(nullable: true),
+                    WID = table.Column<int>(nullable: false),
+                    ModifyDate = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SendSms", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -398,13 +501,28 @@ namespace Whatsapp.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
+                name: "EmailSetting");
+
+            migrationBuilder.DropTable(
+                name: "MasterApi");
+
+            migrationBuilder.DropTable(
+                name: "MasterApiType");
+
+            migrationBuilder.DropTable(
                 name: "MasterServiceFeatures");
 
             migrationBuilder.DropTable(
                 name: "Package");
 
             migrationBuilder.DropTable(
+                name: "SendEmail");
+
+            migrationBuilder.DropTable(
                 name: "SenderNo");
+
+            migrationBuilder.DropTable(
+                name: "SendSms");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

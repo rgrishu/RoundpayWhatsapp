@@ -26,7 +26,6 @@ namespace Whatsapp.Models.Data
         public DbSet<MasterServiceFeatures> MasterServiceFeatures { get; set; }
         public DbSet<ApiRequestResponseLog> ApiRequestResponseLog { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
-       
         public DbSet<Package> Package { get; set; }
         public DbSet<SenderNo> SenderNo { get; set; }
         public DbSet<SendSms> SendSms { get; set; }

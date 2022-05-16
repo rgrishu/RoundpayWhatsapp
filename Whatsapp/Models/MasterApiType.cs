@@ -2,10 +2,8 @@
 
 namespace Whatsapp.Models
 {
-    public class MasterApiType
+    public class MasterApiType:BaseEntity
     {
-        [Key]
-        public int ApiTypeID { get; set; } 
         public string ApiTypeName { get; set; } 
     }
 }
