@@ -33,7 +33,7 @@ namespace Whatsapp.Controllers
         {
             _logger = logger;
             _appcontext = appcontext;
-            this._users = users;
+            _users = users;
             _userManager = userManager;
             _unitOfWorkFactory = unitOfWorkFactory;
             _emailService = emailService;
@@ -59,7 +59,26 @@ namespace Whatsapp.Controllers
 
         public async Task<IActionResult> UserForm()
         {
-            return PartialView("~/Views/Users/PartialView/_Registration.cshtml");
+            Users users = null;
+            try
+            {
+                if (id != 0)
+                {
+                    var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                    var list = await us.GetAllUsersById(id);
+                    WhatsappUser whatsapp = list.FirstOrDefault();
+                    users = new Users();
+                    users.Id = whatsapp.Id;
+                    users.Name = whatsapp.Name;
+                    users.Email = whatsapp.Email;
+                    users.PhoneNumber = whatsapp.PhoneNumber;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return PartialView("~/Views/Users/PartialView/_Registration.cshtml", users);
         }
 
         public async Task<JsonResult> AddUser(Users user)
