@@ -4,7 +4,7 @@
         <h3 class="page-title">
             Packages
         </h3>
-        
+
     </div>
 
 
@@ -63,41 +63,41 @@
 </div>
 
 @section scripts{
-<script>
-    $(document).ready(function () {
-        loadData();
-    });
-    function loadData(){
-         $.ajax({
-               type: 'get',
+    <script>
+        $(document).ready(function() {
+            loadData();
+        });
+        function loadData() {
+            $.ajax({
+                type: 'get',
                 url: '/Master/GetPackageList',
-                success: function (data) {
-                      $('tbody').html(data);
+                success: function(data) {
+                    $('tbody').html(data);
                 },
-                error: function (data) {
+                error: function(data) {
                     console.log('An error occurred.');
                     console.log(data);
                 },
-          });
-    }
-    $('#btncreateuser').click(function () {
-           RenderForm(0);
+            });
+        }
+        $('#btncreateuser').click(function() {
+            RenderForm(0);
         });
-    function RenderForm(id){
-        $.ajax({
+        function RenderForm(id) {
+            $.ajax({
                 type: 'post',
                 url: '/Master/CreatePackage/',
-                data: { id:id},
-                success: function (data) {
+                data: { id: id },
+                success: function(data) {
                     Q.alert({
                         title: "Add Pachage",
                         body: data,
                         width: '500px',
                     });
                 },
-                error: function (data) {
+                error: function(data) {
                 },
             });
-    }
-</script>
+        }
+    </script>
 }

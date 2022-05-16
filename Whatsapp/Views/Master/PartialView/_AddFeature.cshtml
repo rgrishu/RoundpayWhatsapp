@@ -30,9 +30,12 @@
                     <input type="text" class="form-control" asp-for="Remark" placeholder="Enter Remark">
                 </div>
                 <div class="form-group col-sm-6">
-                    <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox" asp-for="IsActive">
-                    <label class="form-check-label ml-sm-4 mt-sm-5" for="IsActive">
+                    <label class="form-check-label" for="IsActive">
                         IsActive
+                    </label><br />
+                    <label class="switch mt-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                        <span class="slider round"></span>
                     </label>
                 </div>
             </div>

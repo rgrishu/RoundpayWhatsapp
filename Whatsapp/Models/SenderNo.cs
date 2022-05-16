@@ -2,7 +2,7 @@
 
 namespace Whatsapp.Models
 {
-    public class SenderNo
+    public class SenderNo:BaseEntity
     {
         [Key]
         public int SenderNoID { get; set; }

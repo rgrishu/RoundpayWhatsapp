@@ -1,0 +1,78 @@
+﻿@model Whatsapp.Models.EmailSetting
+
+
+<div class="card">
+
+    <div class="card-body">
+        <form method="post" class="form-block" action="/Master/AddEmail">
+            <div class="row">
+                @if (Model == null)
+                {
+                    <input type="hidden" asp-for="Id" value="0" />
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                }
+
+                <div class="form-group col-sm-6">
+                    <label>From Email</label>
+                    <input type="email" required class="form-control" asp-for="FromEmail" placeholder="Enter From Email">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Host Name</label>
+                    <input type="text" class="form-control" asp-for="HostName" placeholder="Enter Host Name">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Port</label>
+                    <input type="text" class="form-control" asp-for="Port" placeholder="Enter Port">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>WID</label>
+                    <input type="number" class="form-control" asp-for="WID" placeholder="Enter WID">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsDefault">
+                        IsDefault
+                    </label><br />
+                    <label class="switch">
+                        <input type="checkbox" class="form-check-input" asp-for="IsDefault">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsEmailVerified">
+                        IsEmailVerified
+                    </label><br />
+                    <label class="switch">
+                        <input type="checkbox" class="form-check-input" asp-for="IsEmailVerified">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsSSL">
+                        IsSSL
+                    </label><br />
+                    <label class="switch">
+                        <input type="checkbox" class="form-check-input" asp-for="IsSSL">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsActive">
+                        IsActive
+                    </label><br />
+                    <label class="switch">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
