@@ -25,5 +25,12 @@ namespace Whatsapp.Data
                     new MasterApiType() { Id = 3, ApiTypeName = "SMS" }
                );
         }
+        public static void SeedMasterMessageFormat(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MasterMessageFormat>().HasData(
+                    new MasterMessageFormat() { Id = 1, FormatType = "Registration",Remark= "Registration Type",IsActive=true },
+                    new MasterMessageFormat() { Id = 2, FormatType = "OTP",Remark= "OTP Type", IsActive = true }
+               );
+        }
     }
 }

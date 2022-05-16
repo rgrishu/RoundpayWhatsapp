@@ -9,8 +9,7 @@
     }
     public class SMSSetting
     {
-        public int ID { get; set; }
-        public int Statuscode { get; set; }
+     
         public string Msg { get; set; }
         public int FormatID { get; set; }
         public string Template { get; set; }

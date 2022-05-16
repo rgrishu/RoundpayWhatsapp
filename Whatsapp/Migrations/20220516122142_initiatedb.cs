@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class initaiatedb : Migration
+    public partial class initiatedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -139,9 +139,7 @@ namespace Whatsapp.Migrations
                     BaseUrl = table.Column<string>(nullable: true),
                     Method = table.Column<string>(nullable: true),
                     IsActive = table.Column<string>(nullable: true),
-                    IsDefault = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<string>(nullable: true),
-                    ModifyOn = table.Column<string>(nullable: true)
+                    IsDefault = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,6 +160,24 @@ namespace Whatsapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MasterApiType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasterMessageFormat",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    FormatType = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterMessageFormat", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +214,33 @@ namespace Whatsapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MasterService", x => x.ServiceID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageTemplate",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    FormatID = table.Column<int>(nullable: false),
+                    IsEnableSMS = table.Column<bool>(nullable: false),
+                    TemplateID = table.Column<string>(nullable: true),
+                    SMSTemplate = table.Column<string>(nullable: true),
+                    IsEnableEmail = table.Column<bool>(nullable: false),
+                    Subject = table.Column<string>(nullable: true),
+                    EmailTemplate = table.Column<string>(nullable: true),
+                    IsEnableWhatsapp = table.Column<bool>(nullable: false),
+                    WhatsappTemplate = table.Column<string>(nullable: true),
+                    WID = table.Column<int>(nullable: false),
+                    EntryBy = table.Column<int>(nullable: false),
+                    ModifyBy = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageTemplate", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -433,6 +476,25 @@ namespace Whatsapp.Migrations
                     { 4, "b52abe85-ca0e-44ae-a4d0-fd1b315576ee", "WhiteLabel", "WHITELEABEL" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "MasterApiType",
+                columns: new[] { "Id", "ApiTypeName", "CreatedDate", "IPAddress", "ModifiedDate" },
+                values: new object[,]
+                {
+                    { 1L, "Whatsapp", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, "Email", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, "SMS", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MasterMessageFormat",
+                columns: new[] { "Id", "CreatedDate", "FormatType", "IPAddress", "IsActive", "ModifiedDate", "Remark" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Registration", null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Registration Type" },
+                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP", null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP Type" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -524,7 +586,13 @@ namespace Whatsapp.Migrations
                 name: "MasterApiType");
 
             migrationBuilder.DropTable(
+                name: "MasterMessageFormat");
+
+            migrationBuilder.DropTable(
                 name: "MasterServiceFeatures");
+
+            migrationBuilder.DropTable(
+                name: "MessageTemplate");
 
             migrationBuilder.DropTable(
                 name: "Package");

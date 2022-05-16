@@ -11,7 +11,5 @@ namespace Whatsapp.Models
         public string Method { get; set; }
         public string IsActive { get; set; }
         public string IsDefault { get; set; }
-        public string CreatedOn { get; set; }
-        public string ModifyOn { get; set; }
     }
 }

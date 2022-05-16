@@ -33,14 +33,17 @@ namespace Whatsapp.Models.Data
         public DbSet<MasterApi> MasterApi { get; set; }
         public DbSet<MasterApiType> MasterApiType { get; set; }
         public DbSet<EmailSetting> EmailSetting { get; set; }
+
+        public DbSet<MasterMessageFormat> MasterMessageFormat { get; set; }
+       
+        public DbSet<MessageTemplate> MessageTemplate { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // modelBuilder.HasDefaultSchema("blogging");
             base.OnModelCreating(modelBuilder);
             modelBuilder.SeedRoles();
             modelBuilder.SeedMasterApiType();
-            //  modelBuilder.Entity<City>();
-
+            modelBuilder.SeedMasterMessageFormat();
         }
 
     }
