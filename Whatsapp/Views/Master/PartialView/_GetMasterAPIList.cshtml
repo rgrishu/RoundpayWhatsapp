@@ -1,0 +1,58 @@
+﻿@using Whatsapp.Models.Data;
+@model IEnumerable<MasterApi>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @if (item.ApiTypeID.Equals(1))
+                {
+                    <span>Whatsapp </span>
+                }else if (item.ApiTypeID.Equals(2))
+                {
+                    <span>Email</span>
+                }
+                else if(item.ApiTypeID.Equals(3))
+                {
+                    <span>SMS</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDefault)
+            </td>
+            <td>
+                <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <a href="/Master/DeleteMasterAPI/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        i++;
+    }
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}

@@ -306,7 +306,7 @@ namespace Whatsapp.Controllers
         }
         #endregion
         // Package Region Ends
-
+        // Email Settings Region Starts
         #region Email Region Starts
         [Route("EmailSettingList")]
         public IActionResult EmailSettingList()
@@ -375,5 +375,75 @@ namespace Whatsapp.Controllers
             return Json(res);
         }
         #endregion
+        // EmailSettings Region Ends
+        //Master Api Region Starts
+        #region Master API Region Starts
+        [Route("MasterAPIList")]
+        public IActionResult MasterAPIList()
+        {
+            ViewData["Title"] = "Master API";
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMasterAPIList()
+        {
+            var ms = new MasterAPIService(_unitOfWorkFactory);
+            IEnumerable<MasterApi> mf = await ms.GetMasterAPIList();
+            return PartialView("~/Views/Master/PartialView/_GetMasterAPIList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateMasterAPI(int? id)
+        {
+            MasterApi mf = new MasterApi();
+            if (id != 0)
+            {
+                mf = await _appcontext.MasterApi
+                    .Where(h => h.Id == id)
+                    .FirstOrDefaultAsync();
+            }
+            ViewData["APIType"] = new SelectList(_appcontext.MasterApiType.ToList(), "Id", "ApiTypeName");
+            return PartialView("~/Views/Master/PartialView/_AddMasterAPI.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMasterAPI(MasterApi api)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (ModelState.IsValid)
+            {
+                var ms = new MasterAPIService(_unitOfWorkFactory);
+                var user = _userManager.GetUserAsync(HttpContext.User);
+                if (api.Id == 0)
+                {
+                    api.CreatedDate = DateTime.Now;
+                    res = await ms.InsertMasterAPI(api);
+                }
+                else
+                {
+                    api.ModifiedDate = DateTime.Now;
+                    res = await ms.UpdateMasterAPI(api);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteMasterAPI(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new MasterAPIService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
+        //Master Api Region Ends
     }
 }

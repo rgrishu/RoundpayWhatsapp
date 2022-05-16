@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class initaiatedb : Migration
+    public partial class InitialsMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -138,10 +138,8 @@ namespace Whatsapp.Migrations
                     Code = table.Column<string>(nullable: true),
                     BaseUrl = table.Column<string>(nullable: true),
                     Method = table.Column<string>(nullable: true),
-                    IsActive = table.Column<string>(nullable: true),
-                    IsDefault = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<string>(nullable: true),
-                    ModifyOn = table.Column<string>(nullable: true)
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -431,6 +429,16 @@ namespace Whatsapp.Migrations
                     { 2, "23e0f213-c8fa-4d53-bf9b-5c6220d2e3ba", "Seller", "SELLER" },
                     { 3, "da576a70-2276-4872-a496-6765a07534e6", "ReSeller", "RESELLER" },
                     { 4, "b52abe85-ca0e-44ae-a4d0-fd1b315576ee", "WhiteLabel", "WHITELEABEL" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MasterApiType",
+                columns: new[] { "Id", "ApiTypeName", "CreatedDate", "IPAddress", "ModifiedDate" },
+                values: new object[,]
+                {
+                    { 1L, "Whatsapp", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2L, "Email", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3L, "SMS", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.CreateIndex(

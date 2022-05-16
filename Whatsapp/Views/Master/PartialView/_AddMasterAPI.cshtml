@@ -1,0 +1,65 @@
+﻿@model Whatsapp.Models.MasterApi
+
+
+<div class="card">
+    
+    <div class="card-body">
+        <form method="post" class="form-block"  action="/Master/AddMasterAPI" >
+            <div class="row">
+                @if (Model == null)
+                {
+                    <input type="hidden" asp-for="Id" value="0" />
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                }
+                <div class="form-group col-sm-6">
+                    <label>API type </label>
+                    <select asp-for="ApiTypeID"  class="custom-select form-control" asp-items="ViewBag.APIType">
+                        <option id="0"> -- Select API Type -- </option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Name</label>
+                    <input type="text" required class="form-control" asp-for="Name" placeholder="Enter Name">
+                </div>
+               <div class="form-group col-sm-6">
+                    <label>Code</label>
+                    <input type="text" class="form-control" asp-for="Code" placeholder="Enter Code">
+                </div>
+               <div class="form-group col-sm-6">
+                    <label>BaseUrl</label>
+                    <input type="text" class="form-control" asp-for="BaseUrl" placeholder="Enter Base Url">
+                </div>
+               <div class="form-group col-sm-6">
+                    <label>Method</label>
+                    <input type="text" class="form-control" asp-for="Method" placeholder="Enter Method">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsActive">
+                        IsActive
+                    </label><br />
+                    <label class="switch mt-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsDefault">
+                        IsDefault
+                    </label><br />
+                    <label class="switch mt-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsDefault">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
