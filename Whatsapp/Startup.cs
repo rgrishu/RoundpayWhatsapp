@@ -1,3 +1,4 @@
+using EmailService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -43,13 +44,19 @@ namespace Whatsapp
 
 
             services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
-            services.AddScoped(typeof(IRepository<State>), typeof(Repository<State>));
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));
             services.AddControllersWithViews();
+            services.AddScoped<IEmailService, EmailFactory>();
 
-            
-
+            IEmailConfiguration emailConfig = new EmailConfiguration
+            {
+                SmtpServer = "smtp.gmail.com",
+                SmtpPassword = "Hardware@2020",
+                SmtpUsername = "support@roundpay.in",
+                SmtpPort = 587,
+            };
+            services.AddScoped<IEmailConfiguration,EmailConfiguration>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>

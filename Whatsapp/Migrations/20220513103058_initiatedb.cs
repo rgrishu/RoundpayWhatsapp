@@ -8,6 +8,25 @@ namespace Whatsapp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ApiRequestResponseLog",
+                columns: table => new
+                {
+                    RequestID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RequestName = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false),
+                    RequestUrl = table.Column<string>(nullable: true),
+                    RequestData = table.Column<string>(nullable: true),
+                    Response = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiRequestResponseLog", x => x.RequestID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -67,6 +86,19 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    ContactID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MobileNo = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.ContactID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MasterPackage",
                 columns: table => new
                 {
@@ -103,58 +135,16 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "State",
+                name: "SenderNo",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    SenderNoID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    IPAddress = table.Column<string>(nullable: true),
-                    StateName = table.Column<string>(nullable: true)
+                    MobileNo = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_State", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "test1",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    IPAddress = table.Column<string>(nullable: true),
-                    MyProperty = table.Column<int>(nullable: false),
-                    MyProperty1 = table.Column<int>(nullable: false),
-                    MyProperty2 = table.Column<int>(nullable: false),
-                    MyProperty3 = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_test1", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    IPAddress = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: false),
-                    Role = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_SenderNo", x => x.SenderNoID);
                 });
 
             migrationBuilder.CreateTable(
@@ -384,6 +374,9 @@ namespace Whatsapp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ApiRequestResponseLog");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -402,19 +395,16 @@ namespace Whatsapp.Migrations
                 name: "City");
 
             migrationBuilder.DropTable(
+                name: "Contacts");
+
+            migrationBuilder.DropTable(
                 name: "MasterServiceFeatures");
 
             migrationBuilder.DropTable(
                 name: "Package");
 
             migrationBuilder.DropTable(
-                name: "State");
-
-            migrationBuilder.DropTable(
-                name: "test1");
-
-            migrationBuilder.DropTable(
-                name: "Users");
+                name: "SenderNo");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

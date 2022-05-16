@@ -1,7 +1,10 @@
-﻿namespace Whatsapp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Whatsapp.Models
 {
     public class ApiRequestResponseLog
     {
+        [Key]
         public int RequestID { get; set; }
         public string RequestName { get; set; }
         public int UserID { get; set; }

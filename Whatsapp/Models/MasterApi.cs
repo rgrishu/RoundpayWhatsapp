@@ -1,7 +1,10 @@
-﻿namespace Whatsapp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Whatsapp.Models
 {
     public class MasterApi
     {
+        [Key]
         public int ApiID { get; set; } 
         public int ApiTypeID { get; set; } 
         public string ApiName { get; set; }

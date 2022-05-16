@@ -17,13 +17,13 @@ namespace Whatsapp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ApplicationContext appcontext;
-        private IRepository<State> StateRep;
+      
         private IRepository<City> CityRep;
-        public HomeController(ILogger<HomeController> logger, ApplicationContext appcontext, IRepository<State> state, IRepository<City> city)
+        public HomeController(ILogger<HomeController> logger, ApplicationContext appcontext,  IRepository<City> city)
         {
             _logger = logger;
             appcontext = appcontext;
-            this.StateRep = state;
+           
             this.CityRep = city;
         }
         public IActionResult Index()
@@ -44,27 +44,6 @@ namespace Whatsapp.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult AddState(State st)
-        {
-            StateRep.Insert(st);
-            return View("State");
-        }
-        [HttpGet]
-        public IActionResult City()
-        {
-            return View(StateRep.GetAll());
-        }
-        [HttpPost]
-        public IActionResult AddCity(City ct)
-        {
-            CityRep.Insert(ct);
-            return View("City", StateRep.GetAll());
-        }
-        [HttpGet]
-        public IActionResult GetStateCity()
-        {
-            return View(CityRep.GetAll());
-        }
+        
     }
 }

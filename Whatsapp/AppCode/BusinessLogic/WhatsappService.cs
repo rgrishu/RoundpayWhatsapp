@@ -54,24 +54,23 @@ namespace WAEFCore22.AppCode.BusinessLogic
             }
         }
 
-        //public async Task<SendSessionMessageResponse> WhatsappAlertHub(WhatsappConversation wc, WhatsappConversation res)
-        //{
-        //    //Whatsapp AlertHub Api Text and MEdia Send  In a Api
-        //    var aw = new ApiWhatsappService(_unitOfWorkFactory);
-           
-        //    var objAlertHub = new WhatsappAPIAlertHub
-        //    {
-        //        jid = wc.ContactId,
-        //        messagetype = res.Type == "" ? "" : wc.Type.ToUpper(),
-        //        content = wc.Text,
-        //        APIURL = res.APIURL,
-        //        ScanNo = res.SenderNo,
-        //        ConversationID = wc.conversationId,
-        //        QuoteMsg = wc.QuoteMsg,
-        //        ReplyJID = wc.ReplyJID
-        //    };
-        //    return await aw.AlertHub_SendSessionMessage(objAlertHub);
-        //}
+        public async Task<SendSessionMessageResponse> WhatsappAlertHub(WhatsappConversation wc)
+        {
+            //Whatsapp AlertHub Api Text and MEdia Send  In a Api
+            var aw = new ApiWhatsappService(_unitOfWorkFactory);
+            var objAlertHub = new WhatsappAPIAlertHub
+            {
+                jid = wc.ContactId,
+                messagetype = wc.Type == "" ? "" : wc.Type.ToUpper(),
+                content = wc.Text,
+                APIURL = "http://api.alerthub.in/api/send?apiusername=roundp_99y767&apipassword=P-Ji@r]y@ydnRjF!&requestid={RequestID}&jid={COUNTRY}{TO}&content={MESSAGE}&messagetype=TEXT&from={SCANNO}&quotemsgid={QUOTEID}&quotemsg={QUOTEMSG}&quotedmsgfrom={REPLYJID}",
+                ScanNo = "918312345678",
+                ConversationID =String.Empty,
+                QuoteMsg = String.Empty,
+                ReplyJID = String.Empty
+            };
+            return await aw.AlertHub_SendSessionMessage(objAlertHub);
+        }
 
 
     }

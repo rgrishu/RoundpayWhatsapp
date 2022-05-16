@@ -19,16 +19,21 @@ namespace Whatsapp.Models.Data
         {
 
         }
-        public DbSet<State> State { get; set; }
-        public DbSet<Users> Users { get; set; }
         public DbSet<WhatsappUser> AspNetUsers { get; set; }
         public DbSet<City> City { get; set; }
-        public DbSet<test1> test1 { get; set; }
         public DbSet<MasterPackage> MasterPackage { get; set; }
         public DbSet<MasterService> MasterService { get; set; }
         public DbSet<MasterServiceFeatures> MasterServiceFeatures { get; set; }
+        public DbSet<ApiRequestResponseLog> ApiRequestResponseLog { get; set; }
+        public DbSet<Contacts> Contacts { get; set; }
+       
         public DbSet<Package> Package { get; set; }
-        //public virtual ICollection<State> State { get; set; }
+        public DbSet<SenderNo> SenderNo { get; set; }
+        public DbSet<SendSms> SendSms { get; set; }
+        public DbSet<SendEmail> SendEmail { get; set; }
+        public DbSet<MasterApi> MasterApi { get; set; }
+        public DbSet<MasterApiType> MasterApiType { get; set; }
+        public DbSet<EmailSetting> EmailSetting { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // modelBuilder.HasDefaultSchema("blogging");
