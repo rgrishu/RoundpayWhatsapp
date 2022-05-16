@@ -82,5 +82,41 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
                 throw;
             }
         }
+        public async Task<IEnumerable<T>> Get<T>(
+            Expression<Func<T,
+            bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "") where T : class
+        {
+            try
+            {
+                IQueryable<T> query = _dbContext.Set<T>();
+
+                if (filter != null)
+                {
+                    query = query.Where(filter);
+                }
+
+                foreach (var includeProperty in includeProperties.Split
+                    (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                if (orderBy != null)
+                {
+                    return await orderBy(query).ToListAsync();
+                }
+                else
+                {
+                    return await query.ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

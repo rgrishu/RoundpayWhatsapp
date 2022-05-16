@@ -14,5 +14,10 @@ namespace WAEFCore22.AppCode.Interface.Repos
         void Add<T>(T entity) where T : class;
         void Update<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
+        Task<IEnumerable<T>> Get<T>(
+            Expression<Func<T,
+            bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "") where T : class;
     }
 }

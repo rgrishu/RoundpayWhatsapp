@@ -2,7 +2,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Master Package 
+            Master Packages 
         </h3>
         
     </div>
@@ -11,22 +11,21 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-body">
+                    <div class="card-header">
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-md-10">
                             <h4 class="card-title">
 
                                 <i class="fas fa-wrench"></i>
-                                 Service  List
+                                 Master Package List
 
                             </h4>
                         </div>
-                        <div class="col-sm-10">
-                          <button id="btncreateuser" class="btn btn-primary btn-sm float-right"
-                        type="submit">
-                     + Create New
-                </button>
+                        <div class="col-md-2 text-right">
+                          <button class="btn btn-primary btn-sm Renderform" onclick="RenderForm(0)" data-toggle="modal" data-target="#exampleModalCenter">+ Create New</button>
                         </div>
                     </div>
+                </div>
 
 
 
@@ -87,7 +86,7 @@
                 data: { id:id},
                 success: function (data) {
                     Q.alert({
-                        title: "Add Service",
+                        title: "Add Master Package",
                         body: data,
                         width: '500px',
                     });
