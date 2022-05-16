@@ -45,7 +45,7 @@ namespace EmailService
                 return emails;
             }
         }
-        public void Send(EmailMessage emailMessage)
+        public void Send(EmailMessage emailMessage ,EmailConfiguration _emailConfig)
         {
             var message = new MimeMessage();
             try
@@ -62,10 +62,10 @@ namespace EmailService
                 using (var emailClient = new SmtpClient())
                 {
                     //The last parameter here is to use SSL (Which you should!)
-                    emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, true);
+                    emailClient.Connect(_emailConfig.SmtpServer, _emailConfig.SmtpPort, true);
                     //Remove any OAuth functionality as we won't be using it. 
                     emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
-                    emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
+                    emailClient.Authenticate(_emailConfig.SmtpUsername, _emailConfig.SmtpPassword);
                     emailClient.Send(message);
                     emailClient.Disconnect(true);
                 }

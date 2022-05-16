@@ -47,7 +47,7 @@ namespace Whatsapp
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));
             services.AddControllersWithViews();
-            services.AddScoped<IEmailService, EmailFactory>();
+            
 
             IEmailConfiguration emailConfig = new EmailConfiguration
             {
@@ -56,6 +56,7 @@ namespace Whatsapp
                 SmtpUsername = "support@roundpay.in",
                 SmtpPort = 587,
             };
+            services.AddScoped<IEmailService, EmailFactory>();
             services.AddScoped<IEmailConfiguration,EmailConfiguration>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 

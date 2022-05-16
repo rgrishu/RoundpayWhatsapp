@@ -50,14 +50,14 @@ namespace Whatsapp.Controllers
         public async Task<IActionResult> GetUsersListAsync()
         {
 
-            var us = new UsersService(_unitOfWorkFactory);
+            var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
 
             var list = await us.GetAllUsers();
             //  var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
             return PartialView("~/Views/Users/PartialView/_UsersList.cshtml", list);
         }
 
-        public async Task<IActionResult> UserForm()
+        public async Task<IActionResult> UserForm(int id)
         {
             Users users = null;
             try
@@ -101,24 +101,32 @@ namespace Whatsapp.Controllers
                         #region SocialAlert
                         #region EmailSend
 
-                        _emailService.Send(new EmailMessage
-                        {
-                            Content = "Test",
-                            Subject = "Registration",
-                            
-                            FromAddresses = new List<EmailAddress> {
+                        _emailService.Send(
+                            new EmailMessage
+                            {
+                                Content = "Test",
+                                Subject = "Registration",
+
+                                FromAddresses = new List<EmailAddress> {
                             new EmailAddress{
                                     Address = "support@roundpay.in",
                                     Name = "",
                                 }
                             },
-                            ToAddresses = new List<EmailAddress> {
+                                ToAddresses = new List<EmailAddress> {
                             new EmailAddress{
                                     Address =user.Email,
                                     Name = user.Name,
                                 }
                             }
-                        });
+                            }, new EmailConfiguration
+                            {
+
+                                SmtpServer = "smtp.gmail.com",
+                                SmtpPassword = "Hardware@2020",
+                                SmtpUsername = "support@roundpay.in",
+                                SmtpPort = 587,
+                            });
 
 
 
