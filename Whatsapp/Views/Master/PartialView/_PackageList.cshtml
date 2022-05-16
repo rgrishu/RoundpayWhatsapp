@@ -8,16 +8,23 @@
         <tr>
             <td>@i</td>
             <td>
-                @Html.DisplayFor(modelItem => item.MasterPackageID)
+                @Html.DisplayFor(modelItem => item.MasterPackage.PackageName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ServiceID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.MasterService.ServiceName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @if (item.Status.Equals("1"))
+                {
+                    <label class="badge badge-success badge-pill">Approved</label>
+                }
+                else
+                {
+                    <label class="badge badge-danger badge-pill">Pending</label>
+                }
             </td>
             <td>
                 <button onclick="RenderForm(@item.PackageID)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">

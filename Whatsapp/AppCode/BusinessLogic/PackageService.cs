@@ -132,5 +132,22 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
 
         }
+        public async Task<List<Package>> GetPackageList()
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().Get<Package>(includeProperties: "MasterPackage,MasterService");
+                    return data.ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

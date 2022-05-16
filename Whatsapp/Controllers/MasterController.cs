@@ -36,6 +36,7 @@ namespace Whatsapp.Controllers
         [Route("MasterServiceList")]
         public IActionResult MasterServiceList()
         {
+            ViewData["Title"] = "Master Service";
             return View();
         }
         [HttpGet]
@@ -104,13 +105,14 @@ namespace Whatsapp.Controllers
         [Route("MasterServiceFeatureList")]
         public IActionResult MasterServiceFeatureList()
         {
+            ViewData["Title"] = "Feature";
             return View();
         }
         [HttpGet]
         public async Task<IActionResult> GetMasterServiceFeatureList()
         {
             var ms = new MasterFeature(_unitOfWorkFactory);
-            IEnumerable<MasterServiceFeatures> mf = await ms.GetAllFeature();
+            IEnumerable<MasterServiceFeatures> mf = await ms.GetFeatureList();
             return PartialView("~/Views/Master/PartialView/_MasterServiceFeatureList.cshtml", mf);
         }
         public async Task<IActionResult> CreateServiceFeature(int? id)
@@ -169,6 +171,7 @@ namespace Whatsapp.Controllers
         [Route("MasterPackageList")]
         public IActionResult MasterPackageList()
         {
+            ViewData["Title"] = "Master Package";
             return View();
         }
         [HttpGet]
@@ -236,13 +239,14 @@ namespace Whatsapp.Controllers
         [Route("PackageList")]
         public IActionResult PackageList()
         {
+            ViewData["Title"] = "Package";
             return View();
         }
         [HttpGet]
         public async Task<IActionResult> GetPackageList()
         {
             var ms = new PackageService(_unitOfWorkFactory);
-            IEnumerable<Package> mf = await ms.GetAllPackage();
+            IEnumerable<Package> mf = await ms.GetPackageList();
             return PartialView("~/Views/Master/PartialView/_PackageList.cshtml", mf);
         }
         public async Task<IActionResult> CreatePackage(int? id)
