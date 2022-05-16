@@ -20,9 +20,9 @@ namespace Whatsapp.Data
         public static void SeedMasterApiType(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MasterApiType>().HasData(
-                    new MasterApiType() {  ApiTypeName = "Whatsapp"},
-                    new MasterApiType() { ApiTypeName = "Email"},
-                    new MasterApiType() { ApiTypeName = "SMS"  }
+                    new MasterApiType() { Id = 1, ApiTypeName = "Whatsapp" },
+                    new MasterApiType() { Id = 2, ApiTypeName = "Email" },
+                    new MasterApiType() { Id = 3, ApiTypeName = "SMS" }
                );
         }
     }

@@ -38,6 +38,7 @@ namespace Whatsapp.Models.Data
             // modelBuilder.HasDefaultSchema("blogging");
             base.OnModelCreating(modelBuilder);
             modelBuilder.SeedRoles();
+            modelBuilder.SeedMasterApiType();
             //  modelBuilder.Entity<City>();
 
         }
