@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220516122632_InitialsMigrationsds")]
+    partial class InitialsMigrationsds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -693,8 +695,8 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MobileNo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MobileNo")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");

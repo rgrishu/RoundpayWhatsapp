@@ -1,0 +1,45 @@
+﻿@using Whatsapp.Models.Data;
+@model List<SenderNo>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApiID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDefault)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAutoReply)
+            </td>
+            <td>
+                <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit" title="Edit"></i>
+                </button>
+               <a href="/Master/DeleteSenderNo/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        i++;
+    }
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}
