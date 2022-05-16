@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +24,15 @@ namespace Whatsapp.Controllers
         private readonly ILogger<HomeController> _logger;
         private ApplicationContext _appcontext;
         private IRepository<Users> _users;
+        private readonly UserManager<WhatsappUser> _userManager;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        public MasterController(ILogger<HomeController> logger, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory)
+        public MasterController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory)
         {
             _logger = logger;
             _appcontext = appcontext;
             this._users = users;
             _unitOfWorkFactory = unitOfWorkFactory;
+            _userManager = userManager;
         }
         // Service Region Starts
         #region Service 
@@ -303,5 +306,74 @@ namespace Whatsapp.Controllers
         }
         #endregion
         // Package Region Ends
+
+        #region Email Region Starts
+        [Route("EmailSettingList")]
+        public IActionResult EmailSettingList()
+        {
+            ViewData["Title"] = "Email";
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetEmailSettingList()
+        {
+            var ms = new EmailSettingService(_unitOfWorkFactory);
+            IEnumerable<EmailSetting> mf = await ms.GetEmailSettingList();
+            return PartialView("~/Views/Master/PartialView/_EmailList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateEmail(int? id)
+        {
+            EmailSetting mf = new EmailSetting();
+            if (id != 0)
+            {
+                mf = await _appcontext.EmailSetting
+                    .Where(h => h.Id == id)
+                    .FirstOrDefaultAsync();
+            }
+            return PartialView("~/Views/Master/PartialView/_AddEmail.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddEmail(EmailSetting email)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (ModelState.IsValid)
+            {
+                var ms = new EmailSettingService(_unitOfWorkFactory);
+                var user = _userManager.GetUserAsync(HttpContext.User);
+                email.EntryBy = HttpContext.User.Identity.Name;
+                if (email.Id == 0)
+                {
+                    email.CreatedDate = DateTime.Now;
+                    res = await ms.InsertEmailSetting(email);
+                }
+                else
+                {
+                    email.ModifiedDate = DateTime.Now;
+                    email.ModifyBy = HttpContext.User.Identity.Name;
+                    res = await ms.UpdateEmailSetting(email);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteEmail(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new EmailSettingService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
     }
 }

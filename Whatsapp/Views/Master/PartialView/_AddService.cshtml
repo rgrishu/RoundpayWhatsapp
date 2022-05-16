@@ -2,45 +2,54 @@
 
 
 <div class="card">
-                
-                <div class="card-body">
-                    <form  class="form-block" action="/Master/AddService" method="post">
-                        <div class="row">
-                @if(Model == null)
+
+    <div class="card-body">
+        <form class="form-block" action="/Master/AddService" method="post">
+            <div class="row">
+                @if (Model == null)
                 {
-                    <input type="hidden" asp-for="ServiceID" value="0"  />
-                }else{
-                    <input type="hidden" asp-for="ServiceID" value="@Model.ServiceID"  />
+                    <input type="hidden" asp-for="ServiceID" value="0" />
                 }
+                else
+                {
+                    <input type="hidden" asp-for="ServiceID" value="@Model.ServiceID" />
+                }
+
+                <div class="form-group col-sm-6">
+                    <label>Service Name</label>
+                    <input type="text" required class="form-control" asp-for="ServiceName" placeholder="Enter Service Name">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>SCode</label>
+                    <input type="text" class="form-control" asp-for="SCode" placeholder="Enter SCode">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Remark</label>
+                    <input type="text" class="form-control" asp-for="Remark" placeholder="Enter Remark">
+                </div>
                 
-                            <div class="form-group col-sm-6">
-                                <label>Service Name</label>
-                                <input type="text" required class="form-control" asp-for="ServiceName" placeholder="Enter Service Name">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label>SCode</label>
-                                <input type="text" class="form-control" asp-for="SCode" placeholder="Enter SCode">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label>Remark</label>
-                                <input type="text" class="form-control" asp-for="Remark" placeholder="Enter Remark">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox"  asp-for="IsActive">
-                                <label class="form-check-label ml-sm-4 mt-sm-5" for="IsActive">
-                                    IsActive
-                                </label>
-                                <input class="form-check-input ml-sm-2 mt-sm-5" type="checkbox" asp-for="IsFeature">
-                                <label class="form-check-label ml-sm-4 mt-sm-5" for="IsFeature">
-                                    IsFeature
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                    </form>
+                <div class="form-group col-sm-6">
+                    <label class="form-check-label" for="IsActive">
+                        IsActive
+                    </label>
+                    <label class="form-check-label ml-3" for="IsFeature">
+                        IsFeature
+                    </label><br />
+                    <label class="switch">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                        <span class="slider round"></span>
+                    </label>
+                    <label class="switch ml-3">
+                        <input type="checkbox" class="form-check-input" asp-for="IsFeature">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 
