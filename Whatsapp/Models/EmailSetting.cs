@@ -7,7 +7,7 @@ namespace Whatsapp.Models
         public string FromEmail { get; set; }
         public string Password { get; set; }
         public string HostName { get; set; }
-        public string Port { get; set; }
+        public int Port { get; set; }
         public int WID { get; set; }
         public string EntryBy { get; set; }
         public string ModifyBy { get; set; }

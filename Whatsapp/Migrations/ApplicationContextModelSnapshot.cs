@@ -327,6 +327,7 @@ namespace Whatsapp.Migrations
             modelBuilder.Entity("Whatsapp.Models.EmailSetting", b =>
                 {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -342,6 +343,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
 =======
+=======
+>>>>>>> 16_05_2022R
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
@@ -353,7 +356,10 @@ namespace Whatsapp.Migrations
                     b.Property<string>("EntryBy")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
 >>>>>>> origin/EmailServiceCrud
+=======
+>>>>>>> 16_05_2022R
                     b.Property<string>("FromEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -361,12 +367,15 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("IsDefault")
                         .HasColumnType("nvarchar(max)");
 =======
+=======
+>>>>>>> 16_05_2022R
                     b.Property<string>("IPAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -375,7 +384,10 @@ namespace Whatsapp.Migrations
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
+<<<<<<< HEAD
 >>>>>>> origin/EmailServiceCrud
+=======
+>>>>>>> 16_05_2022R
 
                     b.Property<string>("IsEmailVerified")
                         .HasColumnType("nvarchar(max)");
@@ -384,16 +396,22 @@ namespace Whatsapp.Migrations
                         .HasColumnType("bit");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     b.Property<string>("MailUserID")
                         .HasColumnType("nvarchar(max)");
 =======
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 >>>>>>> origin/EmailServiceCrud
+=======
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+>>>>>>> 16_05_2022R
 
                     b.Property<string>("ModifyBy")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                     b.Property<string>("ModifyByLT")
                         .HasColumnType("nvarchar(max)");
@@ -403,6 +421,8 @@ namespace Whatsapp.Migrations
 
 =======
 >>>>>>> origin/EmailServiceCrud
+=======
+>>>>>>> 16_05_2022R
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
@@ -413,10 +433,14 @@ namespace Whatsapp.Migrations
                         .HasColumnType("int");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     b.HasKey("ID");
 =======
                     b.HasKey("Id");
 >>>>>>> origin/EmailServiceCrud
+=======
+                    b.HasKey("Id");
+>>>>>>> 16_05_2022R
 
                     b.ToTable("EmailSetting");
                 });

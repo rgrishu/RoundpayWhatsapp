@@ -46,8 +46,9 @@ namespace Whatsapp
             services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
             services.AddScoped(typeof(IRepository<City>), typeof(Repository<City>));
             services.AddScoped(typeof(IRepository<Users>), typeof(Repository<Users>));
+            services.AddScoped(typeof(IRepository<EmailSetting>), typeof(Repository<EmailSetting>));
             services.AddControllersWithViews();
-            
+
 
             IEmailConfiguration emailConfig = new EmailConfiguration
             {
@@ -57,7 +58,7 @@ namespace Whatsapp
                 SmtpPort = 587,
             };
             services.AddScoped<IEmailService, EmailFactory>();
-            services.AddScoped<IEmailConfiguration,EmailConfiguration>();
+            services.AddScoped<IEmailConfiguration, EmailConfiguration>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>

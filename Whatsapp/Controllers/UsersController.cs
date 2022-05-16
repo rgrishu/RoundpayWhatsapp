@@ -100,40 +100,8 @@ namespace Whatsapp.Controllers
                         await _userManager.AddToRoleAsync(newUser, user.Role);
                         #region SocialAlert
                         #region EmailSend
-
-                        _emailService.Send(
-                            new EmailMessage
-                            {
-                                Content = "Test",
-                                Subject = "Registration",
-
-                                FromAddresses = new List<EmailAddress> {
-                            new EmailAddress{
-                                    Address = "support@roundpay.in",
-                                    Name = "",
-                                }
-                            },
-                                ToAddresses = new List<EmailAddress> {
-                            new EmailAddress{
-                                    Address =user.Email,
-                                    Name = user.Name,
-                                }
-                            }
-                            }, new EmailConfiguration
-                            {
-
-                                SmtpServer = "smtp.gmail.com",
-                                SmtpPassword = "Hardware@2020",
-                                SmtpUsername = "support@roundpay.in",
-                                SmtpPort = 587,
-                            });
-
-
-
-                        //EmailService es = new EmailService(_unitOfWorkFactory);
-                        //var emailreq = new AlertReplacementModel()
-                        //{ };
-                        //es.RegistrationEmail(emailreq);
+                        EmailServices es = new EmailServices(_unitOfWorkFactory, _emailService);
+                        es.SendMail(user.Name,user.Email,"Registration");
                         #endregion
 
 

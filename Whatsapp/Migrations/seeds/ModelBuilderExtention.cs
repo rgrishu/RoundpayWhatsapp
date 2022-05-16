@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Whatsapp.Models;
 
 namespace Whatsapp.Data
 {
@@ -16,6 +17,13 @@ namespace Whatsapp.Data
                );
         }
 
-
+        public static void SeedMasterApiType(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MasterApiType>().HasData(
+                    new MasterApiType() {  ApiTypeName = "Whatsapp"},
+                    new MasterApiType() { ApiTypeName = "Email"},
+                    new MasterApiType() { ApiTypeName = "SMS"  }
+               );
+        }
     }
 }

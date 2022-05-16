@@ -22,7 +22,7 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
 
 
 
-        public async Task<IEnumerable<T>> FindAsync<T>(Expression<Func<T, bool>> expression) where T : class
+        public async Task<IEnumerable<T>> FindAsync<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
             try
             {
@@ -35,7 +35,7 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
             }
         }
 
-        public async Task<T> SingleOrDefaultAsync<T>(Expression<Func<T, bool>> expression) where T : class
+        public async Task<T> SingleOrDefaultAsync<T>(Expression<Func<T, bool>> expression=null) where T : class
         {
             return await _dbContext.Set<T>().SingleOrDefaultAsync(expression);
         }
@@ -55,9 +55,9 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
             _dbContext.Set<T>().Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> FindAllRecords<T>() where T : class
+        public async Task<IEnumerable<T>> FindAllRecords<T>(Expression<Func<T, bool>> expression = null) where T : class
         {
-            
+
             try
             {
                 var result = await Task.FromResult(_dbContext.Set<T>());
