@@ -104,7 +104,6 @@ namespace Whatsapp.Controllers
                         es.SendMail(user.Name,user.Email,"Registration");
                         #endregion
 
-
                         #region SMSSend
                         //SMSService ss = new SMSService(_unitOfWorkFactory);
                         //var smsreq = new AlertReplacementModel()
