@@ -471,6 +471,7 @@ namespace Whatsapp.Controllers
                     .Where(h => h.Id == id)
                     .FirstOrDefaultAsync();
             }
+            ViewData["APIId"] = new SelectList(_appcontext.MasterApi.ToList(), "Id", "Name");
             return PartialView("~/Views/Master/PartialView/_AddSenderNo.cshtml", mf);
         }
         [HttpPost]

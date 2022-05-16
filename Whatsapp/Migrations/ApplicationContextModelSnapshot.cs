@@ -675,8 +675,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApiID")
-                        .HasColumnType("int");
+                    b.Property<long>("ApiID")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -703,6 +703,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApiID");
 
                     b.ToTable("SenderNo");
                 });
@@ -778,6 +780,15 @@ namespace Whatsapp.Migrations
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
                         .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>
+                {
+                    b.HasOne("Whatsapp.Models.MasterApi", "MasterApi")
+                        .WithMany()
+                        .HasForeignKey("ApiID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
