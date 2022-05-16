@@ -445,5 +445,75 @@ namespace Whatsapp.Controllers
         }
         #endregion
         //Master Api Region Ends
+
+
+        //Sendor Number Region Starts
+        #region Sender Number Region Starts
+        [Route("SenderNoList")]
+        public IActionResult SenderNoList()
+        {
+            ViewData["Title"] = "Sender No.";
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSenderNoList()
+        {
+            var ms = new SenderNumberService(_unitOfWorkFactory);
+            IEnumerable<SenderNo> mf = await ms.GetSenderNoList();
+            return PartialView("~/Views/Master/PartialView/_SenderNoList.cshtml", mf);
+        }
+        public async Task<IActionResult> CreateSenderNo(int? id)
+        {
+            SenderNo mf = new SenderNo();
+            if (id != 0)
+            {
+                mf = await _appcontext.SenderNo
+                    .Where(h => h.Id == id)
+                    .FirstOrDefaultAsync();
+            }
+            return PartialView("~/Views/Master/PartialView/_AddSenderNo.cshtml", mf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddSenderNo(SenderNo sno)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (ModelState.IsValid)
+            {
+                var ms = new SenderNumberService(_unitOfWorkFactory);
+                var user = _userManager.GetUserAsync(HttpContext.User);
+                if (sno.Id == 0)
+                {
+                    sno.CreatedDate = DateTime.Now;
+                    res = await ms.InsertSenderNo(sno);
+                }
+                else
+                {
+                    sno.ModifiedDate = DateTime.Now;
+                    res = await ms.UpdateSenderNo(sno);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteSenderNo(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new SenderNumberService(_unitOfWorkFactory);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        #endregion
+        //Sendor Number Region Ends
     }
 }
