@@ -101,13 +101,16 @@ namespace Whatsapp.Controllers
                         #region SocialAlert
                         #region EmailSend
                         EmailServices es = new EmailServices(_unitOfWorkFactory, _emailService);
-                        es.SendMail(user.Name,user.Email,"Registration");
+                        es.SendMail(user.Name, user.Email, "Registration");
                         #endregion
 
                         #region SMSSend
                         //SMSService ss = new SMSService(_unitOfWorkFactory);
-                        //var smsreq = new AlertReplacementModel()
-                        //{ };
+                        var smsreq = new AlertReplacementModel()
+                        {
+                            UserMobileNo = user.PhoneNumber,
+                            Password = password,
+                        };
                         //ss.RegistrationSMS(smsreq);
                         #endregion
 
