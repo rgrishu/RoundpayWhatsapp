@@ -3,19 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.cs
-<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
-    public partial class InitialsMigrations : Migration
-========
     public partial class initiatedb : Migration
->>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.cs
-=======
-    public partial class InitialHG : Migration
->>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.cs
-========
-    public partial class indb : Migration
->>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -276,30 +264,6 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.cs
-========
-                name: "SenderNo",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    IPAddress = table.Column<string>(nullable: true),
-                    MobileNo = table.Column<string>(nullable: true),
-                    ApiID = table.Column<int>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDefault = table.Column<bool>(nullable: false),
-                    IsAutoReply = table.Column<bool>(nullable: false),
-                    WID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SenderNo", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
->>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.cs
                 name: "SendSms",
                 columns: table => new
                 {
