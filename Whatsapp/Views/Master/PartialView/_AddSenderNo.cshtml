@@ -20,8 +20,10 @@
                     <input type="text" class="form-control" asp-for="MobileNo" placeholder="Enter MobileNo">
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>ApiID</label>
-                    <input type="text" class="form-control" asp-for="ApiID" placeholder="Enter ApiID">
+                    <label> Select API</label>
+                    <select asp-for="ApiID"  class="custom-select form-control" asp-items="ViewBag.APIId">
+                        <option id="0"> -- Select API -- </option>
+                    </select>
                 </div>
                 <div class="form-group col-sm-6">
                     <label>WID</label>

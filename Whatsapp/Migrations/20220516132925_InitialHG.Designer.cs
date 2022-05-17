@@ -10,8 +10,18 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220516122632_InitialsMigrationsds")]
-    partial class InitialsMigrationsds
+<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
+<<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
+    [Migration("20220516111952_InitialsMigrations")]
+    partial class InitialsMigrations
+========
+    [Migration("20220516122142_initiatedb")]
+    partial class initiatedb
+>>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.Designer.cs
+=======
+    [Migration("20220516132925_InitialHG")]
+    partial class InitialHG
+>>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -469,6 +479,56 @@ namespace Whatsapp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Whatsapp.Models.MasterMessageFormat", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormatType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterMessageFormat");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FormatType = "Registration",
+                            IsActive = true,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Remark = "Registration Type"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FormatType = "OTP",
+                            IsActive = true,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Remark = "OTP Type"
+                        });
+                });
+
             modelBuilder.Entity("Whatsapp.Models.MasterPackage", b =>
                 {
                     b.Property<long>("Id")
@@ -553,6 +613,63 @@ namespace Whatsapp.Migrations
                     b.HasIndex("ServiceID");
 
                     b.ToTable("MasterServiceFeatures");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MessageTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailTemplate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntryBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FormatID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnableEmail")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsEnableSMS")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsEnableWhatsapp")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ModifyBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SMSTemplate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WhatsappTemplate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageTemplate");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
@@ -677,8 +794,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApiID")
-                        .HasColumnType("int");
+                    b.Property<long>("ApiID")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -695,8 +812,8 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MobileNo")
-                        .HasColumnType("int");
+                    b.Property<string>("MobileNo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -705,6 +822,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApiID");
 
                     b.ToTable("SenderNo");
                 });
@@ -780,6 +899,15 @@ namespace Whatsapp.Migrations
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
                         .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>
+                {
+                    b.HasOne("Whatsapp.Models.MasterApi", "MasterApi")
+                        .WithMany()
+                        .HasForeignKey("ApiID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

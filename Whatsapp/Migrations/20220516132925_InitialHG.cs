@@ -3,11 +3,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
+<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
 <<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
     public partial class InitialsMigrations : Migration
 ========
     public partial class initiatedb : Migration
 >>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.cs
+=======
+    public partial class InitialHG : Migration
+>>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -273,27 +277,6 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SenderNo",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    IPAddress = table.Column<string>(nullable: true),
-                    MobileNo = table.Column<int>(nullable: false),
-                    ApiID = table.Column<int>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDefault = table.Column<bool>(nullable: false),
-                    IsAutoReply = table.Column<bool>(nullable: false),
-                    WID = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SenderNo", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SendSms",
                 columns: table => new
                 {
@@ -418,6 +401,33 @@ namespace Whatsapp.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SenderNo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    MobileNo = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    IsAutoReply = table.Column<bool>(nullable: false),
+                    WID = table.Column<int>(nullable: false),
+                    ApiID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SenderNo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SenderNo_MasterApi_ApiID",
+                        column: x => x.ApiID,
+                        principalTable: "MasterApi",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -560,6 +570,11 @@ namespace Whatsapp.Migrations
                 name: "IX_Package_ServiceID",
                 table: "Package",
                 column: "ServiceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SenderNo_ApiID",
+                table: "SenderNo",
+                column: "ApiID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -590,9 +605,6 @@ namespace Whatsapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmailSetting");
-
-            migrationBuilder.DropTable(
-                name: "MasterApi");
 
             migrationBuilder.DropTable(
                 name: "MasterApiType");
@@ -629,6 +641,9 @@ namespace Whatsapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "MasterService");
+
+            migrationBuilder.DropTable(
+                name: "MasterApi");
         }
     }
 }

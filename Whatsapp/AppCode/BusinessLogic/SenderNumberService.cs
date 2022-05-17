@@ -136,7 +136,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().Get<SenderNo>(includeProperties: "");
+                    var data = await unitofwork.Repository().Get<SenderNo>(includeProperties: "MasterApi");
                     return data.ToList();
                 }
             }
