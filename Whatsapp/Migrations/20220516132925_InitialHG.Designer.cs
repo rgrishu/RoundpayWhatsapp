@@ -10,6 +10,7 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
+<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.Designer.cs
 <<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
 <<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
     [Migration("20220516111952_InitialsMigrations")]
@@ -22,6 +23,10 @@ namespace Whatsapp.Migrations
     [Migration("20220516132925_InitialHG")]
     partial class InitialHG
 >>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.Designer.cs
+========
+    [Migration("20220516132233_indb")]
+    partial class indb
+>>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

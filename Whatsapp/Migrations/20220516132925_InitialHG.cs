@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
+<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.cs
 <<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
 <<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
     public partial class InitialsMigrations : Migration
@@ -12,6 +13,9 @@ namespace Whatsapp.Migrations
 =======
     public partial class InitialHG : Migration
 >>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.cs
+========
+    public partial class indb : Migration
+>>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -146,13 +150,8 @@ namespace Whatsapp.Migrations
                     Code = table.Column<string>(nullable: true),
                     BaseUrl = table.Column<string>(nullable: true),
                     Method = table.Column<string>(nullable: true),
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
                     IsActive = table.Column<bool>(nullable: false),
                     IsDefault = table.Column<bool>(nullable: false)
-========
-                    IsActive = table.Column<string>(nullable: true),
-                    IsDefault = table.Column<string>(nullable: true)
->>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.cs
                 },
                 constraints: table =>
                 {
@@ -277,6 +276,30 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.cs
+========
+                name: "SenderNo",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    MobileNo = table.Column<string>(nullable: true),
+                    ApiID = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    IsAutoReply = table.Column<bool>(nullable: false),
+                    WID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SenderNo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+>>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.cs
                 name: "SendSms",
                 columns: table => new
                 {
@@ -505,8 +528,6 @@ namespace Whatsapp.Migrations
                     { 3L, "SMS", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.cs
-========
             migrationBuilder.InsertData(
                 table: "MasterMessageFormat",
                 columns: new[] { "Id", "CreatedDate", "FormatType", "IPAddress", "IsActive", "ModifiedDate", "Remark" },
@@ -516,7 +537,6 @@ namespace Whatsapp.Migrations
                     { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP", null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP Type" }
                 });
 
->>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.cs
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
