@@ -106,6 +106,7 @@
                 data: param,
                 success: function(response) {
                     Q.notify(response.statusCode, response.responseText);
+                     loadData();
                 },
                 error: function(response) {
                     console.log(response);

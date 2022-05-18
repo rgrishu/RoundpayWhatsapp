@@ -10,8 +10,6 @@ namespace Whatsapp.Models
     public class Package : BaseEntity
     {
         public string Status { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
         public bool IsActive { get; set; }
         public bool IsFeature { get; set; }
         public Int64 MasterPackageID { get; set; }

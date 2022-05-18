@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class initiatedb : Migration
+    public partial class INidids : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -445,18 +445,21 @@ namespace Whatsapp.Migrations
                 name: "Package",
                 columns: table => new
                 {
-                    PackageID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    UpdatedOn = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
+                    IsFeature = table.Column<bool>(nullable: false),
                     MasterPackageID = table.Column<long>(nullable: false),
-                    ServiceID = table.Column<long>(nullable: false)
+                    ServiceID = table.Column<long>(nullable: false),
+                    MasterServiceServiceID = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Package", x => x.PackageID);
+                    table.PrimaryKey("PK_Package", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Package_MasterPackage_MasterPackageID",
                         column: x => x.MasterPackageID,
@@ -464,11 +467,11 @@ namespace Whatsapp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Package_MasterService_ServiceID",
-                        column: x => x.ServiceID,
+                        name: "FK_Package_MasterService_MasterServiceServiceID",
+                        column: x => x.MasterServiceServiceID,
                         principalTable: "MasterService",
                         principalColumn: "ServiceID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -551,9 +554,9 @@ namespace Whatsapp.Migrations
                 column: "MasterPackageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Package_ServiceID",
+                name: "IX_Package_MasterServiceServiceID",
                 table: "Package",
-                column: "ServiceID");
+                column: "MasterServiceServiceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SenderNo_ApiID",
