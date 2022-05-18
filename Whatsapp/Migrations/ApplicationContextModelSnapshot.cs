@@ -563,9 +563,6 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("IsFeature")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("PackageId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
@@ -576,8 +573,6 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ServiceID");
-
-                    b.HasIndex("PackageId");
 
                     b.ToTable("MasterService");
                 });
@@ -675,9 +670,6 @@ namespace Whatsapp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("IPAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -701,9 +693,6 @@ namespace Whatsapp.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -885,13 +874,6 @@ namespace Whatsapp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Whatsapp.Models.MasterService", b =>
-                {
-                    b.HasOne("Whatsapp.Models.Package", null)
-                        .WithMany("MasterServices")
-                        .HasForeignKey("PackageId");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.MasterServiceFeatures", b =>

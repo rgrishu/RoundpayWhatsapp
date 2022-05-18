@@ -278,12 +278,12 @@ namespace Whatsapp.Controllers
                 var ms = new PackageService(_unitOfWorkFactory);
                 if (package.Id == 0)
                 {
-                    package.CreatedOn = DateTime.Now;
+                    package.CreatedDate = DateTime.Now;
                     res = await ms.InsertPackage(package);
                 }
                 else
                 {
-                    package.UpdatedOn = DateTime.Now;
+                    package.ModifiedDate = DateTime.Now;
                     res = await ms.UpdatePackage(package);
                 }
             }
@@ -550,12 +550,12 @@ namespace Whatsapp.Controllers
                 var ms = new PackageService(_unitOfWorkFactory);
                 if (package.Id == 0)
                 {
-                    package.CreatedOn = DateTime.Now;
+                    package.CreatedDate = DateTime.Now;
                     res = await ms.InsertPackage(package);
                 }
                 else
                 {
-                    package.UpdatedOn = DateTime.Now;
+                    package.ModifiedDate = DateTime.Now;
                     res = await ms.UpdatePackage(package);
                 }
             }

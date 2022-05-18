@@ -9,7 +9,7 @@
 }
 @if (result.Count != 0)
 {
-    @foreach (var item in result)
+    @foreach (var item in result.OrderBy(a => a.Key))
     {   
         List<Int64> newlisyt = new List<Int64>();
         newlisyt2.Add(item.Key);
@@ -35,7 +35,7 @@
             <td>
                 @foreach (var service in Model.MasterServices)
                 {
-                    foreach (var item2 in item.Value)
+                    foreach (var item2 in item.Value.OrderBy(a => a.ServiceID))
                     {
                         if (service.ServiceID == item2.ServiceID)
                         {
