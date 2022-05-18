@@ -81,7 +81,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.PackageID == id);
+                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.Id == id);
                     unitofwork.Repository().Delete(data.FirstOrDefault());
                     int i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
@@ -121,7 +121,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.PackageID == id);
+                    var data = await unitofwork.Repository().FindAsync<Package>(x => x.Id == id);
                     return data.ToList();
                 }
             }

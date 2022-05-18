@@ -27,10 +27,10 @@
                 }
             </td>
             <td>
-                <button onclick="RenderForm(@item.PackageID)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
                     <i class="fa fa-edit"></i>
                 </button>
-                <a href="/Master/DeletePackage/@item.PackageID" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                <a href="/Master/DeletePackage/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
                     <i class="fa fa-trash"></i>
                 </a>
             </td>

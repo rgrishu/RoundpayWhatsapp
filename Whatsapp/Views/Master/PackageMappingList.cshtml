@@ -1,14 +1,13 @@
-﻿
-<div class="content-wrapper">
+﻿<div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Master APIs
+            Packages
         </h3>
 
     </div>
 
 
-    
+
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
@@ -18,37 +17,25 @@
                             <h4 class="card-title">
 
                                 <i class="fas fa-wrench"></i>
-                                 Master API List
+                                Package List
 
                             </h4>
-                        </div>
-                        <div class="col-sm-6 col-6">
-                          <button id="btncreateuser" class="btn btn-primary btn-sm float-right"
-                        type="submit">
-                     + Create New
-                </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="card-body">
                     
-
-
-
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
                             <thead class="thead-light">
                                 <tr>
-                                     <th>#</th>
-                                    <th>ApiTypeID</th>
-                                    <th>Name</th>
-                                    <th>Code</th>
-                                    <th>BaseUrl</th>
-                                    <th>Method</th>
+                                    <th>#</th>
+                                    <th> Action</th>
+                                    <th>Package</th>
+                                    <th>Services</th>
                                     <th>IsActive</th>
-                                    <th>IsDefault</th>
-                                    <th>Action</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,7 +60,7 @@
         function loadData() {
             $.ajax({
                 type: 'get',
-                url: '/Master/GetMasterAPIList',
+                url: '/Master/GetPackageMappingList',
                 success: function(data) {
                     $('tbody').html(data);
                 },
@@ -89,16 +76,39 @@
         function RenderForm(id) {
             $.ajax({
                 type: 'post',
-                url: '/Master/CreateMasterAPI/',
+                url: '/Master/CreatePackage/',
                 data: { id: id },
                 success: function(data) {
                     Q.alert({
-                        title: "Add Master API",
+                        title: "Add Pachage",
                         body: data,
                         width: '500px',
                     });
                 },
                 error: function(data) {
+                },
+            });
+        }
+        function SaveCurrentData(clicked_id) {
+            var ids = clicked_id.substr(clicked_id.indexOf("_") + 1);
+            var trid = $("#" + clicked_id).closest('tr').attr('id');
+            var IsActive = $('#' + clicked_id).is(":checked") ? true : false;
+            var param = {
+                ID : $("#Id_" + ids).val(), 
+                MasterPackageID : $("#PackageId_" + ids).val(),
+                ServiceID : $("#ServiceId_" + ids).val(),
+                IsActive : IsActive
+            };
+            console.log(param);
+            $.ajax({
+                type: 'post',
+                url: '/Master/AddPackageMapping/',
+                data: param,
+                success: function(response) {
+                    Q.notify(response.statusCode, response.responseText);
+                },
+                error: function(response) {
+                    console.log(response);
                 },
             });
         }

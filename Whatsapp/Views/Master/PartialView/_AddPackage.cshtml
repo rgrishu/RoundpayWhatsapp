@@ -8,11 +8,11 @@
             <div class="row">
                 @if (Model == null)
                 {
-                    <input type="hidden" asp-for="PackageID" value="0" />
+                    <input type="hidden" asp-for="Id" value="0" />
                 }
                 else
                 {
-                    <input type="hidden" asp-for="PackageID" value="@Model.PackageID" />
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
                 }
 
                 <div class="form-group col-sm-6">
