@@ -7,23 +7,22 @@ using System.Threading.Tasks;
 
 namespace Whatsapp.Models
 {
-    public class Package
+    public class Package : BaseEntity
     {
-        [Key]
-        public Int64 PackageID
-        {
-            get;
-            set;
-        }
         public string Status { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public bool IsActive { get; set; }
+        public bool IsFeature { get; set; }
         public Int64 MasterPackageID { get; set; }
-        [ForeignKey("MasterPackageID")]
         public MasterPackage MasterPackage { get; set; }
         public Int64 ServiceID { get; set; }
-        [ForeignKey("ServiceID")]
         public MasterService MasterService { get; set; }
+    }
+    public class PackageView : Package
+    {
+        public List<MasterService> MasterServices { get; set; }
+        public List<MasterPackage> MasterPackages { get; set; }
+        public List<Package> Packages { get; set; }
     }
 }

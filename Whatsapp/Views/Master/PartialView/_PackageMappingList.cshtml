@@ -1,0 +1,150 @@
+﻿@using Whatsapp.Models.Data;
+@model PackageView
+@{
+    var result = Model.Packages.GroupBy(a => a.MasterPackageID).ToDictionary(a => a.Key, e => e.Select(a => new { ServiceID = a.ServiceID, Id = a.Id, IsActive = a.IsActive }));
+    var result2 = Model.MasterPackages.GroupBy(a => a.Id).ToDictionary(a => a.Key, b => b.Select(b => b.PackageName));
+    List<Int64> newlisyt2 = new List<Int64>();
+    int i = 1;
+    int j = 0;
+}
+@if (result.Count != 0)
+{
+    @foreach (var item in result)
+    {   
+        List<Int64> newlisyt = new List<Int64>();
+        newlisyt2.Add(item.Key);
+        <tr>
+            <td>@i</td>
+            <td>
+                <button onclick="" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <a href="#" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+            <td>
+                @foreach (var package in result2)
+                {
+                    if (item.Key == package.Key)
+                    {
+                        <span>@package.Value.FirstOrDefault()</span>
+                    }
+                }
+            </td>
+            <td>
+                @foreach (var service in Model.MasterServices)
+                {
+                    foreach (var item2 in item.Value)
+                    {
+                        if (service.ServiceID == item2.ServiceID)
+                        {
+
+                            newlisyt.Add(item2.ServiceID);
+                            string check = item2.IsActive == true ? "checked" : "";
+                            <div class="my-1">
+                                <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><input type="checkbox" @check id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                    </div>
+                                    <input type="hidden" id="Id_@j" value="@item2.Id">
+                                    <input type="hidden" id="ServiceId_@j" value="@service.ServiceID">
+                                    <input type="hidden" id="PackageId_@j" value="@item.Key">
+                                    <input type="text" class="form-control" readonly id="" value="@service.ServiceName" placeholder="">
+                                </div>
+                            </div>
+                            check = String.Empty;
+                            j++;
+                            break;
+                        }
+                    }
+                }
+                @foreach (var service in Model.MasterServices)
+                {
+                    service.ServiceName.ToString();
+                    if (!newlisyt.Contains(service.ServiceID))
+                    {
+                        <div class="my-1">
+                            <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><input type="checkbox" id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                </div>
+                                <input type="hidden" id="Id_@j" value="0">
+                                <input type="hidden" id="ServiceId_@j" value="@service.ServiceID">
+                                <input type="hidden" id="PackageId_@j" value="@item.Key">
+                                <input type="text" class="form-control" readonly id="" value="@service.ServiceName" placeholder="">
+                            </div>
+                        </div>
+                        j++;
+                    }
+                }
+            </td>
+            <td>
+                <label class="switch mt-2">
+                    <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                    <span class="slider round"></span>
+                </label>
+            </td>
+            <td>@Model.Status</td>
+        </tr>
+        i++;
+    }
+}
+@if (result2.Count > result.Count && result2 != null)
+{
+    @foreach (var item in result2)
+    {
+        if (!newlisyt2.Contains(item.Key))
+        {
+
+            <tr>
+                <td>@i</td>
+                <td>
+                    <button onclick="RenderForm()" class="btn btn-primary btn-sm editbtn" data-toggle="modal" data-target="#exampleModalCenter">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <a href="/Master/DeletePackage/" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+                <td>
+                    @item.Value.FirstOrDefault()
+                </td>
+                <td>
+                    @foreach (var item2 in Model.MasterServices)
+                    {
+                        <div class="my-1">
+                            <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><input type="checkbox" id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                </div>
+                                <input type="hidden" id="Id_@j" value="0">
+                                <input type="hidden" id="ServiceId_@j" value="@item2.ServiceID">
+                                <input type="hidden" id="PackageId_@j" value="@item.Key">
+                                <input type="text" class="form-control" readonly id="" value="@item2.ServiceName" placeholder="">
+                            </div>
+                        </div>
+                        j++;
+                    }
+                </td>
+                <td>
+                    <label class="switch mt-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive">
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+                <td>
+                    <label class="switch mt-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsFeature">
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+                <td>@Model.Status</td>
+            </tr>
+        }
+        i++;
+    }
+}

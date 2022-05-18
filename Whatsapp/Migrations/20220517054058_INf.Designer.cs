@@ -10,23 +10,8 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516132925_InitialHG.Designer.cs
-<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
-<<<<<<<< HEAD:Whatsapp/Migrations/20220516111952_InitialsMigrations.Designer.cs
-    [Migration("20220516111952_InitialsMigrations")]
-    partial class InitialsMigrations
-========
-    [Migration("20220516122142_initiatedb")]
-    partial class initiatedb
->>>>>>>> 16_05_02_R2:Whatsapp/Migrations/20220516122142_initiatedb.Designer.cs
-=======
-    [Migration("20220516132925_InitialHG")]
-    partial class InitialHG
->>>>>>> origin/SenderNumber:Whatsapp/Migrations/20220516132925_InitialHG.Designer.cs
-========
-    [Migration("20220516132233_indb")]
-    partial class indb
->>>>>>>> 16_05_2022_r3:Whatsapp/Migrations/20220516132233_indb.Designer.cs
+    [Migration("20220517054058_INf")]
+    partial class INf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -580,6 +565,9 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("IsFeature")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("PackageId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
@@ -590,6 +578,8 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ServiceID");
+
+                    b.HasIndex("PackageId");
 
                     b.ToTable("MasterService");
                 });
@@ -679,19 +669,34 @@ namespace Whatsapp.Migrations
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
                 {
-                    b.Property<long>("PackageID")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFeature")
+                        .HasColumnType("bit");
+
                     b.Property<long>("MasterPackageID")
                         .HasColumnType("bigint");
+
+                    b.Property<long?>("MasterServiceServiceID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("ServiceID")
                         .HasColumnType("bigint");
@@ -702,11 +707,11 @@ namespace Whatsapp.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PackageID");
+                    b.HasKey("Id");
 
                     b.HasIndex("MasterPackageID");
 
-                    b.HasIndex("ServiceID");
+                    b.HasIndex("MasterServiceServiceID");
 
                     b.ToTable("Package");
                 });
@@ -884,6 +889,13 @@ namespace Whatsapp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Whatsapp.Models.MasterService", b =>
+                {
+                    b.HasOne("Whatsapp.Models.Package", null)
+                        .WithMany("MasterServices")
+                        .HasForeignKey("PackageId");
+                });
+
             modelBuilder.Entity("Whatsapp.Models.MasterServiceFeatures", b =>
                 {
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
@@ -903,9 +915,7 @@ namespace Whatsapp.Migrations
 
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
-                        .HasForeignKey("ServiceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MasterServiceServiceID");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>

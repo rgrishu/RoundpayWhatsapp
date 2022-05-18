@@ -258,7 +258,7 @@ namespace Whatsapp.Controllers
             if (id != 0)
             {
                 mf = await _appcontext.Package
-                    .Where(h => h.PackageID == id)
+                    .Where(h => h.Id == id)
                     .FirstOrDefaultAsync();
             }
             ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
@@ -276,7 +276,7 @@ namespace Whatsapp.Controllers
             if (ModelState.IsValid)
             {
                 var ms = new PackageService(_unitOfWorkFactory);
-                if (package.PackageID == 0)
+                if (package.Id == 0)
                 {
                     package.CreatedOn = DateTime.Now;
                     res = await ms.InsertPackage(package);
@@ -446,7 +446,6 @@ namespace Whatsapp.Controllers
         #endregion
         //Master Api Region Ends
 
-
         //Sendor Number Region Starts
         #region Sender Number Region Starts
         [Route("SenderNoList")]
@@ -516,5 +515,53 @@ namespace Whatsapp.Controllers
         }
         #endregion
         //Sendor Number Region Ends
+
+        // Package Mapping region Starts
+        #region Package Mapping
+        [Route("PackageMappingList")]
+        public IActionResult PackageMappingList()
+        {
+            ViewData["Title"] = "Package Master";
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPackageMappingList()
+        {
+            //var ms = new PackageService(_unitOfWorkFactory);
+            //IEnumerable<Package> mf = await ms.GetPackageList();
+            // ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            List<Package> packages = null;
+            PackageView packageView = new PackageView();
+            packageView.MasterPackages = await _appcontext.MasterPackage.ToListAsync();
+            packageView.MasterServices = await _appcontext.MasterService.ToListAsync();
+            packageView.Packages = await _appcontext.Package.ToListAsync();
+            return PartialView("~/Views/Master/PartialView/_PackageMappingList.cshtml", packageView);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPackageMapping(Package package)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (ModelState.IsValid)
+            {
+                var ms = new PackageService(_unitOfWorkFactory);
+                if (package.Id == 0)
+                {
+                    package.CreatedOn = DateTime.Now;
+                    res = await ms.InsertPackage(package);
+                }
+                else
+                {
+                    package.UpdatedOn = DateTime.Now;
+                    res = await ms.UpdatePackage(package);
+                }
+            }
+            return Json(res);
+        }
+        #endregion
+        // Package Mapping region ends
     }
 }
