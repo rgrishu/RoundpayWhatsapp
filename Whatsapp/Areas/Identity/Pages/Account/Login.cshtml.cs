@@ -99,8 +99,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    user = _userManager.Users.Where(x => x.Email == Input.Email).FirstOrDefault();
-                    if (user.IsOtp)
+                    user = _userManager.Users.Where(x => x.Email == Input.Email).FirstOrDefault();                    if (user.IsOtp)
                     {
                         if (Input.OTP > 0)
                         {
