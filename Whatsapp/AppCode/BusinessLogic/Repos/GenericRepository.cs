@@ -50,6 +50,8 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
+
+
         public void Delete<T>(T entity) where T : class
         {
             _dbContext.Set<T>().Remove(entity);
@@ -118,5 +120,6 @@ namespace WAEFCore22.AppCode.BusinessLogic.Repos
                 throw;
             }
         }
+      
     }
 }

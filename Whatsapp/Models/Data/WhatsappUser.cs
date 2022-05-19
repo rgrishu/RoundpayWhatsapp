@@ -13,6 +13,8 @@ namespace Whatsapp.Models.Data
     public class WhatsappUser : IdentityUser<int>
     {
         public string Name { get; set; }
+        public int WID { get; set; }
+        public bool IsOtp { get; set; }
     }
  
    

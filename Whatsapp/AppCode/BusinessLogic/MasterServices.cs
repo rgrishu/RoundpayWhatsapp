@@ -134,5 +134,43 @@ namespace WAEFCore22.AppCode.BusinessLogic
                 throw;
             }
         }
+
+
+        public async Task<CompanyProfile> GetCompanyProfile()
+        {
+            try
+            {
+          
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().SingleOrDefaultAsync<CompanyProfile>();
+                    return data;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public async Task<MessageTemplate> GetMessageTemplate()
+        {
+            try
+            {
+
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().SingleOrDefaultAsync<MessageTemplate>();
+                    return data;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

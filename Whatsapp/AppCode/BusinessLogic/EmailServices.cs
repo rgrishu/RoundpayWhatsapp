@@ -28,17 +28,19 @@ namespace WAEFCore22.AppCode.BusinessLogic
         }
 
 
-        public async Task<bool> SendMail(string Name, string Email, string Subject)
+        public async Task<bool> SendMail(AlertReplacementModel param,string template)
         {
             bool IsSent = true;
             using (var unitofwork = _unitOfWorkFactory.Create())
             {
                 var data = await unitofwork.Repository().SingleOrDefaultAsync<EmailSetting>(x => x.IsDefault && x.IsActive);
+                FormatedMessages fm = new FormatedMessages();
+                string msg = fm.GetFormatedMessage(template, param);
                 _emailService.Send(
                              new EmailMessage
                              {
-                                 Content = "Test",
-                                 Subject = Subject,
+                                 Content = msg,
+                                 Subject = param.Subject,
 
                                  FromAddresses = new List<EmailAddress> {
                             new EmailAddress{
@@ -48,8 +50,8 @@ namespace WAEFCore22.AppCode.BusinessLogic
                              },
                                  ToAddresses = new List<EmailAddress> {
                             new EmailAddress{
-                                    Address =Email,
-                                    Name =Name,
+                                    Address =param.EmailID,
+                                    Name =param.UserName,
                                 }
                              }
                              }, new EmailConfiguration

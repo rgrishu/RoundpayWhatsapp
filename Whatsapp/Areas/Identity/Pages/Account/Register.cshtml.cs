@@ -7,12 +7,14 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Whatsapp.AppCode.HelperClass;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Areas.Identity.Pages.Account
@@ -23,16 +25,18 @@ namespace Whatsapp.Areas.Identity.Pages.Account
         private readonly SignInManager<WhatsappUser> _signInManager;
         private readonly UserManager<WhatsappUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-       // private readonly IEmailSender _emailSender;
+        // private readonly IEmailSender _emailSender;
+        private IHttpContextAccessor Accessor;
 
         public RegisterModel(
             UserManager<WhatsappUser> userManager,
             SignInManager<WhatsappUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger, IHttpContextAccessor _accessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this.Accessor = _accessor;
             //_emailSender = emailSender;
         }
 
@@ -48,7 +52,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
 
 
             [Required]
-           
+
             [Display(Name = "Name")]
             public string Name { get; set; }
 
@@ -83,13 +87,15 @@ namespace Whatsapp.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            string wid = this.Accessor.HttpContext.Request.Cookies["WID"];
+            wid = HashEncryption.O.Decrypt(wid);
+            if (ModelState.IsValid && !string.IsNullOrEmpty(wid))
             {
-                var user = new WhatsappUser { UserName = Input.Email, Email = Input.Email,PhoneNumber=Input.Phone,Name=Input.Name,EmailConfirmed=true};
+                var user = new WhatsappUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.Phone, Name = Input.Name, EmailConfirmed = true,WID=Convert.ToInt32(wid)};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    var res = await _userManager.AddToRoleAsync(user,"Admin");
+                    var res = await _userManager.AddToRoleAsync(user, "Admin");
                     _logger.LogInformation("User created a new account with password.");
 
                     //Send Email And Whatsappp For Users As Confirmation
@@ -105,11 +111,13 @@ namespace Whatsapp.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
             return Page();
         }
     }

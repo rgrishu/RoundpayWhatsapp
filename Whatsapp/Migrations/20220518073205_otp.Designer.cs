@@ -10,13 +10,8 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-<<<<<<<< HEAD:Whatsapp/Migrations/20220518130903_INidids.Designer.cs
-    [Migration("20220518130903_INidids")]
-    partial class INidids
-========
-    [Migration("20220517070455_inititatedb")]
-    partial class inititatedb
->>>>>>>> 17_05_2022R:Whatsapp/Migrations/20220517070455_inititatedb.Designer.cs
+    [Migration("20220518073205_otp")]
+    partial class otp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -386,6 +381,9 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("IsOtp")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -422,6 +420,9 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -442,16 +443,19 @@ namespace Whatsapp.Migrations
                             ConcurrencyStamp = "6879d998-a62e-4219-b24d-c47191f3c7a4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
+                            IsOtp = 0,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 17, 12, 34, 54, 665, DateTimeKind.Unspecified).AddTicks(8735), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 18, 13, 2, 4, 447, DateTimeKind.Unspecified).AddTicks(1455), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
                             PasswordHash = "AQAAAAEAACcQAAAAEAyx8BWY/9CpOotUEyCWW7oPN/2HbxyjdkQSxPku80tUrHaumc7f45SExD+xgPy9MA==",
                             PhoneNumber = "7777777777",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "DLE2VEKKAJXRDQLF3FHGWUKM6EO3JCZQ",
                             TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
+                            UserName = "admin@gmail.com",
+                            WID = 0
                         });
                 });
 
@@ -854,31 +858,19 @@ namespace Whatsapp.Migrations
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("PackageID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("IPAddress")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFeature")
-                        .HasColumnType("bit");
-
                     b.Property<long>("MasterPackageID")
                         .HasColumnType("bigint");
-
-                    b.Property<long?>("MasterServiceServiceID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<long>("ServiceID")
                         .HasColumnType("bigint");
@@ -886,11 +878,14 @@ namespace Whatsapp.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PackageID");
 
                     b.HasIndex("MasterPackageID");
 
-                    b.HasIndex("MasterServiceServiceID");
+                    b.HasIndex("ServiceID");
 
                     b.ToTable("Package");
                 });
@@ -1087,7 +1082,9 @@ namespace Whatsapp.Migrations
 
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
-                        .HasForeignKey("MasterServiceServiceID");
+                        .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>

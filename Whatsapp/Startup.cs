@@ -1,4 +1,5 @@
 using EmailService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ using Whatsapp.Models;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.ViewModel;
 using Whatsapp.Services;
+using Whatsapp.Services.Interface;
 
 namespace Whatsapp
 {
@@ -50,8 +52,18 @@ namespace Whatsapp
             services.AddControllersWithViews();
             services.AddScoped<IEmailService, EmailFactory>();
             services.AddScoped<IEmailConfiguration, EmailConfiguration>();
+            services.AddScoped<IMasterWebsiteService, MasterWebsiteService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+         
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
@@ -82,6 +94,7 @@ namespace Whatsapp
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -89,6 +102,7 @@ namespace Whatsapp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }
