@@ -10,8 +10,8 @@ using Whatsapp.Models.Data;
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220517045823_initiatedb")]
-    partial class initiatedb
+    [Migration("20220518073205_otp")]
+    partial class otp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,6 +160,13 @@ namespace Whatsapp.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -212,6 +219,103 @@ namespace Whatsapp.Migrations
                     b.HasKey("RequestID");
 
                     b.ToTable("ApiRequestResponseLog");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.CompanyProfile", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeveloperKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailSupport")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailTechnical")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Facebook")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GSTIN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileNo2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileSupport")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PAN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Twitter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyProfile");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CompanyAddress = "3/553 Station Road Near Aryan Restaurant Vivek Khand Gomtinagar Lucknow 226010",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeveloperKey = "9c34176d6b9710399c3cf3128acc6b24",
+                            Email = "Info@mobilet.com",
+                            EmailSupport = "9807253370@gmail.com",
+                            EmailTechnical = "support@roundpay.in",
+                            Facebook = "",
+                            GSTIN = "",
+                            HeaderTitle = "Mobile",
+                            Instagram = "",
+                            MobileNo = "7777777777",
+                            MobileNo2 = "",
+                            MobileSupport = "9807253370",
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Roundpay Techno Media Pvt Ltd",
+                            PAN = "",
+                            State = "NA",
+                            Twitter = "",
+                            WID = 1
+                        });
                 });
 
             modelBuilder.Entity("Whatsapp.Models.Contacts", b =>
@@ -277,6 +381,9 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("IsOtp")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -313,6 +420,9 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<int>("WID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -324,6 +434,29 @@ namespace Whatsapp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6879d998-a62e-4219-b24d-c47191f3c7a4",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            IsOtp = 0,
+                            LockoutEnabled = false,
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 18, 13, 2, 4, 447, DateTimeKind.Unspecified).AddTicks(1455), new TimeSpan(0, 5, 30, 0, 0)),
+                            Name = "Admin",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAyx8BWY/9CpOotUEyCWW7oPN/2HbxyjdkQSxPku80tUrHaumc7f45SExD+xgPy9MA==",
+                            PhoneNumber = "7777777777",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "DLE2VEKKAJXRDQLF3FHGWUKM6EO3JCZQ",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@gmail.com",
+                            WID = 0
+                        });
                 });
 
             modelBuilder.Entity("Whatsapp.Models.EmailSetting", b =>
@@ -603,6 +736,67 @@ namespace Whatsapp.Migrations
                     b.HasIndex("ServiceID");
 
                     b.ToTable("MasterServiceFeatures");
+                });
+
+            modelBuilder.Entity("Whatsapp.Models.MasterWebsite", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntryBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeactivateByAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSSL")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ModifyBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WebsiteName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterWebsite");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EntryBy = 0,
+                            IsActive = true,
+                            IsDeactivateByAdmin = false,
+                            IsSSL = false,
+                            ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ModifyBy = 0,
+                            Remark = "RoundpayWhatsapp.com",
+                            UserId = 1,
+                            WebsiteName = "RoundpayWhatsapp.com"
+                        });
                 });
 
             modelBuilder.Entity("Whatsapp.Models.MessageTemplate", b =>

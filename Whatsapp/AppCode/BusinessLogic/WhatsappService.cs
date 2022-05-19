@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic.ApiService;
 using WAEFCore22.AppCode.Interface;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.UtilityModel;
 using Whatsapp.Models.ViewModel;
 
 namespace WAEFCore22.AppCode.BusinessLogic
@@ -34,10 +36,10 @@ namespace WAEFCore22.AppCode.BusinessLogic
 
                 throw;
             }
-            
+
         }
 
-        public async Task<IEnumerable<WhatsappUser>> GetAllUsers ()
+        public async Task<IEnumerable<WhatsappUser>> GetAllUsers()
         {
             try
             {
@@ -54,24 +56,35 @@ namespace WAEFCore22.AppCode.BusinessLogic
             }
         }
 
-        public async Task<SendSessionMessageResponse> WhatsappAlertHub(WhatsappConversation wc)
+        public async Task<SendSessionMessageResponse> WhatsappAlertHub(AlertReplacementModel param, string template)
         {
             //Whatsapp AlertHub Api Text and MEdia Send  In a Api
             var aw = new ApiWhatsappService(_unitOfWorkFactory);
-            var objAlertHub = new WhatsappAPIAlertHub
+            FormatedMessages fm = new FormatedMessages();
+            string msg = fm.GetFormatedMessage(template, param);
+            using (var unitofwork = _unitOfWorkFactory.Create())
             {
-                jid = wc.ContactId,
-                messagetype = wc.Type == "" ? "" : wc.Type.ToUpper(),
-                content = wc.Text,
-                APIURL = "http://api.alerthub.in/api/send?apiusername=roundp_99y767&apipassword=P-Ji@r]y@ydnRjF!&requestid={RequestID}&jid={COUNTRY}{TO}&content={MESSAGE}&messagetype=TEXT&from={SCANNO}&quotemsgid={QUOTEID}&quotemsg={QUOTEMSG}&quotedmsgfrom={REPLYJID}",
-                ScanNo = "918312345678",
-                ConversationID =String.Empty,
-                QuoteMsg = String.Empty,
-                ReplyJID = String.Empty
-            };
-            return await aw.AlertHub_SendSessionMessage(objAlertHub);
+                var data = await unitofwork.Repository().SingleOrDefaultAsync<MasterApi>(x => x.IsDefault && x.IsActive);
+                var wc = new WhatsappConversation()
+                {
+                    ContactId = param.UserMobileNo.Length == 10 ? "91" + param.UserMobileNo : param.UserMobileNo,
+                    SenderName = param.UserName,
+                    Text = msg,
+                    Type = "Text"
+                };
+                var objAlertHub = new WhatsappAPIAlertHub
+                {
+                    jid = wc.ContactId,
+                    messagetype = wc.Type == "" ? "" : wc.Type.ToUpper(),
+                    content = wc.Text,
+                    APIURL = data.BaseUrl,
+                    ScanNo = "918312345678",
+                    ConversationID = String.Empty,
+                    QuoteMsg = String.Empty,
+                    ReplyJID = String.Empty
+                };
+                return await aw.AlertHub_SendSessionMessage(objAlertHub);
+            }
         }
-
-
     }
 }

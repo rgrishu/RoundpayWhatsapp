@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Whatsapp.Migrations
 {
-    public partial class initiatedb : Migration
+    public partial class inititatedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,6 +83,38 @@ namespace Whatsapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_City", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompanyProfile",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    WID = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    MobileNo = table.Column<string>(nullable: true),
+                    MobileNo2 = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    EmailSupport = table.Column<string>(nullable: true),
+                    Facebook = table.Column<string>(nullable: true),
+                    Twitter = table.Column<string>(nullable: true),
+                    Instagram = table.Column<string>(nullable: true),
+                    DeveloperKey = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    CompanyAddress = table.Column<string>(nullable: true),
+                    PAN = table.Column<string>(nullable: true),
+                    GSTIN = table.Column<string>(nullable: true),
+                    HeaderTitle = table.Column<string>(nullable: true),
+                    MobileSupport = table.Column<string>(nullable: true),
+                    EmailTechnical = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompanyProfile", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,6 +246,29 @@ namespace Whatsapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MasterService", x => x.ServiceID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasterWebsite",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IPAddress = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
+                    WebsiteName = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    EntryBy = table.Column<int>(nullable: false),
+                    ModifyBy = table.Column<int>(nullable: false),
+                    IsDeactivateByAdmin = table.Column<bool>(nullable: false),
+                    IsSSL = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterWebsite", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -483,6 +538,16 @@ namespace Whatsapp.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1, 0, "6879d998-a62e-4219-b24d-c47191f3c7a4", "admin@gmail.com", true, false, new DateTimeOffset(new DateTime(2022, 5, 17, 12, 34, 54, 665, DateTimeKind.Unspecified).AddTicks(8735), new TimeSpan(0, 5, 30, 0, 0)), "Admin", null, "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEAyx8BWY/9CpOotUEyCWW7oPN/2HbxyjdkQSxPku80tUrHaumc7f45SExD+xgPy9MA==", "7777777777", true, "DLE2VEKKAJXRDQLF3FHGWUKM6EO3JCZQ", false, "admin@gmail.com" });
+
+            migrationBuilder.InsertData(
+                table: "CompanyProfile",
+                columns: new[] { "Id", "CompanyAddress", "CreatedDate", "DeveloperKey", "Email", "EmailSupport", "EmailTechnical", "Facebook", "GSTIN", "HeaderTitle", "IPAddress", "Instagram", "MobileNo", "MobileNo2", "MobileSupport", "ModifiedDate", "Name", "PAN", "State", "Twitter", "WID" },
+                values: new object[] { 1L, "3/553 Station Road Near Aryan Restaurant Vivek Khand Gomtinagar Lucknow 226010", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9c34176d6b9710399c3cf3128acc6b24", "Info@mobilet.com", "9807253370@gmail.com", "support@roundpay.in", "", "", "Mobile", null, "", "7777777777", "", "9807253370", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Roundpay Techno Media Pvt Ltd", "", "NA", "", 1 });
+
+            migrationBuilder.InsertData(
                 table: "MasterApiType",
                 columns: new[] { "Id", "ApiTypeName", "CreatedDate", "IPAddress", "ModifiedDate" },
                 values: new object[,]
@@ -500,6 +565,16 @@ namespace Whatsapp.Migrations
                     { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Registration", null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Registration Type" },
                     { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP", null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "OTP Type" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "MasterWebsite",
+                columns: new[] { "Id", "CreatedDate", "EntryBy", "IPAddress", "IsActive", "IsDeactivateByAdmin", "IsSSL", "ModifiedDate", "ModifyBy", "Remark", "UserId", "WebsiteName" },
+                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null, true, false, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "RoundpayWhatsapp.com", 1, "RoundpayWhatsapp.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -585,6 +660,9 @@ namespace Whatsapp.Migrations
                 name: "City");
 
             migrationBuilder.DropTable(
+                name: "CompanyProfile");
+
+            migrationBuilder.DropTable(
                 name: "Contacts");
 
             migrationBuilder.DropTable(
@@ -598,6 +676,9 @@ namespace Whatsapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "MasterServiceFeatures");
+
+            migrationBuilder.DropTable(
+                name: "MasterWebsite");
 
             migrationBuilder.DropTable(
                 name: "MessageTemplate");

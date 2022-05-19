@@ -37,12 +37,17 @@ namespace Whatsapp.Models.Data
         public DbSet<MasterMessageFormat> MasterMessageFormat { get; set; }
        
         public DbSet<MessageTemplate> MessageTemplate { get; set; }
+        public DbSet<MasterWebsite> MasterWebsite { get; set; }
+        public DbSet<CompanyProfile> CompanyProfile { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.HasDefaultSchema("blogging");
             base.OnModelCreating(modelBuilder);
             modelBuilder.SeedRoles();
             modelBuilder.SeedMasterApiType();
+            modelBuilder.SeedUserInfo();
+            modelBuilder.SeedUserRoles();
+            modelBuilder.SeedMasterWebSite();
+            modelBuilder.SeedCompanyProfile();
             modelBuilder.SeedMasterMessageFormat();
         }
 

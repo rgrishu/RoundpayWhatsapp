@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220517075504_inititatedb2")]
+    partial class inititatedb2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -379,9 +381,6 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IsOtp")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -441,9 +440,8 @@ namespace Whatsapp.Migrations
                             ConcurrencyStamp = "6879d998-a62e-4219-b24d-c47191f3c7a4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
-                            IsOtp = 0,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 18, 13, 2, 4, 447, DateTimeKind.Unspecified).AddTicks(1455), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 17, 13, 25, 3, 197, DateTimeKind.Unspecified).AddTicks(8676), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",

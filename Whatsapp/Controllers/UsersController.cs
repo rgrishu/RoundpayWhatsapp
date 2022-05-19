@@ -11,11 +11,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.Extensions;
 using Whatsapp.Interface;
 using Whatsapp.Models;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.UtilityModel;
 using Whatsapp.Models.ViewModel;
+using Whatsapp.Services.Interface;
 
 namespace Whatsapp.Controllers
 {
@@ -29,7 +31,9 @@ namespace Whatsapp.Controllers
         private readonly UserManager<WhatsappUser> _userManager;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEmailService _emailService;
-        public UsersController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory, IEmailService emailService)
+       private readonly IMasterWebsiteService _masterWebsiteService;
+        
+        public UsersController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory, IEmailService emailService, IMasterWebsiteService masterWebsiteService)
         {
             _logger = logger;
             _appcontext = appcontext;
@@ -37,11 +41,13 @@ namespace Whatsapp.Controllers
             _userManager = userManager;
             _unitOfWorkFactory = unitOfWorkFactory;
             _emailService = emailService;
+            _masterWebsiteService = masterWebsiteService;
         }
         [Route("UsersList")]
         [HttpGet]
         public IActionResult UsersList()
         {
+            var WID = User.GetLoggedInWID();
             return View();
         }
 
@@ -92,39 +98,41 @@ namespace Whatsapp.Controllers
             {
                 if (user != null)
                 {
-                    var newUser = new WhatsappUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.PhoneNumber, Name = user.Name, EmailConfirmed = true };
+                    var WID = User.GetLoggedInWID();
+                    var newUser = new WhatsappUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.PhoneNumber, Name = user.Name, EmailConfirmed = true, WID = WID };
                     var password = "Aaz@" + user.Name.Substring(4) + user.PhoneNumber.Substring(4);
                     var result = await _userManager.CreateAsync(newUser, password);
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(newUser, user.Role);
-                        #region SocialAlert
-                        #region EmailSend
-                        EmailServices es = new EmailServices(_unitOfWorkFactory, _emailService);
-                        es.SendMail(user.Name, user.Email, "Registration");
-                        #endregion
-
-                        #region SMSSend
-                        //SMSService ss = new SMSService(_unitOfWorkFactory);
-                        var smsreq = new AlertReplacementModel()
+                        var userId = User.GetLoggedInUserId<int>();
+                        MasterServices ms = new MasterServices(_unitOfWorkFactory);
+                        var cp = _masterWebsiteService.masterWebsite().Result;
+                        var mt= ms.GetMessageTemplate().Result;
+                        var param = new AlertReplacementModel()
                         {
                             UserMobileNo = user.PhoneNumber,
                             Password = password,
+                            PinPassword = password,
+                            CommonStr = user.Email,
+                            EmailID = user.Email,
+                            UserName = user.Name,
+                            Company = cp.ComapnyName,
+                            CompanyDomain = cp.WebsiteName,
+                            Subject = "Registration"
                         };
-                        //ss.RegistrationSMS(smsreq);
+                        #region SocialAlert
+                        #region EmailSend
+                        EmailServices es = new EmailServices(_unitOfWorkFactory, _emailService);
+                        await es.SendMail(param, mt.EmailTemplate);
                         #endregion
-
-
+                        #region SMSSend
+                        SMSService ss = new SMSService(_unitOfWorkFactory);
+                        await ss.RegistrationSMS(param);
+                        #endregion
                         #region WhatsappSend
                         WhatsappService ws = new WhatsappService(_unitOfWorkFactory);
-                        var wc = new WhatsappConversation()
-                        {
-                            ContactId = user.PhoneNumber.Length == 10 ? "91" + user.PhoneNumber : user.PhoneNumber,
-                            SenderName = user.Name,
-                            Text = $"Welcome Your UserID Is { user.Email} and Password IS {password} ",
-                            Type = "Text"
-                        };
-                        await ws.WhatsappAlertHub(wc);
+                        await ws.WhatsappAlertHub(param, mt.WhatsappTemplate);
                         #endregion
                         #endregion
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220517070455_inititatedb")]
+    partial class inititatedb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -379,9 +381,6 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IsOtp")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -418,9 +417,6 @@ namespace Whatsapp.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<int>("WID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -441,19 +437,16 @@ namespace Whatsapp.Migrations
                             ConcurrencyStamp = "6879d998-a62e-4219-b24d-c47191f3c7a4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
-                            IsOtp = 0,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 18, 13, 2, 4, 447, DateTimeKind.Unspecified).AddTicks(1455), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 17, 12, 34, 54, 665, DateTimeKind.Unspecified).AddTicks(8735), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
                             PasswordHash = "AQAAAAEAACcQAAAAEAyx8BWY/9CpOotUEyCWW7oPN/2HbxyjdkQSxPku80tUrHaumc7f45SExD+xgPy9MA==",
                             PhoneNumber = "7777777777",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "DLE2VEKKAJXRDQLF3FHGWUKM6EO3JCZQ",
                             TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com",
-                            WID = 0
+                            UserName = "admin@gmail.com"
                         });
                 });
 
