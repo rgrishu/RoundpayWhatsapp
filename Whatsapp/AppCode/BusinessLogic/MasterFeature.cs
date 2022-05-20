@@ -91,22 +91,6 @@ namespace Whatsapp.AppCode.BusinessLogic
         }
 
 
-        public async Task<IEnumerable<MasterServiceFeatures>> GetAllFeature()
-        {
-            try
-            {
-                using (var unitofwork = _unitOfWorkFactory.Create())
-                {
-                    var data = await unitofwork.Repository().FindAllRecords<MasterServiceFeatures>();
-                    return data.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
 
         public async Task<Response> Delete(int id)
         {

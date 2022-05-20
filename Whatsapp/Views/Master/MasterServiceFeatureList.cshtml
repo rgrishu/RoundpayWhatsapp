@@ -1,91 +1,89 @@
-﻿
-<div class="content-wrapper">
+﻿<div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
             Features
         </h3>
-        
+
     </div>
 
     <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-6 col-6">
-                            <h4 class="card-title">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 col-6">
+                    <h4 class="card-title">
 
-                                <i class="fas fa-wrench"></i>
-                                 Feature List
+                        <i class="fas fa-wrench"></i>
+                        Feature List
 
-                            </h4>
-                        </div>
-                        <div class="col-sm-6 col-6 text-right">
-                          <button class="btn btn-primary btn-sm Renderform" onclick="RenderForm(0)" data-toggle="modal" data-target="#exampleModalCenter">+ Create New</button>
-                        </div>
-                    </div>
+                    </h4>
                 </div>
-
-                <div class="card-body">
-                    
-                    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-light">
-                <tr>
-                    <th>#</th>
-                    <th>Service Name</th>
-                    <th>Feature Name</th>
-                    <th>Remark</th>
-                    <th>IsActive</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-
-
-                    
+                <div class="col-sm-6 col-6 text-right">
+                    <button class="btn btn-primary btn-sm Renderform" onclick="RenderForm(0)" data-toggle="modal" data-target="#exampleModalCenter">+ Create New</button>
                 </div>
             </div>
-    
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Service Name</th>
+                            <th>Feature Name</th>
+                            <th>Remark</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
 <!-- content-wrapper ends -->
 @section scripts{
-<script>
-    $(document).ready(function () {
-        loadData();
-    });
-    function loadData(){
-         $.ajax({
-               type: 'get',
+    <script>
+        $(document).ready(function() {
+            loadData();
+        });
+        function loadData() {
+            $.ajax({
+                type: 'get',
                 url: '/Master/GetMasterServiceFeatureList',
-                success: function (data) {
-                      $('tbody').html(data);
+                success: function(data) {
+                    $('tbody').html(data);
                 },
-                error: function (data) {
+                error: function(data) {
                     console.log('An error occurred.');
                     console.log(data);
                 },
-          });
-    }
-    function RenderForm(id){
-        $.ajax({
-               type: 'get',
+            });
+        }
+        function RenderForm(id) {
+            $.ajax({
+                type: 'get',
                 url: '/Master/CreateServiceFeature/' + id,
-                success: function (data) {
+                success: function(data) {
                     Q.alert({
                         title: "Add Feature",
                         body: data,
                         width: '500px',
                     });
                 },
-                error: function (data) {
-                   
-                },
-          });
-    }
+                error: function(data) {
 
-</script>
+                },
+            });
+        }
+
+    </script>
 }
+
+

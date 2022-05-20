@@ -116,7 +116,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<IEnumerable<MasterPackage>> GetAllMasterPackage()
+        public async Task<List<MasterPackage>> GetAllMasterPackage()
         {
             try
             {

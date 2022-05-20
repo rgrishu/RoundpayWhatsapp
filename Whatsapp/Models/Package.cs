@@ -21,6 +21,7 @@ namespace Whatsapp.Models
     {
         public List<MasterService> MasterServices { get; set; }
         public List<MasterPackage> MasterPackages { get; set; }
+        public List<MasterServiceFeatures> MasterServiceFeatures { get; set; }
         public List<Package> Packages { get; set; }
     }
 }

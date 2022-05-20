@@ -40,7 +40,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -66,7 +66,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -94,7 +94,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -110,7 +110,7 @@ namespace WAEFCore22.AppCode.BusinessLogic
                     return data.ToList();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -118,17 +118,17 @@ namespace WAEFCore22.AppCode.BusinessLogic
 
         }
 
-        public async Task<IEnumerable<MasterService>> GetAllService ()
+        public async Task<List<MasterService>> GetAllService()
         {
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAllRecords<MasterService>();
+                    var data = await unitofwork.Repository().Get<MasterService>();
                     return data.ToList();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

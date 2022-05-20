@@ -127,11 +127,11 @@ namespace Whatsapp.Controllers
                     .Where(h => h.FeatureID == id)
                     .FirstOrDefaultAsync();
             }
-            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
+            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService.Where(a => a.IsFeature), "ServiceID", "ServiceName");
             return PartialView("~/Views/Master/PartialView/_AddFeature.cshtml", mf);
         }
         [HttpPost]
-        public async Task<IActionResult> AddFeature(MasterServiceFeatures masterService)
+        public async Task<IActionResult> AddFeature(MasterServiceFeatures masterServiceFeatures)
         {
             var res = new Response()
             {
@@ -141,13 +141,13 @@ namespace Whatsapp.Controllers
             var ms = new MasterFeature(_unitOfWorkFactory);
             if (ModelState.IsValid)
             {
-                if (masterService.FeatureID == 0)
+                if (masterServiceFeatures.FeatureID == 0)
                 {
-                    res = await ms.InsertMasterFeature(masterService);
+                    res = await ms.InsertMasterFeature(masterServiceFeatures);
                 }
                 else
                 {
-                    res = await ms.UpdateMasterFeature(masterService);
+                    res = await ms.UpdateMasterFeature(masterServiceFeatures);
                 }
             }
             return Json(res);
@@ -181,7 +181,7 @@ namespace Whatsapp.Controllers
         public async Task<IActionResult> GetMasterPackageList()
         {
             var ms = new MasterPackageService(_unitOfWorkFactory);
-            IEnumerable<MasterPackage> mf = await ms.GetAllMasterPackage();
+            List<MasterPackage> mf = await ms.GetAllMasterPackage();
             return PartialView("~/Views/Master/PartialView/_MasterPackageList.cshtml", mf);
         }
         public async Task<IActionResult> CreateMasterPackage(int? id)
@@ -527,14 +527,12 @@ namespace Whatsapp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPackageMappingList()
         {
-            //var ms = new PackageService(_unitOfWorkFactory);
+            var ms = new PackageService(_unitOfWorkFactory);
             //IEnumerable<Package> mf = await ms.GetPackageList();
             // ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
-            List<Package> packages = null;
+            //List<Package> packages = null;
             PackageView packageView = new PackageView();
-            packageView.MasterPackages = await _appcontext.MasterPackage.ToListAsync();
-            packageView.MasterServices = await _appcontext.MasterService.ToListAsync();
-            packageView.Packages = await _appcontext.Package.ToListAsync();
+            packageView = await ms.GetPackageView();
             return PartialView("~/Views/Master/PartialView/_PackageMappingList.cshtml", packageView);
         }
         [HttpPost]
