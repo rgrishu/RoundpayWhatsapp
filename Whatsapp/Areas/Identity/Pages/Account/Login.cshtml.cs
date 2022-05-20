@@ -80,6 +80,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             ReturnUrl = returnUrl;
+            LoginModel.InputModel inputModel = new InputModel();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
