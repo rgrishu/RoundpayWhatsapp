@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220523111109_addedChargeAblesinPackage")]
+    partial class addedChargeAblesinPackage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,7 +445,7 @@ namespace Whatsapp.Migrations
                             EmailConfirmed = true,
                             IsOtp = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 23, 17, 52, 19, 611, DateTimeKind.Unspecified).AddTicks(773), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 23, 16, 41, 8, 877, DateTimeKind.Unspecified).AddTicks(160), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
@@ -876,10 +878,7 @@ namespace Whatsapp.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsChargeAfterHitExceed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDirectChargeable")
+                    b.Property<bool>("IsChargeAble")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsFeature")

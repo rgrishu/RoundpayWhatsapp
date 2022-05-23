@@ -30,10 +30,11 @@
                         <table class="table table-striped table-bordered">
                             <thead class="thead-light">
                                 <tr>
-                                    <th width="10%">#</th>
+                                    <th width="5%">#</th>
                                     @*<th> Action</th>*@
-                                    <th width="20">Package</th>
-                                    <th width="70%">Services</th>
+                                    <th width="13%">Package</th>
+                                    <th width="10%">Hit Count</th>
+                                    <th width="72%">Services</th>
                                     @*<th>IsActive</th>
                                     <th>Status</th>*@
                                 </tr>
@@ -92,13 +93,19 @@
         function SaveCurrentData(clicked_id) {
             var ids = clicked_id.substr(clicked_id.indexOf("_") + 1);
             var trid = $("#" + clicked_id).closest('tr').attr('id');
-            var IsActive = $('#' + clicked_id).is(":checked") ? true : false;
+            var IsActive = $('#Current_' + ids).is(":checked") ? true : false;
+            var IsChargeAfterHitExceed = $('#IsChargeAfterHitExceed_' + ids).is(":checked") ? true : false;
+            var IsDirectChargeable = $('#IsDirectChargeable_' + ids).is(":checked") ? true : false;
             var param = {
                 ID : $("#Id_" + ids).val(), 
                 MasterPackageID : $("#" + clicked_id).closest("tr").data().packageId,
                 ServiceID : $("#ServiceId_" + ids).val(),
-                IsActive : IsActive
+                IsActive : IsActive,
+                IsChargeAfterHitExceed : IsChargeAfterHitExceed,
+                IsDirectChargeable : IsDirectChargeable,
+                Charge : $("#Charge_" + ids).val()
             };
+            console.log(param);
             $.ajax({
                 type: 'post',
                 url: '/Master/AddPackageMapping/',
