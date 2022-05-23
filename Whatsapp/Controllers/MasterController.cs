@@ -237,75 +237,7 @@ namespace Whatsapp.Controllers
         }
         #endregion
         // Master Package Region Ends
-        // Package Region Starts
-        #region Package
-        [Route("PackageList")]
-        public IActionResult PackageList()
-        {
-            ViewData["Title"] = "Package";
-            return View();
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetPackageList()
-        {
-            var ms = new PackageService(_unitOfWorkFactory);
-            IEnumerable<Package> mf = await ms.GetPackageList();
-            return PartialView("~/Views/Master/PartialView/_PackageList.cshtml", mf);
-        }
-        public async Task<IActionResult> CreatePackage(int? id)
-        {
-            Package mf = null;
-            if (id != 0)
-            {
-                mf = await _appcontext.Package
-                    .Where(h => h.Id == id)
-                    .FirstOrDefaultAsync();
-            }
-            ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
-            ViewData["MaspterPackage"] = new SelectList(_appcontext.MasterPackage, "Id", "PackageName");
-            return PartialView("~/Views/Master/PartialView/_AddPackage.cshtml", mf);
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddPackage(Package package)
-        {
-            var res = new Response()
-            {
-                StatusCode = (int)ResponseStatus.Failed,
-                ResponseText = "Failed"
-            };
-            if (ModelState.IsValid)
-            {
-                var ms = new PackageService(_unitOfWorkFactory);
-                if (package.Id == 0)
-                {
-                    package.CreatedDate = DateTime.Now;
-                    res = await ms.InsertPackage(package);
-                }
-                else
-                {
-                    package.ModifiedDate = DateTime.Now;
-                    res = await ms.UpdatePackage(package);
-                }
-            }
-            return Json(res);
-        }
-        [HttpPost]
-        public async Task<IActionResult> DeletePackage(int id)
-        {
-            var res = new Response()
-            {
-                StatusCode = (int)ResponseStatus.Failed,
-                ResponseText = "Failed"
-            };
-            if (id != 0)
-            {
-                var ms = new PackageService(_unitOfWorkFactory);
-                res = await ms.Delete(id);
-            }
-            return Json(res);
-        }
-        #endregion
-        // Package Region Ends
+        
         // Email Settings Region Starts
         #region Email Region Starts
         [Route("EmailSettingList")]

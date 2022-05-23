@@ -12,6 +12,9 @@ namespace Whatsapp.Models
         public string Status { get; set; }
         public bool IsActive { get; set; }
         public bool IsFeature { get; set; }
+        public bool IsChargeAfterHitExceed { get; set; }
+        public bool IsDirectChargeable { get; set; }
+        public string Charge { get; set; }
         public Int64 MasterPackageID { get; set; }
         public MasterPackage MasterPackage { get; set; }
         public Int64 ServiceID { get; set; }

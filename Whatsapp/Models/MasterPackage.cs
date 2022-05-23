@@ -11,5 +11,6 @@ namespace Whatsapp.Models
         public double Cost { get; set; }
         public int ValidityInDays { get; set; }
         public string Status { get; set; }
+        public Int32 HitCount { get; set; }
     }
 }
