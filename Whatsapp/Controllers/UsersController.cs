@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.BusinessLogic;
 using Whatsapp.AppCode.Extensions;
 using Whatsapp.Interface;
 using Whatsapp.Models;
@@ -43,7 +44,14 @@ namespace Whatsapp.Controllers
             _emailService = emailService;
             _masterWebsiteService = masterWebsiteService;
         }
-        
+        [Route("GetPackages")]
+        public async Task<IActionResult> GetPackages()
+        {
+            var dataaa = await _appcontext.Package.Include(a => a.MasterService).Include(a => a.MasterPackage).Include(a => a.MasterServiceFeatures).ToListAsync().ConfigureAwait(false);
+            var ms = new PackageService(_unitOfWorkFactory);
+            List<Package> data = await ms.GetPackageList();
+            return View(data);
+        }
 
     }
 }

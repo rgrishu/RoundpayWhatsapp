@@ -403,6 +403,12 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GetPackages">
+                            <i class="far fa-file-alt menu-icon"></i>
+                            <span class="menu-title">Get Packages</span>
+                        </a>
+                    </li>
                    @* <li class="nav-item">
                         <a class="nav-link" href="pages/widgets.html">
                             <i class="fa fa-puzzle-piece menu-icon"></i>
@@ -465,12 +471,6 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="far fa-file-alt menu-icon"></i>
-                            <span class="menu-title">Documentation</span>
-                        </a>
-                    </li>
                     <li class="nav-item" id="LogoutTrigger">
                         <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Identity" })">
                            <i class="fa fa-sign-out-alt menu-icon"></i>

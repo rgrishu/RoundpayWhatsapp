@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220524100612_AddedFeatureinPackage")]
+    partial class AddedFeatureinPackage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,7 +445,7 @@ namespace Whatsapp.Migrations
                             EmailConfirmed = true,
                             IsOtp = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 24, 17, 9, 40, 860, DateTimeKind.Unspecified).AddTicks(4653), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 24, 15, 36, 11, 906, DateTimeKind.Unspecified).AddTicks(6665), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
@@ -870,7 +872,7 @@ namespace Whatsapp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("FeatureID")
+                    b.Property<long>("FeatureID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("IPAddress")
@@ -891,10 +893,16 @@ namespace Whatsapp.Migrations
                     b.Property<long>("MasterPackageID")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("MasterServiceServiceID")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ServiceID")
+                    b.Property<long?>("ServiceFeatureFeatureID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ServiceID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Status")
@@ -902,11 +910,11 @@ namespace Whatsapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeatureID");
-
                     b.HasIndex("MasterPackageID");
 
-                    b.HasIndex("ServiceID");
+                    b.HasIndex("MasterServiceServiceID");
+
+                    b.HasIndex("ServiceFeatureFeatureID");
 
                     b.ToTable("Package");
                 });
@@ -1095,10 +1103,6 @@ namespace Whatsapp.Migrations
 
             modelBuilder.Entity("Whatsapp.Models.Package", b =>
                 {
-                    b.HasOne("Whatsapp.Models.MasterServiceFeatures", "MasterServiceFeatures")
-                        .WithMany()
-                        .HasForeignKey("FeatureID");
-
                     b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
                         .WithMany()
                         .HasForeignKey("MasterPackageID")
@@ -1107,7 +1111,11 @@ namespace Whatsapp.Migrations
 
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
                         .WithMany()
-                        .HasForeignKey("ServiceID");
+                        .HasForeignKey("MasterServiceServiceID");
+
+                    b.HasOne("Whatsapp.Models.MasterServiceFeatures", "ServiceFeature")
+                        .WithMany()
+                        .HasForeignKey("ServiceFeatureFeatureID");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.SenderNo", b =>

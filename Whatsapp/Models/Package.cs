@@ -17,14 +17,18 @@ namespace Whatsapp.Models
         public string Charge { get; set; }
         public Int64 MasterPackageID { get; set; }
         public MasterPackage MasterPackage { get; set; }
-        public Int64 ServiceID { get; set; }
+        public Int64? ServiceID { get; set; }
+        [ForeignKey("ServiceID")]
         public MasterService MasterService { get; set; }
+        public Int64? FeatureID { get; set; }
+        [ForeignKey("FeatureID")]
+        public MasterServiceFeatures MasterServiceFeatures { get; set; }
+
     }
     public class PackageView : Package
     {
         public List<MasterService> MasterServices { get; set; }
         public List<MasterPackage> MasterPackages { get; set; }
-        public List<MasterServiceFeatures> MasterServiceFeatures { get; set; }
         public List<Package> Packages { get; set; }
     }
 }

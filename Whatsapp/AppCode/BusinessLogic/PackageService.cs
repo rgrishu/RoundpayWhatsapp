@@ -122,7 +122,13 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().Get<Package>(includeProperties: "MasterPackage,MasterService");
+                    var data = await unitofwork.Repository().Get<Package>(includeProperties: "MasterPackage,MasterService,MasterServiceFeatures");
+                    foreach (var item in data.ToList())
+                    {
+                        item.MasterService = item.MasterService == null ? new MasterService() : item.MasterService;
+                        item.MasterServiceFeatures = item.MasterServiceFeatures == null ? new MasterServiceFeatures() : item.MasterServiceFeatures;
+                        item.MasterPackage = item.MasterPackage == null ? new MasterPackage() : item.MasterPackage;
+                    }
                     return data.ToList();
                 }
             }
@@ -144,7 +150,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data1 = await unitofwork.Repository().Get<Package>(includeProperties: "MasterPackage,MasterService");
+                    var data1 = await unitofwork.Repository().Get<Package>(includeProperties: "MasterPackage,MasterService,MasterServiceFeatures");
                     var data2 = await unitofwork.Repository().Get<MasterService>(filter: a => a.IsFeature.Equals(false));
                     var data3 = await unitofwork.Repository().Get<MasterPackage>();
                     var data4 = await unitofwork.Repository().Get<MasterServiceFeatures>();
@@ -173,8 +179,9 @@ namespace Whatsapp.AppCode.BusinessLogic
                     count++;
                     MasterService masterService = new MasterService()
                     {
-                        ServiceID = count,
-                        ServiceName = item.FeatureName
+                        ServiceID = item.FeatureID,
+                        ServiceName = item.FeatureName,
+                        CheckIsFeature = true
                     };
                     masterServices.Add(masterService);
                 }
