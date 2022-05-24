@@ -1,10 +1,4 @@
 ﻿
-
-
-
-
-
-
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -75,7 +69,7 @@
         function loadData() {
             $.ajax({
                 type: 'post',
-                url: '/Users/GetUsersList',
+                url: '/UserManagement/GetUsersList',
                 success: function(data) {
                     console.log(data)
                     $('tbody').html(data);
@@ -90,7 +84,7 @@
         $('#btncreateuser').click(function() {
             $.ajax({
                 type: 'post',
-                url: '/Users/UserForm',
+                url: '/UserManagement/UserForm',
                 data: { role: $('#spnrole').text() },
                 success: function(data) {
                     Q.alert({
@@ -107,7 +101,7 @@
         function RenderForm(id) {
             $.ajax({
                 type: 'post',
-                url: '/Users/UserForm/' + id,
+                url: '/UserManagement/UserForm/' + id,
                 success: function(response) {
                     debugger;
                     Q.alert({
