@@ -48,7 +48,7 @@
                                 {
                                     readonlys = "";
                                 }
-                                <div class="my-1 col-6">
+                                <div class="my-1 col-4">
                                     <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
                                     <div class="input-group">
                                         <input type="hidden" id="Id_@j" value="@item2.Id">
@@ -96,7 +96,7 @@
                         service.ServiceName.ToString();
                         if (!newlisyt.Contains(service.ServiceID))
                         {
-                            <div class="my-1 col-6">
+                            <div class="my-1 col-4">
                                 <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -164,7 +164,7 @@
                     <div class="row">
                         @foreach (var item2 in Model.MasterServices)
                         {
-                            <div class="my-1 col-6">
+                            <div class="my-1 col-4">
                                 <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
                                 <input type="hidden" id="Id_@j" value="0">
                                 <input type="hidden" id="ServiceId_@j" value="@item2.ServiceID">
