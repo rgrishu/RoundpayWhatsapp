@@ -22,6 +22,7 @@ using Whatsapp.Services.Interface;
 
 namespace Whatsapp.Controllers
 {
+    [Authorize]
     public class UserManagementController : Controller
     {
         private readonly ILogger<HomeController> _logger;
