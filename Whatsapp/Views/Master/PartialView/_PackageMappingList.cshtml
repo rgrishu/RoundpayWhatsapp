@@ -43,25 +43,43 @@
                                 string check = item2.IsActive == true ? "checked" : "";
                                 string IsChargeAfterHitExceed = item2.IsChargeAfterHitExceed == true ? "checked" : "";
                                 string IsDirectChargeable = item2.IsDirectChargeable == true ? "checked" : "";
-                                string readonlys = item2.IsChargeAfterHitExceed == true ? "" : "readonly";
-                                readonlys = item2.IsDirectChargeable == true ? "" : "readonly";
+                                string readonlys = "readonly";
+                                if (item2.IsChargeAfterHitExceed || item2.IsDirectChargeable)
+                                {
+                                    readonlys = "";
+                                }
                                 <div class="my-1 col-6">
                                     <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
                                     <div class="input-group">
                                         <input type="hidden" id="Id_@j" value="@item2.Id">
                                         <input type="hidden" id="ServiceId_@j" value="@service.ServiceID">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text"><input type="checkbox" @check id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                            <div class="input-group-text">
+                                                <label class="switch">
+                                                    <input type="checkbox" class="form-check-input" @check id="Current_@j" onchange="SaveCurrentData(this.id)">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                         <input type="text" class="form-control" readonly id="" value="@service.ServiceName" placeholder="">
                                     </div>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text"><input class="" onchange="IsChargeable(this.id)" type="checkbox" id="IsChargeAfterHitExceed_@j" @IsChargeAfterHitExceed /></div>
+                                            <div class="input-group-text">
+                                                <label class="switch switchAfterHit">
+                                                    <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsChargeAfterHitExceed_@j" @IsChargeAfterHitExceed>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                         <input type="number" class="form-control" @readonlys id="Charge_@j" value="@item2.Charge" placeholder="0">
                                         <div class="input-group-append">
-                                            <div class="input-group-text"><input class="" onchange="IsChargeable(this.id)" type="checkbox" id="IsDirectChargeable_@j" @IsDirectChargeable /></div>
+                                            <div class="input-group-text">
+                                                <label class="switch switchDirect">
+                                                    <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsDirectChargeable_@j" @IsDirectChargeable>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +100,12 @@
                                 <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text"><input type="checkbox" id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch">
+                                                <input type="checkbox" class="form-check-input" id="Current_@j" onchange="SaveCurrentData(this.id)">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <input type="hidden" id="Id_@j" value="0">
                                     <input type="hidden" id="ServiceId_@j" value="@service.ServiceID">
@@ -90,11 +113,21 @@
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text"><input class="" onchange="IsChargeable(this.id)" type="checkbox" id="IsChargeAfterHitExceed_@j"  /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch switchAfterHit">
+                                                <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsChargeAfterHitExceed_@j">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <input type="number" value="0" class="form-control" readonly id="Charge_@j"  placeholder="">
+                                    <input type="number" value="0" class="form-control" readonly id="Charge_@j" placeholder="">
                                     <div class="input-group-append">
-                                        <div class="input-group-text"><input class="" onchange="IsChargeable(this.id)" type="checkbox" id="IsDirectChargeable_@j"  /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch switchDirect">
+                                                <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsDirectChargeable_@j">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -137,17 +170,32 @@
                                 <input type="hidden" id="ServiceId_@j" value="@item2.ServiceID">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text"><input type="checkbox" id="Current_@j" onchange="SaveCurrentData(this.id)" /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch">
+                                                <input type="checkbox" class="form-check-input" id="Current_@j" onchange="SaveCurrentData(this.id)">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <input type="text" class="form-control" readonly id="" value="@item2.ServiceName" placeholder="">
                                 </div>
                                 <div class="input-group w-100">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text"><input class="" type="checkbox" onchange="IsChargeable(this.id)" id="IsChargeAfterHitExceed_@j" /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch switchAfterHit">
+                                                <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsChargeAfterHitExceed_@j">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <input type="number" readonly class="form-control" id="Charge_@j" placeholder="0">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text"><input class="" type="checkbox" onchange="IsChargeable(this.id)" id="IsDirectChargeable_@j" /></div>
+                                        <div class="input-group-text">
+                                            <label class="switch switchDirect">
+                                                <input type="checkbox" class="form-check-input" onchange="IsChargeable(this.id)" id="IsDirectChargeable_@j">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,4 +224,12 @@
             $("#Charge_" + ids).attr("readonly", true).val(0);
         }
     }
+$(function() { 
+    $(".switchAfterHit").unbind().hover(function() {
+        $(this).unbind().addClass("tooltips").attr('title', 'After Hit Count is Exausted cost will be used');
+    })
+    $(".switchDirect").unbind().hover(function() {
+        $(this).unbind().addClass("tooltips").attr('title', 'Use Direct cost');
+    })
+})
 </script>
