@@ -2,7 +2,7 @@
 @model Users
 <div class="card">
     <div class="card-body">
-        <form class="form-block" action="/Users/AddUser" method="post">
+        <form class="form-block" action="/UserManagement/AddUser" method="post">
             <div class="row">
                 <div class="row">
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -12,9 +12,9 @@
                 <label>Role</label>
                 <select class="form-control" asp-for="Role">
                     <option value="">--Select--</option>
-                    <option value="Seller">Seller</option>
-                    <option value="ReSeller">ReSeller</option>
-                    <option value="White Label">White Label</option>
+                    <option value="SELLER">Seller</option>
+                    <option value="RESELLER">ReSeller</option>
+                    <option value="WHITELEABEL">White Label</option>
                 </select>
             </div>
         </div>
