@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220525083004_AddedModelForLedgerUserbalanceAndUserpackageDetails")]
+    partial class AddedModelForLedgerUserbalanceAndUserpackageDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,7 +445,7 @@ namespace Whatsapp.Migrations
                             EmailConfirmed = true,
                             IsOtp = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 25, 14, 2, 41, 116, DateTimeKind.Unspecified).AddTicks(6124), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 5, 25, 14, 0, 4, 633, DateTimeKind.Unspecified).AddTicks(2273), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
@@ -509,70 +511,6 @@ namespace Whatsapp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailSetting");
-                });
-
-            modelBuilder.Entity("Whatsapp.Models.Ledger", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ClosingBalance")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EntryBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("FeatureId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("IPAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("MasterPackageId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("MasterServiceFeaturesFeatureID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("MasterServiceServiceID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("OpeningBalance")
-                        .HasColumnType("float");
-
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("TransactionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MasterPackageId");
-
-                    b.HasIndex("MasterServiceFeaturesFeatureID");
-
-                    b.HasIndex("MasterServiceServiceID");
-
-                    b.ToTable("Ledgers");
                 });
 
             modelBuilder.Entity("Whatsapp.Models.MasterApi", b =>
@@ -1097,71 +1035,6 @@ namespace Whatsapp.Migrations
                     b.ToTable("SenderNo");
                 });
 
-            modelBuilder.Entity("Whatsapp.Models.UserBalance", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Balance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IPAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserBalance");
-                });
-
-            modelBuilder.Entity("Whatsapp.Models.UserPackageDetail", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EntryBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IPAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("MasterPackageId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MasterPackageId");
-
-                    b.ToTable("UserPackageDetail");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -1213,23 +1086,6 @@ namespace Whatsapp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Whatsapp.Models.Ledger", b =>
-                {
-                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
-                        .WithMany()
-                        .HasForeignKey("MasterPackageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Whatsapp.Models.MasterServiceFeatures", "MasterServiceFeatures")
-                        .WithMany()
-                        .HasForeignKey("MasterServiceFeaturesFeatureID");
-
-                    b.HasOne("Whatsapp.Models.MasterService", "MasterService")
-                        .WithMany()
-                        .HasForeignKey("MasterServiceServiceID");
-                });
-
             modelBuilder.Entity("Whatsapp.Models.MasterServiceFeatures", b =>
                 {
                     b.HasOne("Whatsapp.Models.MasterService", "MasterService")
@@ -1261,15 +1117,6 @@ namespace Whatsapp.Migrations
                     b.HasOne("Whatsapp.Models.MasterApi", "MasterApi")
                         .WithMany()
                         .HasForeignKey("ApiID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Whatsapp.Models.UserPackageDetail", b =>
-                {
-                    b.HasOne("Whatsapp.Models.MasterPackage", "MasterPackage")
-                        .WithMany()
-                        .HasForeignKey("MasterPackageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
