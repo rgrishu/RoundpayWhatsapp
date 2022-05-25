@@ -39,6 +39,9 @@ namespace Whatsapp.Models.Data
         public DbSet<MessageTemplate> MessageTemplate { get; set; }
         public DbSet<MasterWebsite> MasterWebsite { get; set; }
         public DbSet<CompanyProfile> CompanyProfile { get; set; }
+        public DbSet<Ledger> Ledgers   { get; set; }
+        public DbSet<UserBalance> UserBalance { get; set; }
+        public DbSet<UserPackageDetail> UserPackageDetail { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
