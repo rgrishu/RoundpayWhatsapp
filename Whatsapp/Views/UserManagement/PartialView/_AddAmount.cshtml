@@ -1,0 +1,23 @@
+﻿@using Whatsapp.Models.Data;
+@model UserBalance
+
+<div class="card">
+
+    <div class="card-body">
+        <form method="post" class="form-block" action="/UserManagement/UpdateUserBalance">
+            <div class="row">
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+                <input type="hidden" asp-for="CreatedDate" value="@Model.CreatedDate" />
+                <input type="hidden" asp-for="ModifyBy" value="@Model.ModifyBy" />
+                <div class="form-group col-sm-12">
+                    <label>User Balance</label>
+                    <input type="text" class="form-control" asp-for="Balance" placeholder="Enter Feature Name">
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
