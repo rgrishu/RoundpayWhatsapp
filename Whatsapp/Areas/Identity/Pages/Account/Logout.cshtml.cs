@@ -34,6 +34,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
+                //return LocalRedirect(returnUrl);
             }
             else
             {

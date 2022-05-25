@@ -472,7 +472,7 @@
                     </li>
 
                     <li class="nav-item" id="LogoutTrigger">
-                        <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Identity" })">
+                        <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/login">
                            <i class="fa fa-sign-out-alt menu-icon"></i>
                            <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color: #fff0;padding-left:0;cursor:pointer">Logout</button>
                         </form>

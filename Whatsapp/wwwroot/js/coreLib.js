@@ -820,7 +820,10 @@ function printDiv(divName) {
 })($);
 
 function ajaxFormSubmit(form) {
-    event.preventDefault();
+    let formId = $(form).attr('id');
+    if (formId !== 'logoutForm') {
+        event.preventDefault();
+    }
     /*$.validator.unobtrusive.parse(form);*/
     var data, enctype = '';
     if ($(form).find('input[type="file"]').index() == -1) {
@@ -835,6 +838,7 @@ function ajaxFormSubmit(form) {
         url: form.action,
         data: data,
         success: function (response) {
+            console.log(response);
             Q.notify(response.statusCode, response.responseText);
             if (response.statusCode == 1) {
                // $('.ui-dialog-titlebar-close').click();
