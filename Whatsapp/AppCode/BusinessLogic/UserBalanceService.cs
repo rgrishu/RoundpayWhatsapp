@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Management.Smo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.Interface.Repos;
 using Whatsapp.Models;
@@ -50,6 +53,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
+                    req.ModifiedDate = DateTime.Now;
                     unitofwork.Repository().Update(req);
                     int i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
@@ -64,6 +68,23 @@ namespace Whatsapp.AppCode.BusinessLogic
                 throw;
             }
             return res;
+        }
+        public async Task<List<UserBalance>> GetUserBalanceById(int id)
+        {
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var data = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == id);
+                    return data.ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
     }

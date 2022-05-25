@@ -39,7 +39,7 @@
                                     <th>Name</th>
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>IsActive</th>
+                                    <th>Balance</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -106,6 +106,23 @@
                     debugger;
                     Q.alert({
                         title: "Add User",
+                        body: response,
+                        width: '500px',
+                    });
+                },
+                error: function(data) {
+                },
+            });
+        }
+
+        function UserBalance(id) {
+            $.ajax({
+                type: 'post',
+                url: '/UserManagement/GetUserBalance/' + id,
+                success: function(response) {
+                    debugger;
+                    Q.alert({
+                        title: "Add Balance",
                         body: response,
                         width: '500px',
                     });

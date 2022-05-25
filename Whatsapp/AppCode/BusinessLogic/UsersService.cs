@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.Interface;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.Models;
 using Whatsapp.Models.Data;
 using Whatsapp.Models.UtilityModel;
 using Whatsapp.Models.ViewModel;
@@ -50,7 +51,13 @@ namespace WAEFCore22.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAllRecords<WhatsappUser>();
+                    var data = await unitofwork.Repository().Get<WhatsappUser>();
+                    data.ToList();
+                    foreach (var item in data)
+                    {
+                        var datas = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == item.Id);
+                        item.UserBalance = datas.ToList().FirstOrDefault().Balance;
+                    }
                     return data.ToList();
                 }
             }
@@ -59,6 +66,11 @@ namespace WAEFCore22.AppCode.BusinessLogic
 
                 throw;
             }
+        }
+
+        private void BindUserBalance(IEnumerable<WhatsappUser> data)
+        {
+            
         }
 
         public async Task<Response> AddUser(Users user)

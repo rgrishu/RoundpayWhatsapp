@@ -64,6 +64,28 @@ namespace Whatsapp.Controllers
             return PartialView("~/Views/UserManagement/PartialView/_UsersList.cshtml", list);
         }
 
+        public async Task<IActionResult> GetUserBalance(int id)
+        {
+            var ms = new UserBalanceService(_unitOfWorkFactory);
+            var userBalance = await ms.GetUserBalanceById(id);
+            return PartialView("~/Views/UserManagement/PartialView/_AddAmount.cshtml", userBalance.FirstOrDefault());
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserBalance(UserBalance userBalance)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if(userBalance != null)
+            {
+                userBalance.ModifyBy = User.Identity.Name;
+                var ms = new UserBalanceService(_unitOfWorkFactory);
+                res = await ms.UpdateUserBalance(userBalance);
+            }
+            return Json(res);
+        }
         public async Task<IActionResult> UserForm(int id)
         {
             Users users = null;

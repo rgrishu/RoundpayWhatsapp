@@ -17,11 +17,12 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <label class="badge badge-danger badge-pill">Pending</label>
-               @* @Html.DisplayFor(modelItem => item.IPAddress)*@
+                <a href="javascript:void(0);" onclick="UserBalance(@item.Id)" >
+                   @item.UserBalance
+                </a>
             </td>
             <td>
-               <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn" >
+               <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn"  >
                     <i class="fa fa-edit"></i>
                 </button>
                 <a href="/UserManagement/Delete/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
