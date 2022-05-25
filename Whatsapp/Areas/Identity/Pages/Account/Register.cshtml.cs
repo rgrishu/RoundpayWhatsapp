@@ -15,7 +15,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Whatsapp.AppCode.HelperClass;
+using Whatsapp.Models;
 using Whatsapp.Models.Data;
+using Whatsapp.Models.UtilityModel;
 
 namespace Whatsapp.Areas.Identity.Pages.Account
 {
@@ -25,18 +27,22 @@ namespace Whatsapp.Areas.Identity.Pages.Account
         private readonly SignInManager<WhatsappUser> _signInManager;
         private readonly UserManager<WhatsappUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private ApplicationContext _appcontext;
+        private ApplicationContext __appcontext;
         // private readonly IEmailSender _emailSender;
         private IHttpContextAccessor Accessor;
 
         public RegisterModel(
             UserManager<WhatsappUser> userManager,
             SignInManager<WhatsappUser> signInManager,
-            ILogger<RegisterModel> logger, IHttpContextAccessor _accessor)
+            ILogger<RegisterModel> logger, IHttpContextAccessor _accessor, ApplicationContext appcontext, ApplicationContext aappcontext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             this.Accessor = _accessor;
+            _appcontext = appcontext;
+            __appcontext = aappcontext;
             //_emailSender = emailSender;
         }
 
@@ -96,6 +102,7 @@ namespace Whatsapp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var res = await _userManager.AddToRoleAsync(user, "Admin");
+                    InsertInUserBalance(user.Id);
                     _logger.LogInformation("User created a new account with password.");
 
                     //Send Email And Whatsappp For Users As Confirmation
@@ -119,6 +126,31 @@ namespace Whatsapp.Areas.Identity.Pages.Account
             }
 
             return Page();
+        }
+        public Response InsertInUserBalance(int Id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Success,
+                ResponseText = "Successfull"
+            };
+            try
+            {
+                UserBalance userBalance = new UserBalance()
+                {
+                    UserId = Id,
+                    Balance = 0,
+                    CreatedDate = DateTime.Now,
+                    ModifyBy = User.Identity.Name
+                };
+                var rest = __appcontext.Add(userBalance);
+                __appcontext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+            return res;
         }
     }
 }
