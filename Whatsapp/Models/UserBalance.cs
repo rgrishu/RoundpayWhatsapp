@@ -3,7 +3,7 @@
     public class UserBalance : BaseEntity
     {
         public int UserId { get; set; }
-        public string Balance { get; set; }
+        public double Balance { get; set; }
         public string ModifyBy { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace Whatsapp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("WhatsappContextConnection"));
             });
+            services.AddTransient<ApplicationContext>();
             //services.AddDefaultIdentity<IdentityUser>()
             // .AddRoles<IdentityRole>()
             // .AddEntityFrameworkStores<ApplicationContext>();

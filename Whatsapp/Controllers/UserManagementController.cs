@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.BusinessLogic;
 using Whatsapp.AppCode.Extensions;
 using Whatsapp.Interface;
 using Whatsapp.Models;
@@ -73,18 +74,19 @@ namespace Whatsapp.Controllers
                     var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
                     var list = await us.GetAllUsersById(id);
                     WhatsappUser whatsapp = list.FirstOrDefault();
+                    var rolename = await _userManager.GetRolesAsync(whatsapp);
                     users = new Users();
                     users.Id = whatsapp.Id;
                     users.Name = whatsapp.Name;
                     users.Email = whatsapp.Email;
                     users.PhoneNumber = whatsapp.PhoneNumber;
+                    users.Role = rolename[0].ToString().ToLower();
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-            ViewData["GetRoles"] = new SelectList(_appcontext.UserRoles.ToList(), "", "");
             return PartialView("~/Views/UserManagement/PartialView/_Registration.cshtml", users);
         }
 
@@ -97,7 +99,7 @@ namespace Whatsapp.Controllers
             };
             try
             {
-                if (user != null)
+                if (user.Id == 0)
                 {
                     var WID = User.GetLoggedInWID();
                     var newUser = new WhatsappUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.PhoneNumber, Name = user.Name, EmailConfirmed = true, WID = WID };
@@ -107,6 +109,9 @@ namespace Whatsapp.Controllers
                     {
                         await _userManager.AddToRoleAsync(newUser, user.Role);
                         var userId = User.GetLoggedInUserId<int>();
+                        var userBalanceResult = InsertInUserBalance(newUser.Id);
+
+
                         MasterServices ms = new MasterServices(_unitOfWorkFactory);
                         var cp = _masterWebsiteService.masterWebsite().Result;
                         var mt = ms.GetMessageTemplate().Result;
@@ -142,12 +147,59 @@ namespace Whatsapp.Controllers
                         res.ResponseText = "Registration Successfull.";
                     }
                 }
+                else
+                {
+                    var ms = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                    res = await ms.UpdateUsers(user);
+                }
             }
             catch (Exception ex)
             {
 
             }
             return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            if (id != 0)
+            {
+                var ms = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
+                res = await ms.Delete(id);
+            }
+            return Json(res);
+        }
+        public Response InsertInUserBalance(int Id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Success,
+                ResponseText = "Successfull"
+            };
+            try
+            {
+                UserBalance userBalance = new UserBalance()
+                {
+                    UserId = Id,
+                    Balance = 0,
+                    CreatedDate = DateTime.Now,
+                    ModifyBy = User.Identity.Name
+                };
+                var rest = _appcontext.Add(userBalance);
+                _appcontext.SaveChangesAsync();
+                //var ms = new UserBalanceService(_unitOfWorkFactory);
+                //res = await ms.InsertUserBalance(userBalance);
+            }
+            catch
+            {
+                throw;
+            }
+            return res;
         }
     }
 }
