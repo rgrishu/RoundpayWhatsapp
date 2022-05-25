@@ -1,7 +1,7 @@
 ﻿@using Whatsapp.Models.Data;
 @model PackageView
 @{
-    var result = Model.Packages.GroupBy(a => a.MasterPackageID).ToDictionary(a => a.Key, e => e.Select(a => new { ServiceID = a.ServiceID, Id = a.Id, IsActive = a.IsActive, IsChargeAfterHitExceed = a.IsChargeAfterHitExceed, IsDirectChargeable = a.IsDirectChargeable, Charge = a.Charge, a.FeatureID }));
+    var result = Model.Packages.GroupBy(a => a.MasterPackageID).ToDictionary(a => a.Key, e => e.Select(a => new { ServiceID = a.ServiceID, Id = a.Id, IsActive = a.IsActive, IsChargeAfterHitExceed = a.IsChargeAfterHitExceed, IsDirectChargeable = a.IsDirectChargeable, Charge = a.Charge, a.FeatureID, a.MasterPackage }));
     var result2 = Model.MasterPackages.GroupBy(a => a.Id).ToDictionary(a => a.Key, b => b.Select(b => new { PackageName = b.PackageName, HitCount = b.HitCount }));
     List<Int64> newlisyt2 = new List<Int64>();
     List<string> getPackage = new List<string>();
@@ -19,17 +19,18 @@
         newlisyt2.Add(item.Key);
         <tr data-package-id="@item.Key">
             <td class="checkme">@i</td>
-            @foreach (var hitcodes in result2.Values)
-            {
-                if (K == M)
-                {
-                    <td>@hitcodes.FirstOrDefault().PackageName</td>
-                    <td>@hitcodes.FirstOrDefault().HitCount</td>
-                    M++;
-                    break;
-                }
-                K++;
-            }
+            <td>@item.Value.FirstOrDefault().MasterPackage.PackageName</td>
+            <td>@item.Value.FirstOrDefault().MasterPackage.HitCount</td>
+            @*@foreach (var hitcodes in result2.Values)
+    {
+    if (K == M)
+    {
+
+    M++;
+    break;
+    }
+    K++;
+    }*@
             <td>
                 <div class="row">
                     @foreach (var service in Model.MasterServices)
@@ -42,7 +43,7 @@
                                 newlisyt.Add(Convert.ToInt64(item2.FeatureID));
                                 checkForFeature = true;
                             }
-                            else if(service.CheckIsFeature.Equals(false) && service.ServiceID == item2.ServiceID)
+                            else if (service.CheckIsFeature.Equals(false) && service.ServiceID == item2.ServiceID)
                             {
                                 newlisyt.Add(Convert.ToInt64(item2.ServiceID));
                                 checkForFeature = true;
@@ -177,7 +178,9 @@
 
             <tr data-package-id="@item.Key">
                 <td>@i</td>
-                @foreach (var hitcodes in result2.Values)
+                <td>@item.Value.FirstOrDefault().PackageName</td>
+                <td>@item.Value.FirstOrDefault().HitCount</td>
+                @*@foreach (var hitcodes in result2.Values)
                 {
                     if (K == M)
                     {
@@ -187,7 +190,7 @@
                         break;
                     }
                     K++;
-                }
+                }*@
                 <td>
                     <div class="row">
                         @foreach (var item2 in Model.MasterServices)

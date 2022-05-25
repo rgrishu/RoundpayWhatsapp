@@ -173,10 +173,8 @@ namespace Whatsapp.AppCode.BusinessLogic
         {
             if(masterServiceFeatures != null)
             {
-                int count = Convert.ToInt32(masterServices[0].ServiceID) + 1;
                 foreach (var item in masterServiceFeatures)
                 {
-                    count++;
                     MasterService masterService = new MasterService()
                     {
                         ServiceID = item.FeatureID,
