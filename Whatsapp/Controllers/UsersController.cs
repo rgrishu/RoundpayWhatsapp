@@ -47,10 +47,11 @@ namespace Whatsapp.Controllers
         [Route("GetPackages")]
         public async Task<IActionResult> GetPackages()
         {
-            var dataaa = await _appcontext.Package.Include(a => a.MasterService).Include(a => a.MasterPackage).Include(a => a.MasterServiceFeatures).ToListAsync().ConfigureAwait(false);
+            //var ms = new PackageService(_unitOfWorkFactory);
+            //List<Package> data = await ms.GetPackageList();
             var ms = new PackageService(_unitOfWorkFactory);
-            List<Package> data = await ms.GetPackageList();
-            return View(data);
+            PackageView packageView = await ms.GetPackageView() ?? new PackageView();
+            return View(packageView);
         }
 
     }
