@@ -47,11 +47,26 @@ namespace Whatsapp.Controllers
         [Route("GetPackages")]
         public async Task<IActionResult> GetPackages()
         {
-            //var ms = new PackageService(_unitOfWorkFactory);
-            //List<Package> data = await ms.GetPackageList();
             var ms = new PackageService(_unitOfWorkFactory);
             PackageView packageView = await ms.GetPackageView() ?? new PackageView();
             return View(packageView);
+        }
+        [HttpPost]
+        public IActionResult GetRaiseFundRequest(int Id)
+        {
+            UserFundRequest userFundRequest = new UserFundRequest()
+            {
+                UserId = Id
+            };
+            return PartialView("~/Views/Users/PartialView/_RaiseFundRequest.cshtml", userFundRequest);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddRaiseFundRequest(UserFundRequest userFundRequest)
+        {
+            var us = new FundRequestService(_unitOfWorkFactory);
+            userFundRequest.Status = "Pending";
+            var data = await us.InsertFundRequest(userFundRequest);
+            return Json(data);
         }
 
     }

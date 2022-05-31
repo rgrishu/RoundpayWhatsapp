@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Views\Users\PartialView\" />
+    <Folder Include="Views\Home\PartialView\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

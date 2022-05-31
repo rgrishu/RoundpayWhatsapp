@@ -1,6 +1,10 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     ViewData["Title"] = "Home Page";
+    var Role = User.FindFirstValue(ClaimTypes.Role);
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
+
 
         <div class="content-wrapper">
           <div class="page-header">
@@ -15,11 +19,19 @@
                   <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div class="statistics-item">
                         <p>
-                          <i class="icon-sm fa fa-user mr-2"></i>
-                          New users
+                          <i class="icon-sm fa fa-rupee-sign mr-2"></i>
+                          Balance
                         </p>
-                        <h2>54000</h2>
-                        <label class="badge badge-outline-success badge-pill">2.8% increase</label>
+                        <h2>@ViewBag.UserBalance</h2>
+                            @if(Role == "Admin")
+                            {
+                                <label class="badge badge-outline-success badge-pill" style="cursor:pointer">Add Amount</label>
+                            }
+                            else
+                            {
+                                <a class="badge badge-outline-success badge-pill" onclick="RaiseUserBalanceRequest(@userId)" style="cursor:pointer">Raise Fund Request</a>
+                            }
+                            
                       </div>
                       <div class="statistics-item">
                         <p>

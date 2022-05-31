@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
@@ -80,9 +81,10 @@ namespace Whatsapp.Controllers
             };
             if(userBalance != null)
             {
+                int loggedInUserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 userBalance.ModifyBy = User.Identity.Name;
                 var ms = new UserBalanceService(_unitOfWorkFactory);
-                res = await ms.UpdateUserBalance(userBalance);
+                res = await ms.UpdateUserBalance(userBalance, loggedInUserId);
             }
             return Json(res);
         }

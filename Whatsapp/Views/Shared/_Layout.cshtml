@@ -68,7 +68,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="fa fa-wallet mx-0"></i>
-                            <span class="count">16</span>
+                            <span class="count">@ViewBag.UserBalance</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                             <a class="dropdown-item">
@@ -407,6 +407,12 @@
                         <a class="nav-link" href="GetPackages">
                             <i class="far fa-file-alt menu-icon"></i>
                             <span class="menu-title">Get Packages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="FundRequestList">
+                            <i class="far fa-file-alt menu-icon"></i>
+                            <span class="menu-title">Fund Request</span>
                         </a>
                     </li>
                    @* <li class="nav-item">
