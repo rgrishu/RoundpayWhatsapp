@@ -10,9 +10,10 @@
                 <input type="hidden" asp-for="UserId" value="@Model.UserId" />
                 <input type="hidden" asp-for="CreatedDate" value="@Model.CreatedDate" />
                 <input type="hidden" asp-for="ModifyBy" value="@Model.ModifyBy" />
+                <input type="hidden" asp-for="PreviousBalance" value="@Model.Balance" />
                 <div class="form-group col-sm-12">
                     <label>User Balance</label>
-                    <input type="text" class="form-control" asp-for="Balance" placeholder="Enter Feature Name">
+                    <input type="text" class="form-control" asp-for="Balance" value="0" placeholder="Enter Feature Name">
                 </div>
             </div>
             <div class="row justify-content-center">

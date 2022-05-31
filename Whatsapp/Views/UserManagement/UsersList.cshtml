@@ -115,12 +115,11 @@
             });
         }
 
-        function UserBalance(id) {
+        function UpdateUserBalanceFromAdmin(id) {
             $.ajax({
                 type: 'post',
                 url: '/UserManagement/GetUserBalance/' + id,
                 success: function(response) {
-                    debugger;
                     Q.alert({
                         title: "Add Balance",
                         body: response,

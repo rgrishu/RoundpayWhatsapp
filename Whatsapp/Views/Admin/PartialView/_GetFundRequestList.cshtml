@@ -1,0 +1,35 @@
+﻿@using Whatsapp.Models.Data;
+@model IEnumerable<UserFundRequest>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr data-item-id="@item.Id">
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhatsappUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                <select class="form-control" asp-for="@item.Status" id="Status_@i" onchange="UpdateFundStatus(this.id)">
+                    <option value="pending">Pending</option>
+                    <option value="approve">Approve</option>
+                    <option value="rejected">Reject</option>
+                </select>
+            </td>
+        </tr>
+        i++;
+    }
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}

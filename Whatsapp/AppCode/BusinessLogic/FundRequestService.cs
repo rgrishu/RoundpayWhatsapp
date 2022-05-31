@@ -1,5 +1,4 @@
-﻿using Microsoft.SqlServer.Management.Smo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,14 +8,15 @@ using Whatsapp.Models.UtilityModel;
 
 namespace Whatsapp.AppCode.BusinessLogic
 {
-    public class UserBalanceService
+    public class FundRequestService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        public UserBalanceService(IUnitOfWorkFactory unitOfWorkFactory)
+
+        public FundRequestService(IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
         }
-        public async Task<Response> InsertUserBalance(UserBalance req)
+        public async Task<Response> InsertFundRequest(UserFundRequest req)
         {
             var res = new Response()
             {
@@ -36,13 +36,14 @@ namespace Whatsapp.AppCode.BusinessLogic
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
             return res;
         }
-        public async Task<Response> UpdateUserBalance(UserBalance req, int loggedInUserId)
+
+        public async Task<Response> UpdateUserFundRequest(UserFundRequest req, string LoggedInUserId, string status)
         {
             var res = new Response()
             {
@@ -53,19 +54,30 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var currentBalance = req.Balance;
-                    req.Balance = req.PreviousBalance + currentBalance;
-                    req.ModifiedDate = DateTime.Now;
+                    var userfundRequest = await unitofwork.Repository().FindAsync<UserFundRequest>(x => x.Id == req.Id);
+                    req = userfundRequest.FirstOrDefault();
+                    req.LoggedInUserId = LoggedInUserId;
+                    req.Status = status;
+                    var currentBalance = req.RequestedAmount;
+                    var adminBalnce = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == Convert.ToInt32(req.LoggedInUserId));
+                    var userBalnce = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == req.UserId);
+                    UserBalance userBalance = userBalnce.FirstOrDefault();
+                    UserBalance adminBalance = adminBalnce.FirstOrDefault();
+
                     unitofwork.Repository().Update(req);
+                    if (req.Status.ToLower() == "approve")
+                    {
+                        userBalance.Balance = userBalance.Balance + currentBalance;
+                        userBalance.ModifiedDate = DateTime.Now;
+                        adminBalance.Balance = adminBalance.Balance - currentBalance;
+                        adminBalance.ModifiedDate = DateTime.Now;
+                        unitofwork.Repository().Update(userBalance);
+                        unitofwork.Repository().Update(adminBalance);
+                    }
+
                     int i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
                     {
-                        var data = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == loggedInUserId);
-                        UserBalance balance = data.FirstOrDefault();
-                        balance.Balance = balance.Balance - (currentBalance);
-                        balance.ModifiedDate = DateTime.Now;
-                        unitofwork.Repository().Update(balance);
-                        await unitofwork.SaveChangesAsync();
                         res.StatusCode = (int)ResponseStatus.Success;
                         res.ResponseText = "Update Successfull.";
                     }
@@ -77,13 +89,15 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<List<UserBalance>> GetUserBalanceById(int id)
+
+
+        public async Task<List<UserFundRequest>> GetAll()
         {
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var data = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == id);
+                    var data = await unitofwork.Repository().Get<UserFundRequest>(includeProperties: "WhatsappUser");
                     return data.ToList();
                 }
             }
@@ -92,8 +106,6 @@ namespace Whatsapp.AppCode.BusinessLogic
 
                 throw;
             }
-
         }
-
     }
 }
