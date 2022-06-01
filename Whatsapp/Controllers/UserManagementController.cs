@@ -57,11 +57,8 @@ namespace Whatsapp.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUsersListAsync()
         {
-
             var us = new UsersService(_unitOfWorkFactory, _userManager, _appcontext);
-
             var list = await us.GetAllUsers();
-            //  var list = await _appcontext.AspNetUsers.Select(x => new WhatsappUser{Name = x.Name,PhoneNumber=x.PhoneNumber,Email=x.Email}).ToListAsync();
             return PartialView("~/Views/UserManagement/PartialView/_UsersList.cshtml", list);
         }
 

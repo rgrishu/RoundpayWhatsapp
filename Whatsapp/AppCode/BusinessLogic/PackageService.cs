@@ -139,7 +139,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
 
         }
-        public async Task<PackageView> GetPackageView()
+        public async Task<PackageView> GetPackageView(string userId)
         {
             PackageView packageView = new PackageView();
             Package package = new Package();
@@ -154,6 +154,14 @@ namespace Whatsapp.AppCode.BusinessLogic
                     var data2 = await unitofwork.Repository().Get<MasterService>(filter: a => a.IsFeature.Equals(false));
                     var data3 = await unitofwork.Repository().Get<MasterPackage>();
                     var data4 = await unitofwork.Repository().Get<MasterServiceFeatures>();
+                    var data5 = await unitofwork.Repository().Get<UserPackageDetail>();
+                    List<UserPackageDetail> UserPackageDetails = data5.ToList() ?? new List<UserPackageDetail>();
+                    packageView.UserPuchasedPackageIds = new List<long>();
+                    foreach (var item in UserPackageDetails)
+                    {
+                        if (item.UserId == Convert.ToInt32(userId))
+                            packageView.UserPuchasedPackageIds.Add(item.MasterPackageId);
+                    }
                     packageView.Packages = data1.ToList();
                     packageView.MasterPackages = data3.ToList();
                     packageView.MasterServices = GetNewServicesList(data2.ToList(), data4.ToList());

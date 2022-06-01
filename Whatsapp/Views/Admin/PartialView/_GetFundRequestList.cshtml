@@ -17,11 +17,21 @@
                 @Html.DisplayFor(modelItem => item.Remark)
             </td>
             <td>
-                <select class="form-control" asp-for="@item.Status" id="Status_@i" onchange="UpdateFundStatus(this.id)">
-                    <option value="pending">Pending</option>
-                    <option value="approve">Approve</option>
-                    <option value="rejected">Reject</option>
-                </select>
+                @if (@item.Status.Trim().ToLower() == "approve")
+                {
+                    <select class="form-control" disabled asp-for="@item.Status">
+                        <option value="approve">Approve</option>
+                    </select>
+                }
+                else
+                {
+                    <select class="form-control" asp-for="@item.Status" id="Status_@i" onchange="UpdateFundStatus(this.id)">
+                        <option value="pending">Pending</option>
+                        <option value="approve">Approve</option>
+                        <option value="rejected">Reject</option>
+                    </select>
+                }
+
             </td>
         </tr>
         i++;

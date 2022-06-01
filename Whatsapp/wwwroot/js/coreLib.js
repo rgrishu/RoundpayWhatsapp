@@ -155,6 +155,8 @@ var ajaxvalidationerror = xhr => {
                 break;
             case 2: Q.notifyWarning(message, title, options);
                 break;
+            case 4: Q.notifyWarning(message, title, options);
+                break;
         }
     };
     Q.confirm = (message, onYes, options) => {
