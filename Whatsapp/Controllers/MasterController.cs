@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
@@ -19,6 +21,7 @@ using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MasterController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -463,8 +466,9 @@ namespace Whatsapp.Controllers
             //IEnumerable<Package> mf = await ms.GetPackageList();
             // ViewData["ServiceData"] = new SelectList(_appcontext.MasterService, "ServiceID", "ServiceName");
             //List<Package> packages = null;
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             PackageView packageView = new PackageView();
-            packageView = await ms.GetPackageView();
+            packageView = await ms.GetPackageView(userId);
             return PartialView("~/Views/Master/PartialView/_PackageMappingList.cshtml", packageView);
         }
         [HttpPost]

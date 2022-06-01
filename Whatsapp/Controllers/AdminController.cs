@@ -16,7 +16,7 @@ using Whatsapp.Models.ViewModel;
 
 namespace Whatsapp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly ILogger<HomeController> _logger;

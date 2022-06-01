@@ -33,8 +33,8 @@ namespace Whatsapp.Controllers
         private readonly UserManager<WhatsappUser> _userManager;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEmailService _emailService;
-       private readonly IMasterWebsiteService _masterWebsiteService;
-        
+        private readonly IMasterWebsiteService _masterWebsiteService;
+
         public UsersController(ILogger<HomeController> logger, UserManager<WhatsappUser> userManager, ApplicationContext appcontext, IRepository<Users> users, IUnitOfWorkFactory unitOfWorkFactory, IEmailService emailService, IMasterWebsiteService masterWebsiteService)
         {
             _logger = logger;
@@ -48,8 +48,9 @@ namespace Whatsapp.Controllers
         [Route("GetPackages")]
         public async Task<IActionResult> GetPackages()
         {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var ms = new PackageService(_unitOfWorkFactory);
-            PackageView packageView = await ms.GetPackageView() ?? new PackageView();
+            PackageView packageView = await ms.GetPackageView(userId) ?? new PackageView();
             return View(packageView);
         }
         [HttpPost]
@@ -84,6 +85,21 @@ namespace Whatsapp.Controllers
             var us = new UserBalanceService(_unitOfWorkFactory);
             var data = await us.UpdateUserForAddFund(userBalance);
             return Json(data);
+        }
+        [Route("BuyPackages/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> BuyPackages(Int64 id)
+        {
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Success"
+            };
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var ms = new UserPackagePurchageService(_unitOfWorkFactory);
+            string loggedInUser = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            res = await ms.BuyPackage(id, userId, loggedInUser);
+            return Json(res);
         }
 
     }
