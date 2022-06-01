@@ -57,6 +57,7 @@ namespace Whatsapp.AppCode.BusinessLogic
                                 EntryBy = loggedInUser,
                                 CreatedDate = DateTime.Now
                             };
+                            ledger.MasterPackageId = id;
                             unitofwork.Repository().Add(userPackageDetail);
                             unitofwork.Repository().Add(ledger);
                             unitofwork.Repository().Update(balance);
