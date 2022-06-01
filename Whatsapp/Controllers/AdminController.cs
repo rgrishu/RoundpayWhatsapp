@@ -56,6 +56,7 @@ namespace Whatsapp.Controllers
                 UserFundRequest userFundRequest = new UserFundRequest() { Id = id };
                 var ms = new FundRequestService(_unitOfWorkFactory);
                 var LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var LoggedInUserName = User.FindFirstValue(ClaimTypes.Name);
                 res = await ms.UpdateUserFundRequest(userFundRequest, LoggedInUserId, Status);
             }
             return Json(res);
