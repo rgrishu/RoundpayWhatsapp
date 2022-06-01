@@ -11,8 +11,10 @@ namespace Whatsapp.Models
         [ForeignKey("MasterPackageId")]
         public MasterPackage MasterPackage { get; set; }
         public Int64? ServiceId { get; set; }
+        [NotMapped]
         public MasterService MasterService { get; set; }
         public Int64? FeatureId { get; set; }
+        [NotMapped]
         public MasterServiceFeatures MasterServiceFeatures { get; set; }
         public double OpeningBalance { get; set; }
         public double Amount { get; set; }
