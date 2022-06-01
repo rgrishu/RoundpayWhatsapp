@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Whatsapp.Models
@@ -16,7 +17,7 @@ namespace Whatsapp.Models
         public double OpeningBalance { get; set; }
         public double Amount { get; set; }
         public double ClosingBalance { get; set; }
-        public char TransactionType { get; set; }
+        public string TransactionType { get; set; }
         public string EntryBy { get; set; }
         public string ModifyBy { get; set; }
 

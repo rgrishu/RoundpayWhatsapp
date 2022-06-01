@@ -18,3 +18,18 @@ function RaiseUserBalanceRequest(id) {
         },
     });
 }
+function AddFund(id) {
+    $.ajax({
+        type: 'post',
+        url: '/Users/GetAddFund/' + id,
+        success: function (response) {
+            Q.alert({
+                title: "Add Fund",
+                body: response,
+                width: '500px',
+            });
+        },
+        error: function (data) {
+        },
+    });
+}

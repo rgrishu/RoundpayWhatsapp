@@ -1,5 +1,7 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     var str = "Amit";
+    var Role = User.FindFirstValue(ClaimTypes.Role);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -8,12 +10,12 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - Whatsapp </title>
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
     *@
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- plugins:css -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/theme/vendors/iconfonts/font-awesome/css/all.min.css">
     <link rel="stylesheet" href="~/theme/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="~/theme/vendors/css/vendor.bundle.addons.css">
@@ -25,14 +27,14 @@
     <link rel="stylesheet" href="~/theme/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.html" />
-      <link rel="stylesheet" href="~/js/toastr/toastr.min.css">
+    <link rel="stylesheet" href="~/js/toastr/toastr.min.css">
 
-        @*PAce Loader Start*@
+    @*PAce Loader Start*@
     <script src="~/lib/pace/js/pace.min.js"></script>
     <link rel="stylesheet" href="~/lib/pace/css/pace-theme-default.min.css" />
     <link rel="stylesheet" href="~/css/Custom.css" />
-      <link rel="stylesheet" href="~/css/plugin-customization.css" />
-          
+    <link rel="stylesheet" href="~/css/plugin-customization.css" />
+
     <link rel="stylesheet" href="~/lib/pace/css/paceloader.css" />
     @*PAce Loader End*@
 
@@ -64,7 +66,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
-                   
+
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="fa fa-wallet mx-0"></i>
@@ -403,84 +405,93 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GetPackages">
-                            <i class="far fa-file-alt menu-icon"></i>
-                            <span class="menu-title">Get Packages</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="FundRequestList">
-                            <i class="far fa-file-alt menu-icon"></i>
-                            <span class="menu-title">Fund Request</span>
-                        </a>
-                    </li>
-                   @* <li class="nav-item">
-                        <a class="nav-link" href="pages/widgets.html">
-                            <i class="fa fa-puzzle-piece menu-icon"></i>
-                            <span class="menu-title">Widgets</span>
-                        </a>
+                    @if (Role.ToLower().Trim() == "seller")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="GetPackages">
+                                <i class="far fa-file-alt menu-icon"></i>
+                                <span class="menu-title">Get Packages</span>
+                            </a>
+                        </li>
+                    }
+                    @if (Role.ToLower().Trim() == "admin")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="FundRequestList">
+                                <i class="far fa-file-alt menu-icon"></i>
+                                <span class="menu-title">Fund Request</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <i class="fa fa-cogs menu-icon"></i>
+                                <span class="menu-title">Master</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="MasterServiceList">Service List</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="MasterServiceFeatureList">Feature List</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="MasterPackageList">Master Package List</a></li>
+                                    @*<li class="nav-item"> <a class="nav-link" href="PackageList">Package List</a></li>*@
+                                    <li class="nav-item"> <a class="nav-link" href="PackageMappingList">Package Mapping</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="EmailSettingList">Email Setting</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="MasterAPIList">API Master</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="SenderNoList">Sender Number</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
+                                <i class="fa fa-users menu-icon"></i>
+                                <span class="menu-title">Users</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="page-layouts">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item d-none d-lg-block"> <a class="nav-link" asp-controller="UserManagement" asp-action="UsersList">Users List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    }
+
+                    @* <li class="nav-item">
+                    <a class="nav-link" href="pages/widgets.html">
+                    <i class="fa fa-puzzle-piece menu-icon"></i>
+                    <span class="menu-title">Widgets</span>
+                    </a>
                     </li>*@
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                           <i class="fa fa-cogs menu-icon"></i>
-                            <span class="menu-title">Master</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="MasterServiceList">Service List</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="MasterServiceFeatureList">Feature List</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="MasterPackageList">Master Package List</a></li>
-                                @*<li class="nav-item"> <a class="nav-link" href="PackageList">Package List</a></li>*@
-                                <li class="nav-item"> <a class="nav-link" href="PackageMappingList">Package Mapping</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="EmailSettingList">Email Setting</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="MasterAPIList">API Master</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="SenderNoList">Sender Number</a></li>
-                            </ul>
-                        </div>
-                    </li>
+
                     @*<li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#page-layouts-master" aria-expanded="false" aria-controls="page-layouts-master">
-                            <i class="fa fa-cogs menu-icon"></i>
-                            <span class="menu-title">Master</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="/MasterServiceList">Master Service List</a></li>
-                            </ul>
-                        </div>
+                    <a class="nav-link" data-toggle="collapse" href="#page-layouts-master" aria-expanded="false" aria-controls="page-layouts-master">
+                    <i class="fa fa-cogs menu-icon"></i>
+                    <span class="menu-title">Master</span>
+                    <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                    <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="/MasterServiceList">Master Service List</a></li>
+                    </ul>
+                    </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#page-layouts-master2" aria-expanded="false" aria-controls="page-layouts-master">
-                            <i class="fab fa-trello menu-icon"></i>
-                            <span class="menu-title">Service Feature</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="page-layouts-master2">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="MasterServiceFeatures/MasterServiceFeatureList">Service Feature List</a></li>
-                            </ul>
-                        </div>
+                    <a class="nav-link" data-toggle="collapse" href="#page-layouts-master2" aria-expanded="false" aria-controls="page-layouts-master">
+                    <i class="fab fa-trello menu-icon"></i>
+                    <span class="menu-title">Service Feature</span>
+                    <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="page-layouts-master2">
+                    <ul class="nav flex-column sub-menu">
+                    <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="MasterServiceFeatures/MasterServiceFeatureList">Service Feature List</a></li>
+                    </ul>
+                    </div>
                     </li>*@
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
-                            <i class="fa fa-users menu-icon"></i>
-                            <span class="menu-title">Users</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="page-layouts">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item d-none d-lg-block"> <a class="nav-link" asp-controller="UserManagement" asp-action="UsersList" >Users List</a></li>
-                            </ul>
-                        </div>
-                    </li>
+
 
                     <li class="nav-item" id="LogoutTrigger">
                         <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/login">
-                           <i class="fa fa-sign-out-alt menu-icon"></i>
-                           <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color: #fff0;padding-left:0;cursor:pointer">Logout</button>
+                            <i class="fa fa-sign-out-alt menu-icon"></i>
+                            <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color: #fff0;padding-left:0;cursor:pointer">Logout</button>
                         </form>
 
                     </li>
@@ -497,8 +508,8 @@
     <!-- page-body-wrapper ends -->
     <!-- container-scroller -->
     <!-- plugins:js -->
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
- 
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
 
     <script src="~/theme/vendors/js/vendor.bundle.base.js"></script>
     <script src="~/theme/vendors/js/vendor.bundle.addons.js"></script>
@@ -515,10 +526,10 @@
     <script src="~/theme/js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
-     <link rel="stylesheet" href="~/js/toastr/toastr.js.map">
+    <link rel="stylesheet" href="~/js/toastr/toastr.js.map">
     <script src="~/js/toastr/toastr.min.js"></script>
     <script src="~/theme/js/dashboard.js"></script>
-       <script src="~/js/coreLib.js"></script>
+    <script src="~/js/coreLib.js"></script>
 
     <script src="~/js/Common.js"></script>
     <script src="~/js/app.js"></script>

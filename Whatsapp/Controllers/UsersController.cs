@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.BusinessLogic;
 using WAEFCore22.AppCode.Interface.Repos;
@@ -66,6 +67,22 @@ namespace Whatsapp.Controllers
             var us = new FundRequestService(_unitOfWorkFactory);
             userFundRequest.Status = "Pending";
             var data = await us.InsertFundRequest(userFundRequest);
+            return Json(data);
+        }
+
+        [HttpPost]
+        public IActionResult GetAddFund(int Id)
+        {
+            UserBalance userBalance = new UserBalance();
+            return PartialView("~/Views/Users/PartialView/_AddFund.cshtml", userBalance);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddFund(UserBalance userBalance)
+        {
+            userBalance.ModifyBy = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            userBalance.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var us = new UserBalanceService(_unitOfWorkFactory);
+            var data = await us.UpdateUserForAddFund(userBalance);
             return Json(data);
         }
 

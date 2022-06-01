@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.HelperClass;
 using Whatsapp.Models;
 using Whatsapp.Models.UtilityModel;
 
@@ -27,6 +28,7 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
+                    req.CreatedDate = DateTime.Now;
                     unitofwork.Repository().Add(req);
                     int i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
@@ -42,8 +44,9 @@ namespace Whatsapp.AppCode.BusinessLogic
             }
             return res;
         }
-        public async Task<Response> UpdateUserBalance(UserBalance req, int loggedInUserId)
+        public async Task<Response> UpdateUserBalance(UserBalance userBalance, int loggedInUserId)
         {
+            var helperService = new HelperService();
             var res = new Response()
             {
                 StatusCode = (int)ResponseStatus.Failed,
@@ -53,19 +56,58 @@ namespace Whatsapp.AppCode.BusinessLogic
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
                 {
-                    var currentBalance = req.Balance;
-                    req.Balance = req.PreviousBalance + currentBalance;
-                    req.ModifiedDate = DateTime.Now;
-                    unitofwork.Repository().Update(req);
-                    int i = await unitofwork.SaveChangesAsync();
+                    var currentBalance = userBalance.Balance;
+                    userBalance.Balance = userBalance.PreviousBalance + currentBalance;
+                    userBalance.ModifiedDate = DateTime.Now;
+                    var data = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == loggedInUserId);
+                    UserBalance adminbalance = data.FirstOrDefault();
+                    adminbalance.PreviousBalance = adminbalance.Balance;
+                    adminbalance.Balance = adminbalance.Balance - (currentBalance);
+                    adminbalance.ModifiedDate = DateTime.Now;
+                    Ledger userLedger = helperService.CalculateCreditLedger(userBalance, currentBalance);
+                    Ledger adminLedger = helperService.CalculateDebitLedger(adminbalance, currentBalance);
+                    unitofwork.Repository().Update(userBalance);
+                    unitofwork.Repository().Update(adminbalance);
+                    unitofwork.Repository().Add(adminLedger);
+                    unitofwork.Repository().Add(userLedger);
+                    var i = await unitofwork.SaveChangesAsync();
                     if (i >= 0 && i < 20)
                     {
-                        var data = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == loggedInUserId);
-                        UserBalance balance = data.FirstOrDefault();
-                        balance.Balance = balance.Balance - (currentBalance);
-                        balance.ModifiedDate = DateTime.Now;
-                        unitofwork.Repository().Update(balance);
-                        await unitofwork.SaveChangesAsync();
+                        res.StatusCode = (int)ResponseStatus.Success;
+                        res.ResponseText = "Update Successfull.";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+        public async Task<Response> UpdateUserForAddFund(UserBalance userBalance)
+        {
+            var helperService = new HelperService();
+            var res = new Response()
+            {
+                StatusCode = (int)ResponseStatus.Failed,
+                ResponseText = "Failed"
+            };
+            try
+            {
+                using (var unitofwork = _unitOfWorkFactory.Create())
+                {
+                    var getUserData = await unitofwork.Repository().FindAsync<UserBalance>(x => x.UserId == userBalance.UserId);
+                    UserBalance adminBalance = getUserData.FirstOrDefault();
+                    adminBalance.PreviousBalance = adminBalance.Balance;
+                    adminBalance.Balance = userBalance.Balance + adminBalance.Balance;
+                    adminBalance.ModifiedDate = DateTime.Now;
+                    adminBalance.ModifyBy = userBalance.ModifyBy;
+                    Ledger adminLedger = helperService.CalculateCreditLedger(adminBalance, userBalance.Balance);
+                    unitofwork.Repository().Update(adminBalance);
+                    unitofwork.Repository().Add(adminLedger);
+                    var i = await unitofwork.SaveChangesAsync();
+                    if (i >= 0 && i < 20)
+                    {
                         res.StatusCode = (int)ResponseStatus.Success;
                         res.ResponseText = "Update Successfull.";
                     }

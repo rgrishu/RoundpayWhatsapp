@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WAEFCore22.AppCode.Interface.Repos;
+using Whatsapp.AppCode.HelperClass;
 using Whatsapp.Models;
 using Whatsapp.Models.UtilityModel;
 
@@ -50,6 +51,7 @@ namespace Whatsapp.AppCode.BusinessLogic
                 StatusCode = (int)ResponseStatus.Failed,
                 ResponseText = "Failed"
             };
+            var helperService = new HelperService();
             try
             {
                 using (var unitofwork = _unitOfWorkFactory.Create())
@@ -75,8 +77,8 @@ namespace Whatsapp.AppCode.BusinessLogic
                         userBalance.ModifiedDate = DateTime.Now;
                         adminBalance.Balance = adminBalance.Balance - currentBalance;
                         adminBalance.ModifiedDate = DateTime.Now;
-                        userLedger = CalculateUserLedger(userBalance, currentBalance);
-                        adminLedger = CalculateAdminLedger(adminBalance, currentBalance);
+                        userLedger = helperService.CalculateCreditLedger(userBalance, currentBalance);
+                        adminLedger = helperService.CalculateDebitLedger(adminBalance, currentBalance);
                         unitofwork.Repository().Update(userBalance);
                         unitofwork.Repository().Update(adminBalance);
                         unitofwork.Repository().Add(adminLedger);
@@ -96,32 +98,6 @@ namespace Whatsapp.AppCode.BusinessLogic
                 throw;
             }
             return res;
-        }
-
-        private Ledger CalculateAdminLedger(UserBalance adminBalance, double currentBalance)
-        {
-            Ledger ledger = new Ledger();
-            ledger.ClosingBalance = adminBalance.Balance;
-            ledger.Amount = currentBalance;
-            ledger.OpeningBalance = adminBalance.PreviousBalance;
-            ledger.TransactionType = Convert.ToChar('d');
-            ledger.CreatedDate = DateTime.Now;
-            ledger.ModifiedDate = DateTime.Now;
-            ledger.UserId = adminBalance.UserId;
-            return ledger;
-        }
-
-        private Ledger CalculateUserLedger(UserBalance userBalance, double currentBalance)
-        {
-            Ledger ledger = new Ledger();
-            ledger.ClosingBalance = userBalance.Balance;
-            ledger.Amount = currentBalance;
-            ledger.OpeningBalance = userBalance.PreviousBalance;
-            ledger.TransactionType = Convert.ToChar('c');
-            ledger.CreatedDate = DateTime.Now;
-            ledger.ModifiedDate = DateTime.Now;
-            ledger.UserId = userBalance.UserId;
-            return ledger;
         }
 
         public async Task<List<UserFundRequest>> GetAll()
