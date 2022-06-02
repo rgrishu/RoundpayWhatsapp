@@ -83,3 +83,20 @@
     });
   });
 })(jQuery);
+
+
+(function ($) {
+    $.fn.fixTableHeader = function () {
+        let scrollTop = $(window).scrollTop(),
+            elementOffset = $('table:last').offset()?.top,
+            filtersHeight = $('.filters')?.height(),
+            distance = (elementOffset - scrollTop - isNaN(filtersHeight) ? 0 : filtersHeight),
+            other = isNaN(filtersHeight) ? 231 : 93,
+            footer = $('footer').height();
+        let _style = `<style>.calcHeight{height: calc(100vh - ${distance}px - ${other}px); }.fixedHeader th {background: #dcdbc1!important; position: sticky;top: -1px; z-index:9;padding:10px;}</style>`
+        $('head').append(_style);
+        $(this).addClass('fixedHeader');
+        $(this).closest('div').addClass('calcHeight');
+    };
+}($));
+

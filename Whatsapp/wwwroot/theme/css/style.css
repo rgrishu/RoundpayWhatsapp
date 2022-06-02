@@ -30820,4 +30820,23 @@ div.tagsinput {
         padding: 0.9em 1em !important;
     }
 
+
+.table-responsive {
+    height: calc(100vh - 227px);
+}
+
+.table-responsive table th {
+    background-color: #e9ecef;
+    border-color: #e0e0ef;
+    position: sticky;
+    top: -1px;
+    z-index: 9;
+    padding: 10px;
+}
+
+
+.page-header {
+    display: none!important;
+}
+
     
