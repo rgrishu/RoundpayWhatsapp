@@ -65,7 +65,7 @@ var ajaxvalidationerror = xhr => {
                     $('.ui-dialog').css({ 'top': options.top })
             },
             close: function () {
-                dialog.dialog('destroy');
+                //dialog.dialog('destroy');
                 if (options.onClose)
                     options.onClose();
             }
@@ -840,10 +840,11 @@ function ajaxFormSubmit(form) {
         url: form.action,
         data: data,
         success: function (response) {
-            console.log(response);
             Q.notify(response.statusCode, response.responseText);
+            if (response.responseAmt != null) {
+                $("#UserAmtonIndex").text(response.responseAmt);
+            }
             if (response.statusCode == 1) {
-               // $('.ui-dialog-titlebar-close').click();
                 $('.error').text('');
                 $(form).trigger("reset");
                 Q.reset();

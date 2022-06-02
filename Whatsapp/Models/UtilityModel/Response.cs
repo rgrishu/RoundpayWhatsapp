@@ -13,6 +13,7 @@
     {
         public int StatusCode { get; set; }
         public string ResponseText { get; set; }
+        public string ResponseAmt { get; set; }
     }
     public class Response<T> : Response, IResponse<T>
     {

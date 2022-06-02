@@ -156,12 +156,12 @@ namespace Whatsapp.AppCode.BusinessLogic
                     var data4 = await unitofwork.Repository().Get<MasterServiceFeatures>();
                     var data5 = await unitofwork.Repository().Get<UserPackageDetail>();
                     List<UserPackageDetail> UserPackageDetails = data5.ToList() ?? new List<UserPackageDetail>();
-                    packageView.UserPuchasedPackageIds = new List<long>();
-                    foreach (var item in UserPackageDetails)
-                    {
-                        if (item.UserId == Convert.ToInt32(userId))
-                            packageView.UserPuchasedPackageIds.Add(item.MasterPackageId);
-                    }
+                    packageView.UserPuchasedPackageIds = UserPackageDetails ?? new List<UserPackageDetail>();
+                    //foreach (var item in UserPackageDetails)
+                    //{
+                    //    if (item.UserId == Convert.ToInt32(userId))
+                    //        packageView.UserPuchasedPackageIds.Add(item.MasterPackageId);
+                    //}
                     packageView.Packages = data1.ToList();
                     packageView.MasterPackages = data3.ToList();
                     packageView.MasterServices = GetNewServicesList(data2.ToList(), data4.ToList());

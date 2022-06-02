@@ -110,6 +110,7 @@ namespace Whatsapp.AppCode.BusinessLogic
                     {
                         res.StatusCode = (int)ResponseStatus.Success;
                         res.ResponseText = "Update Successfull.";
+                        res.ResponseAmt = adminBalance.Balance.ToString();
                     }
                 }
             }
