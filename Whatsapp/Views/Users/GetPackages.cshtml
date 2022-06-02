@@ -3,6 +3,10 @@
 @{
     var result = Model.Packages.GroupBy(a => a.MasterPackageID).ToDictionary(a => a.Key, e => e.Select(a => new { ServiceID = a.ServiceID, Id = a.Id, IsActive = a.IsActive, IsChargeAfterHitExceed = a.IsChargeAfterHitExceed, IsDirectChargeable = a.IsDirectChargeable, Charge = a.Charge, a.FeatureID, a.MasterServiceFeatures, a.MasterService, a.MasterPackage }));
     ViewData["Title"] = "Packages";
+    bool flag = true;
+    string ExpiresIn = String.Empty;
+    int difference = 0;
+    DateTime purchasedDate = DateTime.Now.Date;
 }
 
 <style>
@@ -114,10 +118,21 @@
             {
                 <div class="col-md-5 col-lg-4">
                     <div class="item">
-                        @if (Model.UserPuchasedPackageIds.Contains(item.Key))
+                        @foreach(var packages in Model.UserPuchasedPackageIds)
                         {
-                        <div class="ribbon">Purchased</div>
+                            if(packages.MasterPackageId == item.Key)
+                            {
+                                <div class="ribbon">Purchased</div>
+                                flag = false;
+                                ExpiresIn = (purchasedDate - packages.CreatedDate.Date).TotalDays.ToString();
+                                difference = Convert.ToInt32(item.Value.FirstOrDefault().MasterPackage.ValidityInDays) - Convert.ToInt32(ExpiresIn);
+                                break;
+                            }
                         }
+                        @*@if (Model.UserPuchasedPackageIds.Contains(item.Key))
+                        {
+                        
+                        }*@
                         <div class="heading">
                             <h3>@item.Value.FirstOrDefault().MasterPackage.PackageName</h3>
                         </div>
@@ -146,13 +161,23 @@
                         <div class="price">
                             <h4><i class="fa fa-rupee-sign"></i>@item.Value.FirstOrDefault().MasterPackage.Cost</h4>
                         </div>
-                        @if (!Model.UserPuchasedPackageIds.Contains(item.Key))
+                        @if (flag)
                         {
                             <a class="btn btn-block btn-outline-primary" onclick="PurchagePackage(@item.Key)">BUY NOW</a>
+                        }
+                        else
+                        {
+                            <hr>
+                            <p class="text-center mb-0">
+                            <span>Expires In : @difference Days</span>
+                            </p>
                         }
 
                     </div>
                 </div>
+                flag = true;
+                ExpiresIn = String.Empty;
+                difference = 0;
             }
 
         </div>

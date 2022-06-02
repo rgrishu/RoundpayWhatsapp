@@ -193,8 +193,10 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item">
-                                <i class="fas fa-power-off text-primary"></i>
-                                Logout
+                                <form id="logoutForm" class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/login">
+                                    <i class="fas fa-power-off text-primary"></i>
+                                    <button id="logout" type="submit" class="menu-title" style="outline:0;border:0;background-color: #fff0;padding-left:0;cursor:pointer">Logout</button>
+                                </form>
                             </a>
                         </div>
                     </li>
@@ -410,7 +412,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="GetPackages">
                                 <i class="far fa-file-alt menu-icon"></i>
-                                <span class="menu-title">Get Packages</span>
+                                <span class="menu-title">Packages</span>
                             </a>
                         </li>
                     }

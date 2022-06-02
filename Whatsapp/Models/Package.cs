@@ -29,7 +29,7 @@ namespace Whatsapp.Models
     {
         public List<MasterService> MasterServices { get; set; }
         public List<MasterPackage> MasterPackages { get; set; }
-        public List<Int64> UserPuchasedPackageIds { get; set; }
+        public List<UserPackageDetail> UserPuchasedPackageIds { get; set; }
         public List<Package> Packages { get; set; }
     }
 }

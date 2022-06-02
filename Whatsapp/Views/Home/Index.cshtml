@@ -34,7 +34,7 @@
                                 <i class="icon-sm fa fa-rupee-sign mr-2"></i>
                                 Balance
                             </p>
-                            <h1>@ViewBag.UserBalance</h1>
+                            <h1 id="UserAmtonIndex">@ViewBag.UserBalance</h1>
                             @if (Role == "Admin")
                             {
                                 <a class="badge badge-outline-success badge-pill" onclick="AddFund(@userId)" style="cursor:pointer">Add Fund</a>
