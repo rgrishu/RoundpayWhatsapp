@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Message";
+}
+<style>
+    #VideoDisplay, #imgPreview, #docImage {
+        box-shadow: 0px 2px 15px #2e2e30fa;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title">
+            Message
+        </h3>
+
+    </div>
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6 col-6">
+                            <h4 class="card-title">
+                                <i class="fas fa-wrench"></i> Header
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <small>Add a title or which type of media you'll use for this header</small>
+                    <div class="col-2 p-0 mt-2">
+                        <select class="custom-select" id="headerType">
+                            <option value="1">Text</option>
+                            <option value="2">Media</option>
+                        </select>
+                    </div>
+                    <section class="row mt-2 d-none p-2" id="mediaSection">
+                        <input hidden type="file" accept="" id="HeaderFile" />
+                        <div class="col-2">
+                            <div class="outlines">
+                                <input type="radio" name="mediaType" value="2" />
+                                <i class="fa fa-file-image"></i>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="outlines">
+                                <input type="radio" name="mediaType" value="1" />
+                                <i class="fa fa-video"></i>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="outlines">
+                                <input type="radio" name="mediaType" value="3" />
+                                <i class="fas fa-air-freshener"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <video controls class="d-none" id="VideoDisplay" width="300" height="180">
+                                <source type="video/mp4">
+                            </video>
+                            <img id="imgPreview" src="#" class="d-none" alt="Please select an image" width="300" height="180" />
+                            <img src="~/theme/images/documentImage.png" id="docImage" class="d-none" width="300" height="180" />
+                        </div>
+                    </section>
+                    <section class="row mt-2 d-none p-2" id="sectionTextArea">
+                        <textarea rows="4" class="form-control" placeholder="Enter Header text"></textarea>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6 col-6">
+                            <h4 class="card-title">
+                                <i class="fas fa-wrench"></i> Body
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+
+        var headerType = $("#headerType");
+        $('input[type=radio][name=mediaType]').bind("click", function() {
+            if (this.value == '1') {
+                $("#HeaderFile").attr("accept", "video/mp4");
+                $("#HeaderFile").click();
+                $("#docImage").addClass("d-none");
+                VideoPreview($("#HeaderFile"));
+            }
+            else if (this.value == '2') {
+                $("#HeaderFile").attr("accept", "image/*");
+                $("#HeaderFile").click();
+                HeaderFile.onchange = evt => {
+                    console.log("HeaderFile.onchange");
+                    const [file] = HeaderFile.files
+                    if (file) {
+                        imgPreview.src = URL.createObjectURL(file);
+                    }
+                }
+                $("#VideoDisplay").addClass("d-none");
+                $("#imgPreview").removeClass("d-none");
+                $("#docImage").addClass("d-none");
+            }
+            else if (this.value == '3') {
+                $("#HeaderFile").attr("accept", ".txt");
+                $("#HeaderFile").click();
+                $("#imgPreview").addClass("d-none");
+                $("#VideoDisplay").addClass("d-none");
+                $("#docImage").removeClass("d-none");
+            }
+        });
+        $(document).ready(function() {
+            CheckHeaderType();
+        });
+        headerType.change(function() {
+            $("#imgPreview").addClass("d-none");
+            $("#VideoDisplay").addClass("d-none");
+            CheckHeaderType();
+        });
+        function CheckHeaderType() {
+            if (headerType.val() == "2") {
+                $("#mediaSection").removeClass("d-none");
+                $("#sectionTextArea").addClass("d-none");
+            }
+            else {
+                $("#sectionTextArea").removeClass("d-none");
+                $("#mediaSection").addClass("d-none");
+            }
+        }
+        function VideoPreview(inputObj) {
+            var video = $("video");
+            var input = inputObj;
+            var duration = 0;
+            var img = $("#imgPreview");
+            input.on("change", function(e) {
+                var file = e.target.files[0];
+                if (["video/mp4"].indexOf(file.type) === -1) {
+                    return;
+                }
+                video.find("source").attr("src", URL.createObjectURL(file));
+                video.get(0).load();
+                video.on("loadedmetadata", function(e) {
+                    duration = video.get(0).duration;
+                    video[0].currentTime = Math.ceil(duration / 2);
+                    video.one("timeupdate", function() {
+                    });
+                });
+                $("#VideoDisplay").removeClass("d-none");
+                $("#imgPreview").addClass("d-none");
+            });
+
+        }
+                                                                                                                                                                                                                                //}
+    </script>
+}
