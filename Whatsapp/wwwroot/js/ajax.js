@@ -15,6 +15,7 @@
 
 function ajaxFormSubmit(form) {    
     $.validator.unobtrusive.parse(form);
+    Q.preloader.load();
     if ($(form).valid()) {
         var ajaxConfig = {
             type: 'POST',
@@ -31,6 +32,7 @@ function ajaxFormSubmit(form) {
                 else {
                     $.notify(response.message, "error");
                 }
+                Q.preloader.remove();
             }
         }
         if ($(form).attr('enctype') == "multipart/form-data") {

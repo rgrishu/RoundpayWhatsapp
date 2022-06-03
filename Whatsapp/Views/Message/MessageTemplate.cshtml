@@ -90,32 +90,32 @@
 
 @section scripts{
     <script>
-
         var headerType = $("#headerType");
-        $('input[type=radio][name=mediaType]').bind("click", function() {
-            if (this.value == '1') {
-                $("#HeaderFile").attr("accept", "video/mp4");
-                $("#HeaderFile").click();
+        $('input[name=mediaType]').unbind().bind("click", function() {
+            let __value = $(this).val();
+            let __element = $("#HeaderFile");
+            if (__value == '1') {
+                __element.attr("accept", "video/mp4");
+               __element.click();
                 $("#docImage").addClass("d-none");
-                VideoPreview($("#HeaderFile"));
+                VideoPreview(__element);
             }
-            else if (this.value == '2') {
-                $("#HeaderFile").attr("accept", "image/*");
-                $("#HeaderFile").click();
-                HeaderFile.onchange = evt => {
-                    console.log("HeaderFile.onchange");
-                    const [file] = HeaderFile.files
+            else if (__value == '2') {
+                __element.attr("accept", "image/*").click().change(evt => {
+                    let [file] = HeaderFile.files
                     if (file) {
                         imgPreview.src = URL.createObjectURL(file);
                     }
-                }
-                $("#VideoDisplay").addClass("d-none");
-                $("#imgPreview").removeClass("d-none");
-                $("#docImage").addClass("d-none");
+                    $("#VideoDisplay").addClass("d-none");
+                    $("#imgPreview").removeClass("d-none");
+                    $("#docImage").addClass("d-none");
+                });
             }
-            else if (this.value == '3') {
-                $("#HeaderFile").attr("accept", ".txt");
-                $("#HeaderFile").click();
+            else if (__value == '3') {
+                if (__value == '3') {
+                    $('#HeaderFile').unbind();
+                }
+               __element.attr("accept", ".txt").click();
                 $("#imgPreview").addClass("d-none");
                 $("#VideoDisplay").addClass("d-none");
                 $("#docImage").removeClass("d-none");
@@ -162,6 +162,6 @@
             });
 
         }
-                                                                                                                                                                                                                                //}
+                                                                                                                                                                                                                                                        //}
     </script>
 }
