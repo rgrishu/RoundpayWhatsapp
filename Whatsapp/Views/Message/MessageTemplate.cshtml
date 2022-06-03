@@ -5,6 +5,9 @@
     #VideoDisplay, #imgPreview, #docImage {
         box-shadow: 0px 2px 15px #2e2e30fa;
     }
+    .columnsHeader{
+        cursor:pointer;
+    }
 </style>
 <div class="content-wrapper">
     <div class="page-header">
@@ -62,7 +65,7 @@
                         </div>
                     </section>
                     <section class="row mt-2 d-none p-2" id="sectionTextArea">
-                      <input type="text"  class="form-control" placeholder="Enter Header text" />
+                        <input type="text" class="form-control" placeholder="Enter Header text" />
                     </section>
                 </div>
             </div>
@@ -81,6 +84,45 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <small>Add numbers and message.</small>
+                    <div class="row p-2">
+                        <div class="col-2 p-0 mt-2">
+                            <b>Send To</b>
+                            <input type="file" accept=".xls,.xlsx" id="CSVNumbers" hidden />
+                        </div>
+                        <div class="col-2 p-0 mt-2">
+                            <input type="radio" name="NumberType" value="1" class="" /> Numbers
+                        </div>
+                        <div class="col-2 p-0 mt-2">
+                            <input type="radio" name="NumberType" value="2" class="" /> Upload CSV
+                        </div>
+                    </div>
+                    <section class="mt-2 p-2" id="">
+                        <div class="row d-none" id="numberBox">
+                            <div class="col-2">
+                                <label>Numbers</label>
+                            </div>
+                            <div class="col-10">
+                                <textarea type="text" class="form-control" id="numberInput" placeholder="Enter numbers" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="row d-none" id="CSVHeaderBox">
+                            <div class="col-2">
+                                <label>CSV Columns</label>
+                            </div>
+                            <div class="col-10">
+                                <div class="keys"></div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" id="">
+                            <div class="col-2">
+                                <label>Message</label>
+                            </div>
+                            <div class="col-10">
+                                <textarea type="text" class="form-control mt-2" id="msgBody" placeholder="Enter message" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -89,6 +131,8 @@
 </div>
 
 @section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    @*Header JS*@
     <script>
         var headerType = $("#headerType");
         $('input[name=mediaType]').unbind().bind("click", function() {
@@ -96,7 +140,7 @@
             let __element = $("#HeaderFile");
             if (__value == '1') {
                 __element.attr("accept", "video/mp4");
-               __element.click();
+                __element.click();
                 $("#docImage").addClass("d-none");
                 VideoPreview(__element);
             }
@@ -115,7 +159,7 @@
                 if (__value == '3') {
                     $('#HeaderFile').unbind();
                 }
-               __element.attr("accept", ".txt").click();
+                __element.attr("accept", ".txt").click();
                 $("#imgPreview").addClass("d-none");
                 $("#VideoDisplay").addClass("d-none");
                 $("#docImage").removeClass("d-none");
@@ -162,6 +206,59 @@
             });
 
         }
-                                                                                                                                                                                                                                                        //}
+        //}
+    </script>
+
+    <script>
+        var data = [{
+
+        }]
+        var excelData;
+        var __NumberType = $('input[name=NumberType]');
+        var __NumberBox = $('#numberBox');
+        var __NumberInput = $('#numberInput');
+        var __CSVHeaderBox = $('#CSVHeaderBox');
+        __NumberType.click(function() {
+            let __csvNumber = $(this).val();
+            console.log(__NumberBox.val());
+            if (__csvNumber == 2) {
+                $("#CSVNumbers").click();
+                __NumberBox.addClass("d-none");
+                __NumberInput.val("");
+                __CSVHeaderBox.removeClass('d-none');
+                $('.keys').empty();
+            }
+            else {
+                __NumberBox.removeClass("d-none");
+                __CSVHeaderBox.addClass('d-none');
+            }
+        })
+
+        $(".keys").delegate(".columnsHeader", "click", function() {
+            let _clmHead = $(this).text();
+            let _msgBody = $("#msgBody");
+            let newtxt = _msgBody.val() + '{' + _clmHead + '} ';
+            _msgBody.val(newtxt);
+        });
+
+
+        $('#CSVNumbers').change(() => {
+            selectedFile = event.currentTarget.files[0]
+            XLSX.utils.json_to_sheet(data, 'out.xlsx');
+            if (selectedFile) {
+                let fileReader = new FileReader();
+                fileReader.readAsBinaryString(selectedFile);
+                fileReader.onload = (event) => {
+                    let data = event.target.result;
+                    let workbook = XLSX.read(data, { type: "binary" });
+                    workbook.SheetNames.forEach(sheet => {
+                        let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+                        excelData = rowObject;
+                        let keys = Object.keys(rowObject[0]);
+                        $('.keys').empty().append(keys.map((item) => `<span class='mr-2 badge badge-outline-info columnsHeader'>${item}</span>`));
+                    });
+                }
+            }
+        })
     </script>
 }
