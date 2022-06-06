@@ -19,16 +19,14 @@
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
+                <div class="card-body">
+                    <div class="row mb-2">
                         <div class="col-sm-6 col-6">
                             <h4 class="card-title">
-                                <i class="fas fa-wrench"></i> Header
+                                <i class="fas fa-wrench"></i> Header <small>(Optional)</small>
                             </h4>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
                     <small>Add a title or which type of media you'll use for this header</small>
                     <div class="col-2 p-0 mt-2">
                         <select class="custom-select" id="headerType">
@@ -74,16 +72,14 @@
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
+                <div class="card-body">
+                    <div class="row mb-2">
                         <div class="col-sm-6 col-6">
                             <h4 class="card-title">
                                 <i class="fas fa-wrench"></i> Body
                             </h4>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
                     <small>Add numbers and message.</small>
                     <div class="row p-2">
                         <div class="col-2 p-0 mt-2">
@@ -127,13 +123,67 @@
             </div>
         </div>
     </div>
+    <div class="row my-0">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-6 col-6">
+                            <h4 class="card-title">
+                                <i class="fas fa-wrench"></i> Footer <small>(Optional)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <small>Add a short line of text to the bottom of your message template.</small>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" placeholder="Enter text here" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-0">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-6 col-6">
+                            <h4 class="card-title">
+                                <i class="fas fa-wrench"></i> Buttons <small>(Optional)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <small>Create upto two buttons that let customers respond to your message or take action.</small>
+                    <div class="row mt-2">
+                        <div class="col-3">
+                            <select class="form-control" id="ActionDDl">
+                                <option value="0">None</option>
+                                <option value="1">Call To Action</option>
+                                <option value="2">Quick Reply</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="callToActionBox">
+                    </div>
+                    <div id="qucikReply" class="mt-2 row">
+                    </div>
+                    <div class="d-none" id="AddButtonBox">
+                        <button type="button" class="btn btn-secondary text-dark" id="addBtn"> + Add Another Button</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <script src="~/js/messageTemplate.js"></script>
     @*Header JS*@
-    <script>
+    @*<script>
         var headerType = $("#headerType");
         $('input[name=mediaType]').unbind().bind("click", function() {
             let __value = $(this).val();
@@ -260,5 +310,5 @@
                 }
             }
         })
-    </script>
+    </script>*@
 }
