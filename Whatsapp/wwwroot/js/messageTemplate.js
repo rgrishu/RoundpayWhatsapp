@@ -131,8 +131,12 @@ var __qucikReply = $("#qucikReply");
 var __AddButtonBox = $("#AddButtonBox");
 var __ActionDDl = $("#ActionDDl");
 var __addBtn = $("#addBtn");
-var callToActionHtml = '<div class="card my-2 mb-2"><div class= "card-body row"><div class="col-3"><label>Type of Action</label><select class="form-control"><option value="1">Call phone number</option><option value="2">Visit website</option></select ></div><div class="col-3"><label>Button Action</label><input type="text" class="form-control" /></div><div class="col-2"><label>Country</label><select class="form-control"><option>Select</option></select></div><div class="col-3"><label>Phone  Number</label><input type="text" class="form-control" /></div><div class="col-1 align-self-center"><i class="fas fa-trash text-danger mt-2" style="cursor:pointer"></i></div></div></div>'
-var quickReplyHtml = '<div class="col-3 mb-2"><label>Button Text</label><input class="form-control mr-2" maxlength="25" type="text" /></div ><div class="col-1 align-self-center"><i class="fas fa-trash text-danger f-left mt-4" style="cursor:pointer;"></i></div>';
+var callToActionHtml = '<divvox class="card my-2 mb-2 callToActionHtml" id="callToActionHtml"><div class= "card-body row"><div class="col-3"><label>Type of Action</label><select class="form-control" onchange="typeAction(this)"><option value="1">Call phone number</option><option value="2">Visit website</option></select ></div><div class="col-3"><label>Button Action</label><input type="text" class="form-control" /></div><divctr class="col-2 countryUrl" id="country"><label>Country</label><select class="form-control"><option>Select</option></select></divctr><divphone class="col-3"><label>Phone  Number</label><input type="text" class="form-control" /></divphone><div class="col-1 align-self-center"><i class="fas fa-trash text-danger mt-2" onclick="RemoveItemRow2(this)" style="cursor:pointer"></i></div></div></divvox>'
+var quickReplyHtml = '<div class="col-3 mb-2 quickReplyHtml" id="quickReplyHtmlID"><label>Button Text</label><input class="mr-2 frm-imput" maxlength="25" type="text"><i class="fas fa-trash text-danger" onclick="RemoveItemRow(this)" id="CheckMe" style="cursor:pointer;padding: -10px !important;"></i></div>';
+var countryDDL = '<label>Country</label><select class="form-control"><option value="0">Select</option></select>';
+var URLDDL = '<label>URL Type</label><select class="form-control"><option value="0">Select</option></select>';
+var URLinp = '<label>Website URL</label><input type="text" class="form-control" />';
+var countryinp = '<label>Phone Number</label><input type="text" class="form-control" />';
 var count = 0;
 __ActionDDl.change(function () {
     let __thisVal = $(this).val();
@@ -175,6 +179,36 @@ function CheckMaxBtn() {
     }
     else if (__ActionDDl.val() == '2' && count == 3) {
         __AddButtonBox.addClass('d-none');
+    }
+    else if (__ActionDDl.val() == '2' && count < 3) {
+        __AddButtonBox.removeClass('d-none');
+    }
+    else if (__ActionDDl.val() == '1' && count < 2) {
+        __AddButtonBox.removeClass('d-none');
+    }
+}
+function RemoveItemRow(elem) {
+    $(elem).closest('div').remove();
+    count--;
+    CheckMaxBtn();
+}
+function RemoveItemRow2(elem) {
+    $(elem).closest('divvox').remove();
+    count--;
+    CheckMaxBtn();
+}
+function typeAction(elem) {
+    console.log('ok');
+    let val = $(elem).val();
+    let dynamic = $(elem).closest('divvox').find('divctr');
+    let dynamic2 = $(elem).closest('divvox').find('divphone');
+    if (val == 1) {
+        dynamic.empty().append(countryDDL);
+        dynamic2.empty().append(countryinp);
+    }
+    else {
+        dynamic.empty().append(URLDDL);
+        dynamic2.empty().append(URLinp);
     }
 }
 // Action Button Ends

@@ -5,9 +5,20 @@
     #VideoDisplay, #imgPreview, #docImage {
         box-shadow: 0px 2px 15px #2e2e30fa;
     }
-    .columnsHeader{
-        cursor:pointer;
+
+    .columnsHeader {
+        cursor: pointer;
     }
+
+    .frm-imput {
+        border: 1px solid #bfbcbc;
+        border-radius: 2px;
+        padding: 6px;
+    }
+
+        .frm-imput:focus {
+            outline: 1px solid #abd4eb;
+        }
 </style>
 <div class="content-wrapper">
     <div class="page-header">
@@ -167,7 +178,7 @@
                     </div>
                     <div id="callToActionBox">
                     </div>
-                    <div id="qucikReply" class="mt-2 row">
+                    <div id="qucikReply" class="mt-2 row" style="">
                     </div>
                     <div class="d-none" id="AddButtonBox">
                         <button type="button" class="btn btn-secondary text-dark" id="addBtn"> + Add Another Button</button>
@@ -311,4 +322,4 @@
             }
         })
     </script>*@
-}
+    }
