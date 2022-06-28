@@ -32,6 +32,12 @@ namespace Whatsapp.Data
                     new MasterMessageFormat() { Id = 2, FormatType = "OTP", Remark = "OTP Type", IsActive = true }
                );
         }
+        public static void SeedWABAsDetails(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WABAsModel>().HasData(
+                   new WABAsModel() { Id = 1, APIId = 1, APICode = "RNDPAY", ProviderName = "ROUNDPAY1", IsActive = true }
+              );
+        }
 
         public static void SeedUserInfo(this ModelBuilder modelBuilder)
         {

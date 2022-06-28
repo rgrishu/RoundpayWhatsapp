@@ -43,6 +43,7 @@ namespace Whatsapp.Models.Data
         public DbSet<UserBalance> UserBalance { get; set; }
         public DbSet<UserPackageDetail> UserPackageDetail { get; set; }
         public DbSet<UserFundRequest> UserFundRequests { get; set; }
+        public DbSet<WABAsModel> WABAsModels { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -53,6 +54,7 @@ namespace Whatsapp.Models.Data
             modelBuilder.SeedMasterWebSite();
             modelBuilder.SeedCompanyProfile();
             modelBuilder.SeedMasterMessageFormat();
+            modelBuilder.SeedWABAsDetails();
         }
 
     }
