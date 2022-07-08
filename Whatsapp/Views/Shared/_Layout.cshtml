@@ -26,7 +26,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="~/theme/css/style.css">
     <!-- endinject -->
-   @* <link rel="shortcut icon" href="../../images/favicon.html" />*@
+    @* <link rel="shortcut icon" href="../../images/favicon.html" />*@
     <link rel="stylesheet" href="~/js/toastr/toastr.min.css">
 
     @*PAce Loader Start*@
@@ -424,6 +424,13 @@
                     }
                     @if (Role.ToLower().Trim() == "admin")
                     {
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="WabaNumbers">
+                                <i class="fa fa-home menu-icon"></i>
+                                <span class="menu-title">WABAs Numbers</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="FundRequestList">
                                 <i class="far fa-file-alt menu-icon"></i>
@@ -518,12 +525,12 @@
     <!-- plugins:js -->
 
 
-     <script src="~/theme/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/theme/vendors/js/vendor.bundle.base.js"></script>
     <script src="~/theme/vendors/js/vendor.bundle.addons.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
-   
+
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
     <!-- endinject -->

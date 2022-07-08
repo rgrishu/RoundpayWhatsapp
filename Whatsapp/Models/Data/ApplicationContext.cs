@@ -43,7 +43,8 @@ namespace Whatsapp.Models.Data
         public DbSet<UserBalance> UserBalance { get; set; }
         public DbSet<UserPackageDetail> UserPackageDetail { get; set; }
         public DbSet<UserFundRequest> UserFundRequests { get; set; }
-        public DbSet<WABAsModel> WABAsModels { get; set; }
+        public DbSet<WABAsProvider> WABAsProviders { get; set; }
+        public DbSet<WABAsNumber> WABAsNumbers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

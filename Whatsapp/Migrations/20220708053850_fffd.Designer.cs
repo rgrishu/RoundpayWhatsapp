@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whatsapp.Models.Data;
 
 namespace Whatsapp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220708053850_fffd")]
+    partial class fffd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,7 +445,7 @@ namespace Whatsapp.Migrations
                             EmailConfirmed = true,
                             IsOtp = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 7, 8, 12, 18, 53, 259, DateTimeKind.Unspecified).AddTicks(4594), new TimeSpan(0, 5, 30, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2022, 7, 8, 11, 8, 49, 733, DateTimeKind.Unspecified).AddTicks(8582), new TimeSpan(0, 5, 30, 0, 0)),
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
@@ -1216,9 +1218,6 @@ namespace Whatsapp.Migrations
 
                     b.Property<string>("Protocol")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ScannedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("WABAsId")
                         .HasColumnType("int");

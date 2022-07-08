@@ -34,8 +34,9 @@ namespace Whatsapp.Data
         }
         public static void SeedWABAsDetails(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WABAsModel>().HasData(
-                   new WABAsModel() { Id = 1, APIId = 1, APICode = "RNDPAY", ProviderName = "ROUNDPAY1", IsActive = true }
+            modelBuilder.Entity<WABAsProvider>().HasData(
+                   new WABAsProvider() { Id = 1, APIId = 1, APICode = "RNDPAY", ProviderName = "ROUNDPAY1", IsActive = true },
+                   new WABAsProvider() { Id = 2, APIId = 2, APICode = "PAYTM", ProviderName = "PAYTM", IsActive = true }
               );
         }
 

@@ -1,0 +1,43 @@
+﻿@using Whatsapp.Models.Data;
+@model IEnumerable<WABAsNumber>
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                <span>@item.Protocol</span><span>@item.CallbackURL</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WABAsProvider.ProviderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                scannedDate
+            </td>
+            <td>
+                <button type="button" data-allowed_num_id="12" class="btn btn-xs btn-outline-info  mr-3" id="scan_allowed_number_data"><i class="fa fa-qrcode"></i> Scan</button>
+                <button onclick="RenderForm(@item.Id)" class="btn btn-primary btn-sm editbtn custCurs" data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="fa fa-edit"></i>
+                </button>
+               @* <a href="/Master/DeletePackage/@item.Id" onclick="ajaxDelete(this)" class="btn btn-danger btn-sm deletbtn">
+                    <i class="fa fa-trash"></i>
+                </a>*@
+            </td>
+        </tr>
+        i++;
+    }
+}
+else
+{
+    <tr>
+        <td colspan="3">No Records Found</td>
+    </tr>
+}

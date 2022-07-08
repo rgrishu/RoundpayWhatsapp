@@ -65,7 +65,7 @@ var ajaxvalidationerror = xhr => {
                     $('.ui-dialog').css({ 'top': options.top })
             },
             close: function () {
-                //dialog.dialog('destroy');
+                dialog.dialog('destroy');
                 if (options.onClose)
                     options.onClose();
             }

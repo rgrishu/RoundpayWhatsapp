@@ -1,0 +1,87 @@
+﻿@model Whatsapp.Models.WABAsNumber
+
+<style>
+    input[type="text"]::-webkit-input-placeholder, input[type="number"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #979191;
+    }
+
+    input[type="text"]::-moz-placeholder, input[type="number"]::-moz-placeholder { /* Firefox 19+ */
+        color: #979191;
+    }
+
+    input[type="text"]:-ms-input-placeholder, input[type="number"]:-ms-input-placeholder { /* IE 10+ */
+        color: #979191;
+    }
+
+    .text-danger {
+        font-size: 12px !important;
+        padding-left: 4px;
+    }
+</style>
+
+<div class="card">
+
+    <div class="card-body">
+        <form class="form-block" action="/Admin/AddNumbers" method="post">
+            <div class="row">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="ModifiedDate" />
+                <div class="form-group col-sm-6">
+                    <label>WABAs Provider</label>
+                    <select asp-for="WABAsId" class="custom-select form-control" asp-items="ViewBag.Providers">
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Mobile</label>
+                    <input type="number" class="form-control" asp-for="Mobile" id="ContactMob" required placeholder="919454433588">
+                    <small class="text-danger mobile d-none"></small>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Protocol</label>
+                    <select class="form-control" asp-for="Protocol">
+                        <option value="http">http</option>
+                        <option value="https">https</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Callback URL</label>
+                    <input type="text" class="form-control" asp-for="CallbackURL" required placeholder="Enter Callback URL">
+                    <small class="text-danger callbackURL d-none"></small>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('button[type="submit"]').click(function(e) {
+            let mobile = $('#ContactMob').val();
+            let callbackURL = $('#CallbackURL').val();
+            console.log(mobile);
+            if (mobile == '' || mobile == undefined) {
+                $('.mobile').removeClass('d-none').empty().text('Mobile number is mandatory');
+                return false;
+            }
+            else if (mobile.substring(0, 2) != '91') {
+                $('.mobile').removeClass('d-none').empty().text('Mobile number should start from 91');
+                return false;
+            }
+            else {
+                $('.mobile').addClass('d-none').empty();
+            }
+
+            if (callbackURL == '' || callbackURL == undefined) {
+                $('.callbackURL').removeClass('d-none').empty().text('Callback URL is mandatory');
+                return false;
+            }
+            else {
+                $('.callbackURL').addClass('d-none').empty();
+            }
+        })
+    })
+</script>
